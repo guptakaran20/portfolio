@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#030303] text-foreground flex flex-col items-center pb-24 lg:pb-0 overflow-x-hidden">
+    <main className="min-h-screen w-full bg-[#030303] text-foreground flex flex-col items-center pb-24 lg:pb-0 overflow-x-hidden">
       <HeroScrollAnimation
         heroCmp={
           <div id="home" className="w-full">
@@ -25,9 +25,7 @@ export default function Home() {
           </div>
         }
         nextCmp={
-          <div className="w-full flex items-center justify-center">
-            <TechStack />
-          </div>
+          <TechStack />
         }
       />
       <FeaturedProjects />
