@@ -47,10 +47,14 @@ export function BottomNavBar({
 
   useEffect(() => {
     const handleScroll = () => {
-      // Use a slightly adjusted viewport center for better trigger feel
+      // Force Home if at the very top
+      if (window.scrollY < 20) {
+        setActiveIndex(0);
+        return;
+      }
+
       const scrollPosition = window.scrollY + window.innerHeight / 3;
-      
-      let nextIndex = activeIndex;
+      let nextIndex = -1;
 
       navItems.forEach((item, idx) => {
         const section = document.querySelector(item.href);
@@ -65,7 +69,7 @@ export function BottomNavBar({
         }
       });
 
-      if (nextIndex !== activeIndex) {
+      if (nextIndex !== -1) {
         setActiveIndex(nextIndex);
       }
     };
