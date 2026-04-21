@@ -47,17 +47,27 @@ export function BottomNavBar({
 
   useEffect(() => {
     const handleScroll = () => {
+      // Use a slightly adjusted viewport center for better trigger feel
       const scrollPosition = window.scrollY + window.innerHeight / 3;
       
+      let nextIndex = activeIndex;
+
       navItems.forEach((item, idx) => {
         const section = document.querySelector(item.href);
         if (section) {
-          const { offsetTop, offsetHeight } = section as HTMLElement;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveIndex(idx);
+          const rect = section.getBoundingClientRect();
+          const top = rect.top + window.scrollY;
+          const bottom = top + rect.height;
+
+          if (scrollPosition >= top && scrollPosition <= bottom) {
+            nextIndex = idx;
           }
         }
       });
+
+      if (nextIndex !== activeIndex) {
+        setActiveIndex(nextIndex);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
