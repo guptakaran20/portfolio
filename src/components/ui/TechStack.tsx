@@ -15,9 +15,9 @@ export function TechStack() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const innerRadius = isMobile ? 100 : 190;
-  const outerRadius = isMobile ? 150 : 260;
-  const centerRadius = isMobile ? 70 : 140;
+  const innerRadius = isMobile ? 80 : 190;
+  const outerRadius = isMobile ? 120 : 260;
+  const centerRadius = isMobile ? 50 : 140;
 
   return (
     <section id="skills" className="relative w-full py-32 min-h-[80vh] flex flex-col items-center justify-center bg-[#030303] overflow-hidden">
@@ -33,7 +33,7 @@ export function TechStack() {
       </div>
 
       <div
-        className="relative w-[300px] h-[300px] md:w-[500px] md:h-[500px] flex items-center justify-center"
+        className="relative w-[280px] h-[280px] md:w-[500px] md:h-[500px] flex items-center justify-center"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -48,7 +48,7 @@ export function TechStack() {
         <motion.div
           animate={{ rotate: -360 }}
           transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-          className="absolute w-[240px] h-[240px] md:w-[380px] md:h-[380px] rounded-full border border-white/5"
+          className="absolute w-[200px] h-[200px] md:w-[380px] md:h-[380px] rounded-full border border-white/5"
         >
           <OrbitIcon icon={<Atom className="w-5 h-5 md:w-6 md:h-6 text-cyan-400" />} label="React" angle={0} radius={innerRadius} reverse />
           <OrbitIcon icon={<Zap className="w-5 h-5 md:w-6 md:h-6 text-white" />} label="Next.js" angle={90} radius={innerRadius} reverse />
@@ -60,7 +60,7 @@ export function TechStack() {
         <motion.div
           // animate={{ rotate: 360 }}
           // transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-          className="absolute w-[320px] h-[320px] md:w-[520px] md:h-[520px] rounded-full border border-white/5"
+          className="absolute w-[260px] h-[260px] md:w-[520px] md:h-[520px] rounded-full border border-white/5"
         >
           <OrbitIcon icon={<Hexagon className="w-5 h-5 md:w-6 md:h-6 text-green-500" />} label="Node.js" angle={0} radius={outerRadius} />
           <OrbitIcon icon={<Hexagon className="w-5 h-5 md:w-6 md:h-6 text-gray-400" />} label="Express" angle={90} radius={outerRadius} />
@@ -71,7 +71,7 @@ export function TechStack() {
         <motion.div
           animate={{ rotate: -360 }}
           transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-          className="absolute w-[320px] h-[320px] md:w-[520px] md:h-[520px] rounded-full border border-white/5"
+          className="absolute w-[260px] h-[260px] md:w-[520px] md:h-[520px] rounded-full border border-white/5"
         >
           <OrbitIcon icon={<Hexagon className="w-5 h-5 md:w-6 md:h-6 text-green-500" />} label="Supabase" angle={120} radius={outerRadius} reverse />
           <OrbitIcon icon={<Zap className="w-5 h-5 md:w-6 md:h-6 text-cyan-300" />} label="Git/Github" angle={240} radius={outerRadius} reverse />
@@ -97,7 +97,7 @@ function OrbitIcon({ icon, label, angle, radius, reverse = false }: { icon: Reac
         transition={{ duration: reverse ? 40 : 25, repeat: Infinity, ease: "linear" }}
         className="group relative"
       >
-        <div className="w-12 h-12 bg-[#030303] rounded-full border border-white/10 flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] transition-all cursor-pointer">
+        <div className="w-10 h-10 md:w-12 md:h-12 bg-[#030303] rounded-full border border-white/10 flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] transition-all cursor-pointer">
           {icon}
         </div>
         {/* Tooltip */}

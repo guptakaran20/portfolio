@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 
 export default function Home() {
   return (
-    <main id="home" className="min-h-screen bg-[#030303] text-foreground flex flex-col items-center pb-24 lg:pb-0">
+    <main id="home" className="min-h-screen bg-[#030303] text-foreground flex flex-col items-center pb-24 lg:pb-0 overflow-x-hidden">
       <div className="w-full">
         <HeroScrollAnimation
           heroCmp={

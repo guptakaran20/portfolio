@@ -72,8 +72,8 @@ export function BottomNavBar({
       role="navigation"
       aria-label="Bottom Navigation"
       className={cn(
-        "bg-[#0a0a0a]/80 backdrop-blur-md border border-white/10 rounded-full flex items-center p-1.5 shadow-2xl space-x-1 min-w-[280px] max-w-[95vw] h-[52px]",
-        stickyBottom && "fixed inset-x-0 bottom-6 mx-auto z-50 w-fit",
+        "bg-[#0a0a0a]/80 backdrop-blur-md border border-white/10 rounded-full flex items-center p-1 shadow-2xl space-x-0.5 md:space-x-1 max-w-[95vw] h-12 md:h-[52px]",
+        stickyBottom && "fixed inset-x-0 bottom-4 md:bottom-6 mx-auto z-50 w-fit",
         className,
       )}
     >
@@ -86,9 +86,9 @@ export function BottomNavBar({
             key={item.label}
             whileTap={{ scale: 0.95 }}
             className={cn(
-              "flex items-center gap-0 px-3 py-2 rounded-full transition-all duration-300 relative h-10 min-w-[44px]",
+              "flex items-center gap-0 px-2.5 md:px-3 py-1.5 md:py-2 rounded-full transition-all duration-300 relative h-9 md:h-10 min-w-[36px] md:min-w-[44px]",
               isActive
-                ? "bg-white/10 text-white gap-2 ring-1 ring-white/20"
+                ? "bg-white/10 text-white gap-1 md:gap-2 ring-1 ring-white/20"
                 : "bg-transparent text-gray-500 hover:text-gray-300 hover:bg-white/5",
               "focus:outline-none focus-visible:ring-0",
             )}
@@ -118,7 +118,7 @@ export function BottomNavBar({
             >
               <span
                 className={cn(
-                  "font-semibold text-xs whitespace-nowrap select-none",
+                  "font-semibold text-[10px] md:text-xs whitespace-nowrap select-none",
                 )}
               >
                 {item.label}
