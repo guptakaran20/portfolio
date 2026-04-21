@@ -8,55 +8,60 @@ interface HeroScrollAnimationProps {
   nextCmp: React.ReactNode;
 }
 
-const Section1: React.FC<{ scrollYProgress: MotionValue<number>; children: React.ReactNode }> = ({ scrollYProgress, children }) => {
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, -5]);
-  return (
-    <motion.section
-      style={{ scale, rotate }}
-      className="sticky top-0 h-screen w-full bg-[#030303] flex flex-col items-center justify-center text-white overflow-hidden origin-top"
-    >
-      {children}
-    </motion.section>
-  );
-};
+const HeroScrollAnimation = forwardRef<HTMLDivElement, HeroScrollAnimationProps>(({ heroCmp, nextCmp }, ref) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Use the forwarded ref if provided, otherwise use local ref
+  const activeRef = (ref as React.RefObject<HTMLDivElement>) || containerRef;
 
-const Section2: React.FC<{ scrollYProgress: MotionValue<number>; children: React.ReactNode }> = ({ scrollYProgress, children }) => {
-  const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [5, 0]);
-
-  return (
-    <motion.section
-      style={{ scale, rotate }}
-      className="relative h-screen w-full bg-[#030303] text-white flex flex-col items-center justify-center overflow-hidden origin-bottom z-10 shadow-2xl"
-    >
-      <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:54px_54px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
-      <div className="w-full relative z-10 h-full flex flex-col items-center justify-center">
-        {children}
-      </div>
-    </motion.section>
-  );
-};
-
-const HeroScrollAnimation = forwardRef<HTMLElement, HeroScrollAnimationProps>(({ heroCmp, nextCmp }, ref) => {
-  const container = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
-    target: container,
+    target: activeRef,
     offset: ["start start", "end end"],
   });
 
+  // Hero section transforms (fading out and moving up)
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+  const heroY = useTransform(scrollYProgress, [0, 0.4], [0, -100]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.4], [1, 0.95]);
+
+  // Next section transforms (fading in and scaling up)
+  const nextOpacity = useTransform(scrollYProgress, [0.3, 0.6], [0, 1]);
+  const nextScale = useTransform(scrollYProgress, [0.3, 0.6], [0.98, 1]);
+  const nextY = useTransform(scrollYProgress, [0.3, 0.6], [50, 0]);
+
   return (
-    <main ref={container} className="relative h-[200vh] w-full bg-black">
-      <Section1 scrollYProgress={scrollYProgress}>
-        {heroCmp}
-      </Section1>
-      <Section2 scrollYProgress={scrollYProgress}>
+    <div ref={activeRef} className="relative w-full bg-[#030303]">
+      {/* Hero Section Container */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden z-10">
+        <motion.div 
+          style={{ 
+            opacity: heroOpacity, 
+            y: heroY,
+            scale: heroScale,
+          }}
+          className="h-full w-full flex items-center justify-center"
+        >
+          {heroCmp}
+        </motion.div>
+      </div>
+
+      {/* Next Section (Tech Stack) */}
+      <motion.div
+        style={{
+          opacity: nextOpacity,
+          scale: nextScale,
+          y: nextY,
+        }}
+        className="relative min-h-screen w-full z-20 bg-[#030303]"
+      >
         {nextCmp}
-      </Section2>
-    </main>
+      </motion.div>
+    </div>
   );
 });
+
 
 HeroScrollAnimation.displayName = "HeroScrollAnimation";
 
 export { HeroScrollAnimation };
+
