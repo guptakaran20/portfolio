@@ -39,9 +39,9 @@ import { CanvasRevealEffect } from "./CanvasRevealEffect";
 
 const About = () => {
   return (
-    <section id="about" className="w-full py-5">
+    <section id="about" className="w-full py-0">
      
-      <div className="my-20 flex flex-col lg:flex-row items-center justify-center w-full gap-8 px-6">
+      <div className="my-10 flex flex-col lg:flex-row items-center justify-center w-full gap-8 px-6">
         {/* add des prop */}
         <Card
           title="Planning & Strategy"

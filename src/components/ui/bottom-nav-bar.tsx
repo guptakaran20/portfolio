@@ -47,7 +47,7 @@ export function BottomNavBar({
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
+      const scrollPosition = window.scrollY + window.innerHeight / 3;
       
       navItems.forEach((item, idx) => {
         const section = document.querySelector(item.href);

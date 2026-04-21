@@ -6,14 +6,14 @@ import About from "@/components/ui/About";
 import { Contact } from "@/components/ui/Contact";
 import { Footer } from "@/components/ui/Footer";
 import { BottomNavBar } from "@/components/ui/bottom-nav-bar";
-import GitHubActivity from "@/components/ui/GithubActivity";
+import GitHubActivity from "@/components/ui/GithubActivity"
 import Terminal from '@/components/ui/Terminal';
 import { Button } from '@/components/ui/button';
 
 export default function Home() {
   return (
-    <main id="home" className="min-h-screen bg-[#030303] text-foreground flex flex-col items-center pb-24 lg:pb-0 overflow-x-hidden">
-      <div className="w-full">
+    <main className="min-h-screen bg-[#030303] text-foreground flex flex-col items-center pb-24 lg:pb-0 overflow-x-hidden">
+      <div id="home" className="w-full">
         <HeroScrollAnimation
           heroCmp={
             <HeroGeometric

@@ -1,7 +1,7 @@
 "use client";
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
-import { GitHubCalendar } from 'react-github-calendar';
+import {GitHubCalendar} from 'react-github-calendar';
 import { Code2 } from 'lucide-react';
 
 const customTheme = {
@@ -39,7 +39,7 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
                 {/* Section heading */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                     className="text-center mb-12"
                 >
@@ -55,7 +55,7 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
                 {/* Calendar */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="flex justify-center p-6 sm:p-8 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:shadow-lg hover:shadow-indigo-500/5 transition-shadow duration-500"
                 >
