@@ -21,7 +21,13 @@ export default function Terminal() {
     const endRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
+    const isFirstRender = useRef(true);
+
     useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
         endRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [history]);
 
