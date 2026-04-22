@@ -1,12 +1,10 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Code2, Zap, Atom, Server, Hexagon,
-  Database, Layout, Terminal, Box
-} from "lucide-react";
+  Database, Layout, Terminal, Box } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { cn } from "@/lib/utils";
 
 // Custom Icon Components for missing lucide-react icons
 const GithubIcon = ({ className }: { className?: string }) => (
@@ -62,6 +60,37 @@ const FileCodeIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const LeetcodeIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M16.102 17.93l-2.697 2.607c-.466.467-1.111.662-1.823.662s-1.357-.195-1.824-.662l-4.332-4.363c-.467-.467-.702-1.15-.702-1.863s.235-1.357.702-1.824l4.332-4.363c.467-.467 1.112-.662 1.824-.662s1.356.195 1.823.662l2.697 2.606c.514.515 1.335.515 1.849 0 .514-.513.514-1.334 0-1.848l-2.697-2.606" />
+    <path d="M11.67 12.901V1.757" />
+  </svg>
+);
+
+const VercelIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M12 2L24 22H0L12 2Z" />
+  </svg>
+);
+
 const techData = [
   {
     category: "Programming Languages",
@@ -69,7 +98,7 @@ const techData = [
       { name: "JavaScript", icon: <Code2 className="w-4 h-4 text-yellow-400" /> },
       { name: "TypeScript", icon: <FileCodeIcon className="w-4 h-4 text-blue-400" /> },
       { name: "Python", icon: <Box className="w-4 h-4 text-blue-500" /> },
-      { name: "C++", icon: <Code2 className="w-4 h-4 text-blue-600" /> },
+      { name: "C/C++", icon: <Code2 className="w-4 h-4 text-blue-600" /> },
     ]
   },
   {
@@ -78,7 +107,7 @@ const techData = [
       { name: "React", icon: <Atom className="w-4 h-4 text-cyan-400" /> },
       { name: "Next.js", icon: <Zap className="w-4 h-4 text-white" /> },
       { name: "Tailwind CSS", icon: <Layout className="w-4 h-4 text-cyan-300" /> },
-      { name: "Framer Motion", icon: <Zap className="w-4 h-4 text-purple-400" /> },
+      // { name: "Framer Motion", icon: <Zap className="w-4 h-4 text-purple-400" /> },
       { name: "HTML/CSS", icon: <FileCodeIcon className="w-4 h-4 text-orange-400" /> },
     ]
   },
@@ -87,6 +116,7 @@ const techData = [
     items: [
       { name: "Node.js", icon: <Hexagon className="w-4 h-4 text-green-500" /> },
       { name: "Express", icon: <Server className="w-4 h-4 text-gray-400" /> },
+      { name: "REST API", icon: <Zap className="w-4 h-4 text-purple-400" /> },
     ]
   },
   {
@@ -94,7 +124,7 @@ const techData = [
     items: [
       { name: "PostgreSQL", icon: <Database className="w-4 h-4 text-blue-500" /> },
       { name: "MongoDB", icon: <Database className="w-4 h-4 text-green-400" /> },
-      { name: "Supabase", icon: <Zap className="w-4 h-4 text-emerald-500" /> },
+      { name: "MySQL", icon: <Database className="w-4 h-4 text-red-500" /> },
     ]
   },
   {
@@ -106,8 +136,10 @@ const techData = [
   {
     category: "Tools & Platforms",
     items: [
-      { name: "Figma", icon: <FigmaIcon className="w-4 h-4 text-pink-500" /> },
-      { name: "Terminal", icon: <Terminal className="w-4 h-4 text-emerald-400" /> },
+      { name: "VS Code", icon: <Terminal className="w-4 h-4 text-blue-400" /> },
+      { name: "Vercel", icon: <VercelIcon className="w-4 h-4 text-emerald-400" /> },
+      { name: "Leetcode", icon: <LeetcodeIcon className="w-4 h-4 text-emerald-400" /> },
+
     ]
   }
 ];
@@ -179,7 +211,7 @@ export function TechStack() {
 
           {/* Right Side: Refined Orbital Animation (Hidden on mobile) */}
           {!isMobile && (
-            <div className="lg:w-[40%] sticky top-32 flex items-center justify-center">
+            <div className="lg:w-[40%] sticky top-32 py-64 flex items-center justify-center">
               <OrbitalSystem size={320} />
             </div>
           )}

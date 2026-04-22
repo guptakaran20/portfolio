@@ -40,15 +40,15 @@ import { CanvasRevealEffect } from "./CanvasRevealEffect";
 const About = () => {
   return (
     <section id="about" className="w-full py-16 sm:py-24 md:py-32">
-     
+
       <div className="my-6 sm:my-10 flex flex-col lg:flex-row items-center justify-center w-full gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-6 md:px-8">
         {/* add des prop */}
         <Card
-          title="Planning & Strategy"
-          icon={<AceternityIcon order="Phase 1" />}
-          des="We'll collaborate to map out your website's goals, target audience, 
-          and key functionalities. We'll discuss things like site structure, 
-          navigation, and content requirements."
+          title="Foundation"
+          icon={<AceternityIcon order="Foundation" />}
+          des="Every project starts with understanding the “why”.
+
+I break down ideas, plan structure, and think through the logic before writing a single line of code."
         >
           <CanvasRevealEffect
             animationSpeed={5.1}
@@ -57,11 +57,11 @@ const About = () => {
           />
         </Card>
         <Card
-          title="Development & Progress Update"
-          icon={<AceternityIcon order="Phase 2" />}
-          des="Once we agree on the plan, I cue my lofi playlist and dive into
-          coding. From initial sketches to polished code, I keep you updated
-          every step of the way."
+          title="Development"
+          icon={<AceternityIcon order="Development" />}
+          des="This is where things come to life.
+
+I build modern, scalable apps using tools like React, Next.js, and Node.js — focusing on clean code and smooth UI."
         >
           <CanvasRevealEffect
             animationSpeed={3}
@@ -79,11 +79,10 @@ const About = () => {
           {/* <div className="absolute inset-0 [mask-image:radial-gradient(400px_at_center,white,transparent)] bg-black/50 dark:bg-black/90" /> */}
         </Card>
         <Card
-          title="Development & Launch"
-          icon={<AceternityIcon order="Phase 3" />}
-          des="This is where the magic happens! Based on the approved design, 
-          I'll translate everything into functional code, building your website
-          from the ground up."
+          title="Optimization"
+          icon={<AceternityIcon order="Optimization" />}
+          des="Polish makes the difference.
+From performance tweaks to deployment, I make sure everything runs fast, looks great, and works flawlessly."
         >
           <CanvasRevealEffect
             animationSpeed={3}

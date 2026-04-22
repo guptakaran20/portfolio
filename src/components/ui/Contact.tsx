@@ -11,16 +11,36 @@ export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate network request
-    setTimeout(() => {
-      setIsSubmitting(false);
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+    };
+
+    try {
+      const response = await fetch(process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || "", {
+        method: "POST",
+        mode: "no-cors", // Required for many Google Script configurations
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
       setIsSuccess(true);
-      setTimeout(() => setIsSuccess(false), 3000);
       (e.target as HTMLFormElement).reset();
-    }, 1000);
+      setTimeout(() => setIsSuccess(false), 3000);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      alert("Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -77,6 +97,7 @@ export function Contact() {
                 <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">Name</label>
                 <Input 
                   id="name" 
+                  name="name" 
                   required 
                   placeholder="Karan Gupta" 
                   className="bg-black/50 border-white/10 focus-visible:ring-cyan-500 text-white h-12" 
@@ -86,6 +107,7 @@ export function Contact() {
                 <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">Email</label>
                 <Input 
                   id="email" 
+                  name="email" 
                   required 
                   type="email" 
                   placeholder="guptakaran0720@gmail.com" 
@@ -96,6 +118,7 @@ export function Contact() {
                 <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">Message</label>
                 <Textarea 
                   id="message" 
+                  name="message" 
                   required 
                   placeholder="Tell me about your project..." 
                   className="bg-black/50 border-white/10 focus-visible:ring-cyan-500 text-white min-h-[150px] resize-none" 

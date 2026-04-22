@@ -3,14 +3,54 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 const commands: Record<string, string> = {
-    whoami: 'Karan Gupta — Full-Stack Developer (soon)',
-    skills: 'Python, C++, JavaScript, React, Node.js, Tailwind, Git',
-    currently_learning: 'Full Stack Development • Building real-world projects',
-    education: 'Computer Science Student • Passionate about technology',
-    contact: 'guptakaran0720@gmail.com • github.com/guptakaran20',
-    help: 'Available commands: whoami, skills, currently_learning, education, contact, help, clear',
-};
+    hi: 'Hey 👋 Karan here — Full-Stack Developer & BTech ICE student at NIT Jalandhar. Type "help" to explore.',
 
+    hello: 'Hello! I’m Karan Gupta — building modern full-stack apps. Try "projects" or "skills".',
+
+    hey: 'Hey there! 🚀 Welcome to my dev terminal. Type "help" to see what I can do.',
+
+    whoami: 'Karan Gupta — Full-Stack Developer specializing in modern web apps',
+
+    about: 'I build scalable full-stack applications with modern tools like Next.js, Supabase, and Node.js. Passionate about clean UI, performance, and real-world problem solving.',
+
+    skills: 'Next.js, React, TypeScript, Node.js, Express, Tailwind CSS, PostgreSQL, Supabase, Appwrite, Prisma, Docker',
+
+    techstack: 'Frontend: React, Next.js, Tailwind\nBackend: Node.js, Express, Supabase\nDatabase: PostgreSQL\nTools: Docker, Git, Vercel',
+
+    projects: 'SponsorGrid (SaaS Platform) • StrangerBlogs (Blogging Platform) • Arovia Vibes (Frontend UI Showcase)',
+
+    sponsorgrid: 'SaaS platform for managing sponsorships — built with Next.js, Prisma, PostgreSQL, Cloudinary',
+
+    aroviavibes: 'Modern UI showcase with animations — built using Next.js, Tailwind, Framer Motion',
+
+    strangerblogs: 'Blog platform with Appwrite backend — React, Tailwind, Appwrite',
+
+    experience: 'Built multiple full-stack applications with authentication, APIs, and database integration',
+
+    achievements: 'Created scalable SaaS apps, implemented authentication systems, worked with modern full-stack architectures',
+
+    currently_learning: 'Advanced Backend Systems • System Design • Scaling applications',
+
+    tools: 'VS Code, Git, Docker, Vercel, Postman',
+
+    github: 'github.com/guptakaran20',
+
+    resume: 'Check at home section',
+
+    contact: 'Email: guptakaran0720@gmail.com',
+
+    socials: 'GitHub: guptakaran20 | LinkedIn: guptakaran0720',
+
+    funfact: 'I enjoy building aesthetic UIs with smooth animations and solving complex logic problems',
+
+    clear: 'Clearing terminal...',
+
+    help: `Available commands:
+whoami, about, skills, techstack, projects,
+project_sponsorgrid, project_arovia, project_strangerblogs,
+experience, achievements, currently_learning,
+tools, github, resume, contact, socials, funfact, clear`
+};
 export default function Terminal() {
     const sectionRef = useRef<HTMLDivElement>(null);
     const inView = useInView(sectionRef, { once: true, margin: '-100px' });

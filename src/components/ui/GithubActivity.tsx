@@ -47,7 +47,7 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
                         GitHub <span className="gradient-text">Activity</span>
                     </h2>
                     <p className="text-gray-400 text-base max-w-lg mx-auto">
-                        My contribution graph from GitHub — consistency is key.
+                        My contribution graph from GitHub.
                     </p>
                     <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mx-auto mt-4" />
                 </motion.div>

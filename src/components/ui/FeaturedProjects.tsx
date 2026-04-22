@@ -9,7 +9,7 @@ const projects = [
   {
     title: "SponsorGrid",
     description: "Sponsorship management platform for college clubs. A complete SaaS solution to track leads, manage partnerships, and streamline funding efforts with an intuitive dashboard.",
-    tech: ["Next.js", "TypeScript", "Tailwind", "Supabase"],
+    tech: ["Next.js", "Typescript", "Prisma", "Cloudinary","PostgreSQL"],
     demoLink: "https://trysponsorgrid.vercel.app/",
     githubLink: "https://github.com/guptakaran20/Sponsorship",
     featured: true,
@@ -17,7 +17,7 @@ const projects = [
   {
     title: "StrangerBlogs",
     description: "Modern blogging platform focused on content experience. Features ultra-fast rendering, personalized reading modes, and a seamless authoring flow.",
-    tech: ["React", "Node.js", "MongoDB", "Express"],
+    tech: ["React", "Javascript", "Appwrite", "Tailwind CSS"],
     demoLink: "https://stranger-blogs.vercel.app/",
     githubLink: "https://github.com/guptakaran20/StrangerBlogs",
     featured: false,
@@ -25,7 +25,7 @@ const projects = [
   {
     title: "Arovia Vibes",
     description: "Premium eCommerce UI showcase highlighting advanced frontend interaction, micro-animations, and fluid design principles.",
-    tech: ["Next.js", "Framer Motion", "Tailwind CSS"],
+    tech: ["Next.js", "Supabase", "Tailwind CSS","Framer Motion"],
     demoLink: "https://aroviavibes.vercel.app/",
     githubLink: "https://github.com/guptakaran20/AroviaVibes",
     featured: false,
