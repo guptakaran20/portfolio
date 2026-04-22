@@ -1,6 +1,6 @@
 "use client";
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import {GitHubCalendar} from 'react-github-calendar';
 import { Code2 } from 'lucide-react';
 
@@ -14,12 +14,37 @@ const lightTheme = {
 
 export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
     const [mounted, setMounted] = useState(false);
+    const [calendarScale, setCalendarScale] = useState(1);
     const ref = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const calendarWrapRef = useRef<HTMLDivElement>(null);
     const inView = useInView(ref, { once: true, margin: '-100px' });
+
+    const recalcScale = useCallback(() => {
+        if (!containerRef.current || !calendarWrapRef.current) return;
+        const containerW = containerRef.current.offsetWidth;
+        const calendarW = calendarWrapRef.current.scrollWidth;
+        if (calendarW > containerW) {
+            setCalendarScale(containerW / calendarW);
+        } else {
+            setCalendarScale(1);
+        }
+    }, []);
 
     useEffect(() => {
         setMounted(true);
     }, []);
+
+    useEffect(() => {
+        if (!mounted) return;
+        // Wait a tick for the calendar to render
+        const timer = setTimeout(recalcScale, 300);
+        window.addEventListener('resize', recalcScale);
+        return () => {
+            clearTimeout(timer);
+            window.removeEventListener('resize', recalcScale);
+        };
+    }, [mounted, recalcScale]);
 
     const isLightMode = darkMode === false;
 
@@ -57,15 +82,31 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="flex justify-center p-4 sm:p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:shadow-lg hover:shadow-indigo-500/5 transition-shadow duration-500"
+                    className="flex justify-center p-2 sm:p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:shadow-lg hover:shadow-indigo-500/5 transition-shadow duration-500"
                 >
-                    <div className="bg-[#0a0a0a] p-4 sm:p-6 md:p-8 rounded-2xl border border-white/10 shadow-2xl overflow-hidden w-full">
+                    <div
+                        ref={containerRef}
+                        className="bg-[#0a0a0a] p-2 sm:p-6 md:p-8 rounded-2xl border border-white/10 shadow-2xl overflow-hidden w-full"
+                    >
                         <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-8">
-                            <Code2 className="w-6 h-6 text-indigo-400" />
-                            <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white">Contribution Graph</h3>
+                            <Code2 className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-400" />
+                            <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-white">Contribution Graph</h3>
                         </div>
-                        <div className="overflow-x-auto w-full pb-4 scrollbar-hide">
-                            <div className="min-w-[800px] md:min-w-0">
+                        <div
+                            className="w-full overflow-hidden"
+                            style={{
+                                height: calendarScale < 1
+                                    ? `${(calendarWrapRef.current?.scrollHeight ?? 200) * calendarScale}px`
+                                    : 'auto',
+                            }}
+                        >
+                            <div
+                                ref={calendarWrapRef}
+                                style={{
+                                    transform: `scale(${calendarScale})`,
+                                    transformOrigin: 'top left',
+                                }}
+                            >
                                 <GitHubCalendar
                                     username="guptakaran20"
                                     colorScheme={isLightMode ? 'light' : 'dark'}

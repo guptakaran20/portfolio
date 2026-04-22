@@ -67,6 +67,7 @@ export function FeaturedProjects() {
 function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
+  const [tapped, setTapped] = React.useState(false);
 
   const mouseXSpring = useSpring(x);
   const mouseYSpring = useSpring(y);
@@ -91,6 +92,22 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
     y.set(0);
   };
 
+  const handleTap = () => {
+    setTapped((prev) => !prev);
+    // Subtle tilt on tap
+    if (!tapped) {
+      x.set(0.08);
+      y.set(-0.08);
+      setTimeout(() => {
+        x.set(0);
+        y.set(0);
+      }, 400);
+    } else {
+      x.set(0);
+      y.set(0);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -103,15 +120,27 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
       <motion.div
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onClick={handleTap}
         style={{
           rotateX,
           rotateY,
           transformStyle: "preserve-3d",
         }}
-        className={`group relative h-full bg-[#0a0a0a] rounded-2xl border border-white/10 p-5 sm:p-6 md:p-8 hover:border-white/20 transition-colors duration-500 flex flex-col justify-between overflow-hidden ${project.featured ? 'min-h-[280px] sm:min-h-[350px] md:min-h-[400px]' : 'min-h-[250px] sm:min-h-[300px] md:min-h-[350px]'}`}
+        animate={{
+          scale: tapped ? 1.02 : 1,
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        className={`group relative h-full bg-[#0a0a0a] rounded-2xl border p-5 sm:p-6 md:p-8 transition-colors duration-500 flex flex-col justify-between overflow-hidden cursor-pointer
+          ${tapped ? 'border-white/25' : 'border-white/10 hover:border-white/20'}
+          ${project.featured ? 'min-h-[280px] sm:min-h-[350px] md:min-h-[400px]' : 'min-h-[250px] sm:min-h-[300px] md:min-h-[350px]'}`}
       >
-        {/* Hover subtle glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-transparent to-purple-500/0 group-hover:from-indigo-500/10 group-hover:to-cyan-500/10 transition-colors duration-500 pointer-events-none" />
+        {/* Hover / tap subtle glow */}
+        <div className={`absolute inset-0 bg-gradient-to-br transition-colors duration-500 pointer-events-none
+          ${tapped
+            ? 'from-indigo-500/10 via-transparent to-cyan-500/10'
+            : 'from-indigo-500/0 via-transparent to-purple-500/0 group-hover:from-indigo-500/10 group-hover:to-cyan-500/10'
+          }`}
+        />
 
         <div style={{ transform: "translateZ(50px)" }} className="relative z-10 flex flex-col h-full">
           <div>

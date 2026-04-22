@@ -118,6 +118,7 @@ const Card = ({
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={() => setHovered((prev) => !prev)}
       // change h-[30rem] to h-[35rem], add rounded-3xl
       className="border border-black/[0.2] group/canvas-card flex items-center justify-center
        dark:border-white/[0.2] max-w-[90vw] md:max-w-sm w-full mx-auto p-4 relative h-[20rem] sm:h-[25rem] md:h-[30rem] lg:h-[35rem] rounded-3xl "
@@ -151,24 +152,24 @@ const Card = ({
         <div
           // add this for making it center
           // absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]
-          className="text-center group-hover/canvas-card:-translate-y-4 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] 
-        group-hover/canvas-card:opacity-0 transition duration-200 min-w-40 mx-auto flex items-center justify-center"
+          className={`text-center absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] 
+        transition duration-200 min-w-40 mx-auto flex items-center justify-center
+        ${hovered ? "opacity-0 -translate-y-4" : "opacity-100"}`}
         >
           {icon}
         </div>
         <h2
           // change text-3xl, add text-center
-          className="dark:text-white text-center text-2xl md:text-3xl opacity-0 group-hover/canvas-card:opacity-100
-         relative z-10 text-black mt-4 font-bold group-hover/canvas-card:text-white 
-         group-hover/canvas-card:-translate-y-2 transition duration-200"
+          className={`dark:text-white text-center text-2xl md:text-3xl
+         relative z-10 text-black mt-4 font-bold transition duration-200
+         ${hovered ? "opacity-100 text-white -translate-y-2" : "opacity-0"}`}
         >
           {title}
         </h2>
         {/* add this one for the description */}
         <p
-          className="text-xs md:text-sm opacity-0 group-hover/canvas-card:opacity-100
-         relative z-10 mt-4 group-hover/canvas-card:text-white text-center
-         group-hover/canvas-card:-translate-y-2 transition duration-200"
+          className={`text-xs md:text-sm relative z-10 mt-4 text-center transition duration-200
+         ${hovered ? "opacity-100 text-white -translate-y-2" : "opacity-0"}`}
           style={{ color: "#E4ECFF" }}
         >
           {des}
