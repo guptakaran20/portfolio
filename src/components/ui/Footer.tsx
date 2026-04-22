@@ -30,7 +30,7 @@ export function Footer() {
         <div className="flex gap-6 order-3">
           <a href="https://www.linkedin.com/in/guptakaran0720/" className="text-gray-500 hover:text-white transition-colors text-sm">LinkedIn</a>
           <a href="https://github.com/guptakaran20" className="text-gray-500 hover:text-white transition-colors text-sm">GitHub</a>
-          <a href="https://www.instagram.com/guptakaran20/" className="text-gray-500 hover:text-white transition-colors text-sm">Instagram</a>
+          <a href="https://www.instagram.com/guptakaran0720/" className="text-gray-500 hover:text-white transition-colors text-sm">Instagram</a>
         </div>
       </div>
     </footer>
