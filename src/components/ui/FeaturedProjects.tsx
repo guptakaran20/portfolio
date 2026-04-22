@@ -34,27 +34,27 @@ const projects = [
 
 export function FeaturedProjects() {
   return (
-    <section className="relative w-full py-32 bg-[#030303] overflow-hidden" id="projects">
+    <section className="relative w-full py-16 sm:py-24 md:py-32 bg-[#030303] overflow-hidden" id="projects">
       <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />
       <div className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-indigo-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />
 
-      <div className="max-w-6xl mx-auto px-4 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="mb-16"
+          className="mb-10 sm:mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
             Featured Projects
           </h2>
           <div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full" />
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           {projects.map((project, index) => (
-            <div key={project.title} className={project.featured ? "lg:col-span-2" : "col-span-1"}>
+            <div key={project.title} className={project.featured ? "md:col-span-2" : "col-span-1"}>
               <ProjectCard project={project} index={index} />
             </div>
           ))}
@@ -108,7 +108,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
           rotateY,
           transformStyle: "preserve-3d",
         }}
-        className={`group relative h-full bg-[#0a0a0a] rounded-2xl border border-white/10 p-6 md:p-8 hover:border-white/20 transition-colors duration-500 flex flex-col justify-between overflow-hidden ${project.featured ? 'min-h-[350px] md:min-h-[400px]' : 'min-h-[300px] md:min-h-[350px]'}`}
+        className={`group relative h-full bg-[#0a0a0a] rounded-2xl border border-white/10 p-5 sm:p-6 md:p-8 hover:border-white/20 transition-colors duration-500 flex flex-col justify-between overflow-hidden ${project.featured ? 'min-h-[280px] sm:min-h-[350px] md:min-h-[400px]' : 'min-h-[250px] sm:min-h-[300px] md:min-h-[350px]'}`}
       >
         {/* Hover subtle glow */}
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-transparent to-purple-500/0 group-hover:from-indigo-500/10 group-hover:to-cyan-500/10 transition-colors duration-500 pointer-events-none" />
@@ -120,10 +120,10 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
                 PRIMARY PROJECT
               </span>
             )}
-            <h3 className={`${project.featured ? 'text-2xl md:text-4xl' : 'text-xl md:text-2xl'} font-bold text-white mb-4`}>
+            <h3 className={`${project.featured ? 'text-xl sm:text-2xl md:text-4xl' : 'text-lg sm:text-xl md:text-2xl'} font-bold text-white mb-3 sm:mb-4`}>
               {project.title}
             </h3>
-            <p className="text-sm md:text-base text-gray-400 leading-relaxed mb-8">
+            <p className="text-xs sm:text-sm md:text-base text-gray-400 leading-relaxed mb-6 sm:mb-8">
               {project.description}
             </p>
           </div>

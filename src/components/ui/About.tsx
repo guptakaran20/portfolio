@@ -39,9 +39,9 @@ import { CanvasRevealEffect } from "./CanvasRevealEffect";
 
 const About = () => {
   return (
-    <section id="about" className="w-full py-0">
+    <section id="about" className="w-full py-16 sm:py-24 md:py-32">
      
-      <div className="my-10 flex flex-col lg:flex-row items-center justify-center w-full gap-8 px-6">
+      <div className="my-6 sm:my-10 flex flex-col lg:flex-row items-center justify-center w-full gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-6 md:px-8">
         {/* add des prop */}
         <Card
           title="Planning & Strategy"
@@ -117,7 +117,7 @@ const Card = ({
       onMouseLeave={() => setHovered(false)}
       // change h-[30rem] to h-[35rem], add rounded-3xl
       className="border border-black/[0.2] group/canvas-card flex items-center justify-center
-       dark:border-white/[0.2] max-w-[90vw] md:max-w-sm w-full mx-auto p-4 relative h-[25rem] md:h-[30rem] lg:h-[35rem] rounded-3xl "
+       dark:border-white/[0.2] max-w-[90vw] md:max-w-sm w-full mx-auto p-4 relative h-[20rem] sm:h-[25rem] md:h-[30rem] lg:h-[35rem] rounded-3xl "
       style={{
         //   add these two
         //   you can generate the color from here https://cssgradient.io/

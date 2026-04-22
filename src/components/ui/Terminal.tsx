@@ -56,14 +56,14 @@ export default function Terminal() {
     };
 
     return (
-        <section id="terminal" className="relative bg-surface-dark">
-            <div ref={sectionRef} className="max-w-3xl mx-auto">
+        <section id="terminal" className="relative bg-surface-dark py-16 sm:py-24 md:py-32">
+            <div ref={sectionRef} className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8">
                 {/* Section heading */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-12"
+                    className="text-center mb-8 sm:mb-12"
                 >
                     <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
                         Developer <span className="gradient-text">Terminal</span>
@@ -95,7 +95,7 @@ export default function Terminal() {
 
                     {/* Terminal body */}
                     <div
-                        className="terminal-body p-4 min-h-[250px] max-h-[350px] overflow-y-auto font-mono text-sm cursor-text"
+                        className="terminal-body p-3 sm:p-4 min-h-[200px] sm:min-h-[250px] max-h-[350px] overflow-y-auto font-mono text-xs sm:text-sm cursor-text"
                         onClick={() => inputRef.current?.focus()}
                     >
                         {history.map((entry, i) => (

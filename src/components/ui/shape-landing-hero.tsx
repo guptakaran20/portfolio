@@ -192,7 +192,7 @@ function HeroGeometric({
                         height={140}
                         rotate={12}
                         gradient="from-indigo-500/[0.15]"
-                        className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
+                        className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%] scale-50 sm:scale-75 md:scale-100"
                     />
 
                     <ElegantShape
@@ -201,7 +201,7 @@ function HeroGeometric({
                         height={120}
                         rotate={-15}
                         gradient="from-rose-500/[0.15]"
-                        className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
+                        className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%] scale-50 sm:scale-75 md:scale-100"
                     />
 
                     <ElegantShape
@@ -210,7 +210,7 @@ function HeroGeometric({
                         height={80}
                         rotate={-8}
                         gradient="from-violet-500/[0.15]"
-                        className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
+                        className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%] scale-50 sm:scale-75 md:scale-100"
                     />
 
                     <ElegantShape
@@ -219,7 +219,7 @@ function HeroGeometric({
                         height={60}
                         rotate={20}
                         gradient="from-amber-500/[0.15]"
-                        className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
+                        className="right-[15%] md:right-[20%] top-[10%] md:top-[15%] scale-75 md:scale-100"
                     />
 
                     <ElegantShape
@@ -228,14 +228,14 @@ function HeroGeometric({
                         height={40}
                         rotate={-25}
                         gradient="from-cyan-500/[0.15]"
-                        className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
+                        className="left-[20%] md:left-[25%] top-[5%] md:top-[10%] scale-75 md:scale-100"
                     />
                 </div>
             </motion.div>
 
             <motion.div 
                 style={{ y: yContent, opacity: opacityContent }}
-                className="relative z-10 w-full px-4 md:px-6"
+                className="relative z-10 w-full px-4 sm:px-6 md:px-8"
             >
                 <div className="max-w-3xl mx-auto text-center">
                     <motion.div
@@ -257,7 +257,7 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <h1 className="text-3xl sm:text-5xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight text-white">
+                        <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-bold mb-6 md:mb-8 tracking-tight text-white">
                             <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">
                                 {title1}
                             </span>
@@ -278,7 +278,7 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <p className="text-sm sm:text-lg md:text-xl text-white/40 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
+                        <p className="text-xs sm:text-base md:text-lg lg:text-xl text-white/40 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-2 sm:px-4">
                             {description}
                         </p>
                     </motion.div>

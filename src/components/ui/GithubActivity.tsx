@@ -34,14 +34,14 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
     }
 
     return (
-        <section className="relative">
-            <div ref={ref} className="max-w-6xl mx-auto">
+        <section className="relative py-16 sm:py-24 md:py-32">
+            <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
                 {/* Section heading */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-12"
+                    className="text-center mb-8 sm:mb-12"
                 >
                     <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-white">
                         GitHub <span className="gradient-text">Activity</span>
@@ -57,12 +57,12 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="flex justify-center p-6 sm:p-8 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:shadow-lg hover:shadow-indigo-500/5 transition-shadow duration-500"
+                    className="flex justify-center p-4 sm:p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:shadow-lg hover:shadow-indigo-500/5 transition-shadow duration-500"
                 >
-                    <div className="bg-[#0a0a0a] p-8 rounded-2xl border border-white/10 shadow-2xl overflow-hidden w-full">
-                        <div className="flex items-center gap-3 mb-8">
+                    <div className="bg-[#0a0a0a] p-4 sm:p-6 md:p-8 rounded-2xl border border-white/10 shadow-2xl overflow-hidden w-full">
+                        <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-8">
                             <Code2 className="w-6 h-6 text-indigo-400" />
-                            <h3 className="text-xl font-semibold text-white">Contribution Graph</h3>
+                            <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white">Contribution Graph</h3>
                         </div>
                         <div className="overflow-x-auto w-full pb-4 scrollbar-hide">
                             <div className="min-w-[800px] md:min-w-0">

@@ -1,8 +1,8 @@
 "use client";
 
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { 
-  Code2, Zap, Atom, Server, Hexagon, 
+import {
+  Code2, Zap, Atom, Server, Hexagon,
   Database, Layout, Terminal, Box
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
@@ -10,14 +10,14 @@ import { cn } from "@/lib/utils";
 
 // Custom Icon Components for missing lucide-react icons
 const GithubIcon = ({ className }: { className?: string }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
     className={className}
   >
     <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
@@ -26,14 +26,14 @@ const GithubIcon = ({ className }: { className?: string }) => (
 );
 
 const FigmaIcon = ({ className }: { className?: string }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
     className={className}
   >
     <path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z" />
@@ -45,14 +45,14 @@ const FigmaIcon = ({ className }: { className?: string }) => (
 );
 
 const FileCodeIcon = ({ className }: { className?: string }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
     className={className}
   >
     <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
@@ -125,37 +125,37 @@ export function TechStack() {
   }, []);
 
   return (
-    <section id="skills" className="relative w-full h-full min-h-screen py-24 md:py-32 bg-[#030303] overflow-hidden flex flex-col justify-center">
+    <section id="skills" className="relative w-full min-h-screen py-16 sm:py-20 md:py-24 lg:py-32 bg-[#030303] flex flex-col justify-start">
       {/* Background Decorative Element */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#030303] via-blue-950/5 to-[#030303] pointer-events-none" />
-      
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-20">
-          
+
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-start gap-8 sm:gap-10 lg:gap-20">
+
           {/* Left Side: Categories */}
-          <div className="flex-1 w-full space-y-10">
+          <div className="flex-1 w-full space-y-6 sm:space-y-8 lg:space-y-10">
             <div>
-              <motion.h2 
+              <motion.h2
                 animate={{ opacity: 1, x: 0 }}
                 initial={{ opacity: 0, x: -20 }}
-                className="text-3xl md:text-5xl font-bold text-white mb-4"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4"
               >
                 Technical Arsenal
               </motion.h2>
-              <motion.p 
+              <motion.p
                 animate={{ opacity: 1, x: 0 }}
                 initial={{ opacity: 0, x: -20 }}
                 transition={{ delay: 0.1 }}
-                className="text-gray-400 text-lg max-w-xl"
+                className="text-gray-400 text-sm sm:text-base lg:text-lg max-w-xl"
               >
                 A curated selection of tools and technologies I use to bring modern digital experiences to life.
               </motion.p>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-5 sm:space-y-6 lg:space-y-8">
               {techData.map((category, idx) => (
                 <div key={category.category} className="space-y-4">
-                  <motion.h3 
+                  <motion.h3
                     animate={{ opacity: 1, y: 0 }}
                     initial={{ opacity: 0, y: 10 }}
                     transition={{ delay: idx * 0.1 }}
@@ -163,14 +163,14 @@ export function TechStack() {
                   >
                     {category.category}
                   </motion.h3>
-                  
-                  <div className="flex flex-wrap gap-3">
+
+                  <div className="flex flex-wrap gap-2 sm:gap-3">
                     {category.items.map((tech, techIdx) => (
                       <TechBadge key={tech.name} tech={tech} categoryIdx={idx} techIdx={techIdx} />
                     ))}
                   </div>
                   {idx !== techData.length - 1 && (
-                    <div className="w-full h-px bg-white/5 mt-6" />
+                    <div className="w-full h-px bg-white/5 mt-4 sm:mt-6" />
                   )}
                 </div>
               ))}
@@ -180,7 +180,7 @@ export function TechStack() {
           {/* Right Side: Refined Orbital Animation (Hidden on mobile) */}
           {!isMobile && (
             <div className="lg:w-[40%] sticky top-32 flex items-center justify-center">
-              <OrbitalSystem size={380} />
+              <OrbitalSystem size={320} />
             </div>
           )}
 
@@ -206,7 +206,7 @@ function TechBadge({ tech, categoryIdx, techIdx }: { tech: typeof techData[0]['i
       <div className="relative flex items-center gap-2.5 px-4 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-white/[0.15] group-hover:bg-white/[0.06]">
         {/* Hover Glow */}
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        
+
         <span className="relative z-10 transition-transform duration-300 group-hover:scale-110">
           {tech.icon}
         </span>
@@ -264,7 +264,7 @@ function Orbit({ size, duration, children, angle, reverse = false }: { size: num
       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       style={{ width: size, height: size }}
     >
-      <div 
+      <div
         className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{ transform: `rotate(${angle}deg)` }}
       >
@@ -275,7 +275,7 @@ function Orbit({ size, duration, children, angle, reverse = false }: { size: num
         >
           {/* Trail Glow */}
           <div className="absolute inset-0 rounded-full bg-cyan-500/0 group-hover:bg-cyan-500/10 transition-colors blur-xl" />
-          
+
           <div className="relative z-10 transition-transform duration-300 group-hover:scale-110">
             {children}
           </div>

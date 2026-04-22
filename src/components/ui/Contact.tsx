@@ -24,11 +24,11 @@ export function Contact() {
   };
 
   return (
-    <section className="relative w-full py-32 bg-[#030303]" id="contact">
+    <section className="relative w-full py-16 sm:py-24 md:py-32 bg-[#030303]" id="contact">
       <div className="absolute top-1/2 left-0 w-full h-[50vh] bg-gradient-to-t from-cyan-900/5 to-transparent pointer-events-none" />
       
-      <div className="max-w-5xl mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 md:gap-16">
           
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -37,10 +37,10 @@ export function Contact() {
             transition={{ duration: 0.8 }}
             className="flex flex-col justify-center"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
               Let&apos;s build something great together.
             </h2>
-            <p className="text-gray-400 mb-10 text-lg">
+            <p className="text-gray-400 mb-6 sm:mb-10 text-sm sm:text-base md:text-lg">
               Have a project in mind or just want to chat? Drop me a message and I&apos;ll get back to you as soon as possible.
             </p>
             
@@ -49,19 +49,19 @@ export function Contact() {
                 <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/30 transition-colors">
                   <Mail className="w-5 h-5" />
                 </div>
-                <span className="text-lg">guptakaran0720@gmail.com</span>
+                <span className="text-sm sm:text-base md:text-lg break-all sm:break-normal">guptakaran0720@gmail.com</span>
               </a>
               <a href="https://github.com/guptakaran20" className="group flex items-center gap-4 text-gray-300 hover:text-white transition-colors">
                 <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/30 transition-colors">
                   <Terminal className="w-5 h-5" />
                 </div>
-                <span className="text-lg">github.com/guptakaran20</span>
+                <span className="text-sm sm:text-base md:text-lg break-all sm:break-normal">github.com/guptakaran20</span>
               </a>
               <a href="https://www.linkedin.com/in/guptakaran0720/" className="group flex items-center gap-4 text-gray-300 hover:text-white transition-colors">
                 <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/30 transition-colors">
                   <Briefcase className="w-5 h-5" />
                 </div>
-                <span className="text-lg">linkedin.com/in/guptakaran0720</span>
+                <span className="text-sm sm:text-base md:text-lg break-all sm:break-normal">linkedin.com/in/guptakaran0720</span>
               </a>
             </div>
           </motion.div>
@@ -72,7 +72,7 @@ export function Contact() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <form onSubmit={handleSubmit} className="bg-[#0a0a0a] p-8 rounded-2xl border border-white/10 flex flex-col gap-6">
+            <form onSubmit={handleSubmit} className="bg-[#0a0a0a] p-5 sm:p-6 md:p-8 rounded-2xl border border-white/10 flex flex-col gap-4 sm:gap-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">Name</label>
                 <Input 
