@@ -12,20 +12,26 @@ import { Button } from '@/components/ui/button';
 
 export default function Home() {
   return (
-    <main className="min-h-screen w-full bg-[#030303] text-foreground flex flex-col items-center pb-24 lg:pb-0 overflow-x-hidden">
-      {/* Diagnostic View: Rendering components directly */}
-      <section id="home" className="w-full">
-        <HeroGeometric
-          badge="Full Stack Developer"
-          title1="Hi, I'm Karan"
-          title2="I Build Modern Web Experiences"
-          description="Crafting high-performance applications with a focus on cinematic UI, robust architecture, and seamless user experiences."
-        />
-      </section>
+    <main className="min-h-screen w-full bg-[#030303] text-foreground flex flex-col items-center pb-24 lg:pb-0">
 
-      <section id="skills" className="w-full">
-        <TechStack />
-      </section>
+      <HeroScrollAnimation
+        heroCmp={
+          <div id="home" className="w-full">
+            <HeroGeometric
+              badge="Full Stack Developer"
+              title1="Hi, I'm Karan"
+              title2="I Build Modern Web Experiences"
+              description="Crafting high-performance applications with a focus on cinematic UI, robust architecture, and seamless user experiences."
+            />
+          </div>
+        }
+        nextCmp={
+          <div id="skills" className="w-full h-[150vh]">
+            <TechStack />
+          </div>
+        }
+      />
+
       <FeaturedProjects />
       <Terminal />
       <About />

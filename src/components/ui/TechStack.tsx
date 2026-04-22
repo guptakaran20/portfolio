@@ -125,7 +125,8 @@ export function TechStack() {
   }, []);
 
   return (
-    <section id="skills" className="relative w-full py-24 md:py-32 bg-[#030303] overflow-hidden min-h-screen flex flex-col justify-center">
+    <section id="skills" className="relative w-full h-full min-h-screen py-24 md:py-32 bg-[#030303] overflow-hidden flex flex-col justify-center">
+      {/* Background Decorative Element */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#030303] via-blue-950/5 to-[#030303] pointer-events-none" />
       
       <div className="container mx-auto px-6 relative z-10">
@@ -135,17 +136,15 @@ export function TechStack() {
           <div className="flex-1 w-full space-y-10">
             <div>
               <motion.h2 
+                animate={{ opacity: 1, x: 0 }}
                 initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
                 className="text-3xl md:text-5xl font-bold text-white mb-4"
               >
                 Technical Arsenal
               </motion.h2>
               <motion.p 
+                animate={{ opacity: 1, x: 0 }}
                 initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
                 transition={{ delay: 0.1 }}
                 className="text-gray-400 text-lg max-w-xl"
               >
@@ -157,9 +156,8 @@ export function TechStack() {
               {techData.map((category, idx) => (
                 <div key={category.category} className="space-y-4">
                   <motion.h3 
+                    animate={{ opacity: 1, y: 0 }}
                     initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
                     transition={{ delay: idx * 0.1 }}
                     className="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold"
                   >
@@ -199,9 +197,8 @@ export function TechStack() {
 function TechBadge({ tech, categoryIdx, techIdx }: { tech: typeof techData[0]['items'][0], categoryIdx: number, techIdx: number }) {
   return (
     <motion.div
+      animate={{ opacity: 1, y: 0 }}
       initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
       transition={{ delay: (categoryIdx * 0.1) + (techIdx * 0.05) }}
       whileHover={{ scale: 1.05, y: -2 }}
       className="group relative"

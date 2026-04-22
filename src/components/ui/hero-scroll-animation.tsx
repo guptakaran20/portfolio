@@ -9,56 +9,70 @@ interface HeroScrollAnimationProps {
 }
 
 const HeroScrollAnimation = forwardRef<HTMLDivElement, HeroScrollAnimationProps>(({ heroCmp, nextCmp }, ref) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Use the forwarded ref if provided, otherwise use local ref
-  const activeRef = (ref as React.RefObject<HTMLDivElement>) || containerRef;
+  const { scrollY } = useScroll();
 
-  const { scrollYProgress } = useScroll({
-    target: activeRef,
-    offset: ["start start", "end end"],
-  });
+  // Mapping global scroll pixels to transforms
+  // Hero fades and moves between 0 and 400px
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const heroY = useTransform(scrollY, [0, 400], [0, -40]);
+  const heroScale = useTransform(scrollY, [0, 400], [1, 0.98]);
 
-  // Hero section transforms (fading out and moving up)
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
-  const heroY = useTransform(scrollYProgress, [0, 0.4], [0, -100]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.4], [1, 0.95]);
+  // Next section fades and moves between 500px and 1000px
+  const nextOpacity = useTransform(scrollY, [500, 1000], [0, 1]);
+  const nextY = useTransform(scrollY, [500, 1000], [40, 0]);
+  const nextScale = useTransform(scrollY, [500, 1000], [0.98, 1]);
 
-  // Next section transforms (fading in and scaling up)
-  const nextOpacity = useTransform(scrollYProgress, [0.3, 0.6], [0, 1]);
-  const nextScale = useTransform(scrollYProgress, [0.3, 0.6], [0.98, 1]);
-  const nextY = useTransform(scrollYProgress, [0.3, 0.6], [50, 0]);
+  // Pointer events and visibility management
+  const heroDisplay = useTransform(scrollY, (pos) => pos > 600 ? "none" : "flex");
+  const nextDisplay = useTransform(scrollY, (pos) => pos < 400 ? "none" : "flex");
 
   return (
-    <div ref={activeRef} className="relative w-full bg-[#030303]">
-      {/* Hero Section Container */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden z-10">
+    <div className="relative w-full h-[250vh] bg-[#030303]">
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-visible">
+        {/* Hero Section Container */}
         <motion.div 
           style={{ 
             opacity: heroOpacity, 
             y: heroY,
             scale: heroScale,
+            display: heroDisplay,
+            zIndex: 10,
+            width: "100%",
+            height: "100%"
           }}
-          className="h-full w-full flex items-center justify-center"
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
         >
-          {heroCmp}
+          <div className="w-full h-full pointer-events-auto">
+            {heroCmp}
+          </div>
+        </motion.div>
+
+        {/* Next Section Container */}
+        <motion.div 
+          style={{ 
+            opacity: nextOpacity,
+            y: nextY,
+            scale: nextScale,
+            display: nextDisplay,
+            zIndex: 20,
+            width: "100%",
+            height: "100%"
+          }}
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        >
+          <div className="w-full h-full pointer-events-auto">
+            {nextCmp}
+          </div>
         </motion.div>
       </div>
-
-      {/* Next Section (Tech Stack) */}
-      <motion.div
-        style={{
-          opacity: nextOpacity,
-          scale: nextScale,
-          y: nextY,
-        }}
-        className="relative min-h-screen w-full z-20 bg-[#030303]"
-      >
-        {nextCmp}
-      </motion.div>
     </div>
   );
 });
+
+
+
+
+
 
 
 HeroScrollAnimation.displayName = "HeroScrollAnimation";
