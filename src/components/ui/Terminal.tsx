@@ -33,6 +33,8 @@ const commands: Record<string, string> = {
 
     tools: 'VS Code, Git, Docker, Vercel, Postman',
 
+    leetcode: 'Solved more than 250+ Questions on leetcode Check here - https://leetcode.com/guptakaran0720/',
+
     github: 'github.com/guptakaran20',
 
     resume: 'Check at home section',
