@@ -14,7 +14,7 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="w-full pt-8 pb-24 md:pb-24 border-t border-white/10 bg-[#030303]">
+    <footer className="w-full pt-8 pb-24 md:pb-12 mb-6 border-t border-white/10 bg-[#030303]">
       <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
         <p className="text-gray-500 text-sm order-2 md:order-1">
           &copy; {currentYear} Made with ❤️ & 💻 by Karan Gupta.

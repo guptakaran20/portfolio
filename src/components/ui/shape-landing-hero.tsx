@@ -1,11 +1,14 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Circle, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useRef } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
+import TypingText from "./TypingText";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function ElegantShape({
     className,
@@ -22,35 +25,48 @@ function ElegantShape({
     rotate?: number;
     gradient?: string;
 }) {
+    const shapeRef = useRef<HTMLDivElement>(null);
+
+    useGSAP(() => {
+        if (!shapeRef.current) return;
+        
+        // Entrance
+        gsap.fromTo(shapeRef.current, 
+            { opacity: 0, y: -150, rotate: rotate - 15 },
+            { 
+                opacity: 1, 
+                y: 0, 
+                rotate: rotate, 
+                duration: 2.4, 
+                delay, 
+                ease: "power4.out" 
+            }
+        );
+
+        // Floating animation
+        gsap.to(shapeRef.current.firstChild, {
+            y: 15,
+            duration: 6,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+        });
+
+        // Parallax
+        gsap.to(shapeRef.current, {
+            y: 100,
+            scrollTrigger: {
+                trigger: shapeRef.current,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+            }
+        });
+    }, { scope: shapeRef });
+
     return (
-        <motion.div
-            initial={{
-                opacity: 0,
-                y: -150,
-                rotate: rotate - 15,
-            }}
-            animate={{
-                opacity: 1,
-                y: 0,
-                rotate: rotate,
-            }}
-            transition={{
-                duration: 2.4,
-                delay,
-                ease: [0.23, 0.86, 0.39, 0.96] as any,
-                opacity: { duration: 1.2 },
-            }}
-            className={cn("absolute", className)}
-        >
-            <motion.div
-                animate={{
-                    y: [0, 15, 0],
-                }}
-                transition={{
-                    duration: 12,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "easeInOut",
-                }}
+        <div ref={shapeRef} className={cn("absolute", className)}>
+            <div
                 style={{
                     width,
                     height,
@@ -68,39 +84,55 @@ function ElegantShape({
                         "after:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2),transparent_70%)]"
                     )}
                 />
-            </motion.div>
-        </motion.div>
+            </div>
+        </div>
     );
 }
 
 function ParticleField() {
     const [mounted, setMounted] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         setMounted(true);
     }, []);
 
+    useGSAP(() => {
+        if (!mounted || !containerRef.current) return;
+        
+        const particles = containerRef.current.children;
+        Array.from(particles).forEach((p) => {
+            gsap.to(p, {
+                y: "1100%",
+                opacity: 0,
+                duration: Math.random() * 20 + 20,
+                repeat: -1,
+                ease: "none",
+                delay: Math.random() * -20,
+            });
+        });
+    }, { scope: containerRef, dependencies: [mounted] });
+
+    const particles = useRef<{ left: string; top: string }[]>([]);
+    
+    if (particles.current.length === 0) {
+        particles.current = [...Array(25)].map(() => ({
+            left: Math.random() * 100 + "%",
+            top: "-5%",
+        }));
+    }
+
     if (!mounted) return null;
 
     return (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(25)].map((_, i) => (
-                <motion.div
+        <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none">
+            {particles.current.map((p, i) => (
+                <div
                     key={i}
-                    className="absolute w-1 h-1 bg-white rounded-full"
-                    initial={{
-                        opacity: Math.random() * 0.2,
-                        x: Math.random() * 100 + "%",
-                        y: Math.random() * 100 + "%",
-                    }}
-                    animate={{
-                        y: ["-10%", "110%"],
-                        opacity: [0, 0.2, 0],
-                    }}
-                    transition={{
-                        duration: Math.random() * 20 + 20,
-                        repeat: Infinity,
-                        ease: "linear",
-                        delay: Math.random() * 20,
+                    className="absolute w-1 h-1 bg-white rounded-full opacity-0"
+                    style={{
+                        left: p.left,
+                        top: p.top,
                     }}
                 />
             ))}
@@ -109,42 +141,44 @@ function ParticleField() {
 }
 
 function LightStreaks() {
+    const streak1Ref = useRef<HTMLDivElement>(null);
+    const streak2Ref = useRef<HTMLDivElement>(null);
+
+    useGSAP(() => {
+        gsap.to(streak1Ref.current, {
+            x: "200%",
+            duration: 8,
+            repeat: -1,
+            ease: "power1.inOut",
+        });
+        gsap.to(streak2Ref.current, {
+            x: "-200%",
+            duration: 12,
+            repeat: -1,
+            ease: "power1.inOut",
+            delay: 2,
+        });
+    });
+
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
-            <motion.div
-                animate={{
-                    x: ["-100%", "100%"],
-                    opacity: [0, 0.5, 0],
-                }}
-                transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                }}
-                className="absolute top-1/4 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent blur-sm"
+            <div
+                ref={streak1Ref}
+                className="absolute top-1/4 -left-full w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent blur-sm"
             />
-            <motion.div
-                animate={{
-                    x: ["100%", "-100%"],
-                    opacity: [0, 0.3, 0],
-                }}
-                transition={{
-                    duration: 12,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 2,
-                }}
-                className="absolute top-2/3 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/30 to-transparent blur-sm"
+            <div
+                ref={streak2Ref}
+                className="absolute top-2/3 left-full w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/30 to-transparent blur-sm"
             />
         </div>
     );
 }
 
 function HeroGeometric({
-    badge = "Design Collective",
-    title1 = "Elevate Your Digital Vision",
-    title2 = "Crafting Exceptional Websites",
-    description = "Crafting exceptional digital experiences through innovative design and cutting-edge technology.",
+    badge = "Full Stack Developer",
+    title1 = "Hi, I'm Karan",
+    title2 = "I Build Modern Web Experiences",
+    description = "Crafting high-performance applications with a focus on cinematic UI, robust architecture, and seamless user experiences.",
 }: {
     badge?: string;
     title1?: string;
@@ -152,33 +186,54 @@ function HeroGeometric({
     description?: string;
 }) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end start"],
-    });
+    const contentRef = useRef<HTMLDivElement>(null);
+    const backgroundRef = useRef<HTMLDivElement>(null);
 
-    const yContent = useTransform(scrollYProgress, [0, 1], [0, -100]);
-    const opacityContent = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-    const scaleBackground = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
-    const yBackground = useTransform(scrollYProgress, [0, 1], [0, 50]);
+    useGSAP(() => {
+        if (!contentRef.current) return;
 
-    const fadeUpVariants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: (i: number) => ({
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 1,
-                delay: 0.5 + i * 0.2,
-                ease: [0.25, 0.4, 0.25, 1] as any,
-            },
-        }),
-    };
+        const children = contentRef.current.children;
+        gsap.fromTo(children, 
+            { opacity: 0, y: 30 },
+            { 
+                opacity: 1, 
+                y: 0, 
+                stagger: 0.2, 
+                duration: 1.2, 
+                ease: "power3.out",
+                delay: 0.5 
+            }
+        );
+
+        // Parallax background
+        gsap.to(backgroundRef.current, {
+            y: 100,
+            scale: 1.1,
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top top",
+                end: "bottom top",
+                scrub: true,
+            }
+        });
+
+        // Parallax content
+        gsap.to(contentRef.current, {
+            y: -50,
+            opacity: 0,
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top top",
+                end: "bottom top",
+                scrub: true,
+            }
+        });
+    }, { scope: containerRef });
 
     return (
         <div ref={containerRef} className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#030303]">
-            <motion.div 
-                style={{ scale: scaleBackground, y: yBackground }}
+            <div 
+                ref={backgroundRef}
                 className="absolute inset-0 pointer-events-none"
             >
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" />
@@ -231,33 +286,22 @@ function HeroGeometric({
                         className="left-[20%] md:left-[25%] top-[5%] md:top-[10%] scale-75 md:scale-100"
                     />
                 </div>
-            </motion.div>
+            </div>
 
-            <motion.div 
-                style={{ y: yContent, opacity: opacityContent }}
+            <div 
+                ref={contentRef}
                 className="relative z-10 w-full px-4 sm:px-6 md:px-8"
             >
                 <div className="max-w-3xl mx-auto text-center">
-                    <motion.div
-                        custom={0}
-                        variants={fadeUpVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12"
-                    >
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12">
                         <Circle className="h-2 w-2 fill-rose-500/80" />
-                        <span className="text-sm text-white/60 tracking-wide">
-                            {badge}
+                        <span className="text-sm text-white/60 tracking-wide uppercase">
+                            <TypingText texts={["Full Stack Developer", "UI/UX Enthusiast", "Problem Solver"]} />
                         </span>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        custom={1}
-                        variants={fadeUpVariants}
-                        initial="hidden"
-                        animate="visible"
-                    >
-                        <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-bold mb-6 md:mb-8 tracking-tight text-white">
+                    <div>
+                        <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-bold mb-6 md:mb-8 tracking-tight text-white leading-tight">
                             <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">
                                 {title1}
                             </span>
@@ -270,36 +314,32 @@ function HeroGeometric({
                                 {title2}
                             </span>
                         </h1>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        custom={2}
-                        variants={fadeUpVariants}
-                        initial="hidden"
-                        animate="visible"
-                    >
+                    <div>
                         <p className="text-xs sm:text-base md:text-lg lg:text-xl text-white/40 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-2 sm:px-4">
                             {description}
                         </p>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        custom={3}
-                        variants={fadeUpVariants}
-                        initial="hidden"
-                        animate="visible"
-                    >
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <a 
                             href="/resume.pdf" 
                             download 
-                            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-white/90 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)] group"
+                            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-white/90 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)] group hover:scale-105"
                         >
                             <Download className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
                             Download Resume
                         </a>
-                    </motion.div>
+                        <a 
+                            href="#projects" 
+                            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-transparent border border-white/10 text-white font-medium hover:bg-white/5 transition-all group hover:scale-105"
+                        >
+                            View Projects
+                        </a>
+                    </div>
                 </div>
-            </motion.div>
+            </div>
 
             <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-transparent pointer-events-none" />
         </div>

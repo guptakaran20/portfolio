@@ -1,15 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Terminal, Briefcase, Mail, Send } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "./button";
 import { Input } from "./input";
 import { Textarea } from "./textarea";
+import { useGSAPScroll } from "@/lib/useGSAPScroll";
 
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const leftRef = useGSAPScroll({ x: -50 });
+  const rightRef = useGSAPScroll({ x: 50, delay: 0.2 });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +27,7 @@ export function Contact() {
     try {
       const response = await fetch(process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || "", {
         method: "POST",
-        mode: "no-cors", // Required for many Google Script configurations
+        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
         },
@@ -44,19 +46,13 @@ export function Contact() {
   };
 
   return (
-    <section className="relative w-full py-16 sm:py-24 md:py-32 bg-[#030303]" id="contact">
+    <section className="relative w-full py-16 sm:py-24 md:py-32 bg-[#030303] z-30" id="contact">
       <div className="absolute top-1/2 left-0 w-full h-[50vh] bg-gradient-to-t from-cyan-900/5 to-transparent pointer-events-none" />
       
       <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 md:gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 overflow-hidden">
           
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col justify-center"
-          >
+          <div ref={leftRef} className="flex flex-col justify-center">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
               Let&apos;s build something great together.
             </h2>
@@ -84,14 +80,9 @@ export function Contact() {
                 <span className="text-sm sm:text-base md:text-lg break-all sm:break-normal">linkedin.com/in/guptakaran0720</span>
               </a>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
+          <div ref={rightRef}>
             <form onSubmit={handleSubmit} className="bg-[#0a0a0a] p-5 sm:p-6 md:p-8 rounded-2xl border border-white/10 flex flex-col gap-4 sm:gap-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">Name</label>
@@ -138,7 +129,7 @@ export function Contact() {
                 )}
               </Button>
             </form>
-          </motion.div>
+          </div>
 
         </div>
       </div>

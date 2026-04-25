@@ -1,10 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
   Code2, Zap, Atom, Server, Hexagon,
   Database, Layout, Terminal, Box } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useGSAPScroll } from "@/lib/useGSAPScroll";
 
 // Custom Icon Components for missing lucide-react icons
 const GithubIcon = ({ className }: { className?: string }) => (
@@ -139,15 +141,21 @@ const techData = [
       { name: "VS Code", icon: <Terminal className="w-4 h-4 text-blue-400" /> },
       { name: "Vercel", icon: <VercelIcon className="w-4 h-4 text-emerald-400" /> },
       { name: "Leetcode", icon: <LeetcodeIcon className="w-4 h-4 text-emerald-400" /> },
-
     ]
   }
 ];
 
-
 export function TechStack() {
   const [isMobile, setIsMobile] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const leftRef = useGSAPScroll({ x: -50 });
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    gsap.fromTo(".tech-badge", 
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.5, stagger: 0.05, scrollTrigger: { trigger: gridRef.current, start: "top 80%" } }
+    );
+  }, { scope: gridRef });
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 1024);
@@ -158,47 +166,33 @@ export function TechStack() {
 
   return (
     <section id="skills" className="relative w-full min-h-screen py-16 sm:py-20 md:py-24 lg:py-32 bg-[#030303] flex flex-col justify-start">
-      {/* Background Decorative Element */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#030303] via-blue-950/5 to-[#030303] pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-start gap-8 sm:gap-10 lg:gap-20">
 
-          {/* Left Side: Categories */}
-          <div className="flex-1 w-full space-y-6 sm:space-y-8 lg:space-y-10">
+          <div ref={leftRef} className="flex-1 w-full space-y-6 sm:space-y-8 lg:space-y-10">
             <div>
-              <motion.h2
-                animate={{ opacity: 1, x: 0 }}
-                initial={{ opacity: 0, x: -20 }}
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4"
-              >
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4">
                 Technical Arsenal
-              </motion.h2>
-              <motion.p
-                animate={{ opacity: 1, x: 0 }}
-                initial={{ opacity: 0, x: -20 }}
-                transition={{ delay: 0.1 }}
-                className="text-gray-400 text-sm sm:text-base lg:text-lg max-w-xl"
-              >
+              </h2>
+              <p className="text-gray-400 text-sm sm:text-base lg:text-lg max-w-xl">
                 A curated selection of tools and technologies I use to bring modern digital experiences to life.
-              </motion.p>
+              </p>
             </div>
 
-            <div className="space-y-5 sm:space-y-6 lg:space-y-8">
+            <div ref={gridRef} className="space-y-5 sm:space-y-6 lg:space-y-8">
               {techData.map((category, idx) => (
                 <div key={category.category} className="space-y-4">
-                  <motion.h3
-                    animate={{ opacity: 1, y: 0 }}
-                    initial={{ opacity: 0, y: 10 }}
-                    transition={{ delay: idx * 0.1 }}
-                    className="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold"
-                  >
+                  <h3 className="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold">
                     {category.category}
-                  </motion.h3>
+                  </h3>
 
                   <div className="flex flex-wrap gap-2 sm:gap-3">
-                    {category.items.map((tech, techIdx) => (
-                      <TechBadge key={tech.name} tech={tech} categoryIdx={idx} techIdx={techIdx} />
+                    {category.items.map((tech) => (
+                      <div key={tech.name} className="tech-badge">
+                        <TechBadge tech={tech} />
+                      </div>
                     ))}
                   </div>
                   {idx !== techData.length - 1 && (
@@ -209,14 +203,12 @@ export function TechStack() {
             </div>
           </div>
 
-          {/* Right Side: Refined Orbital Animation (Hidden on mobile) */}
           {!isMobile && (
             <div className="lg:w-[40%] sticky top-32 py-64 flex items-center justify-center">
               <OrbitalSystem size={320} />
             </div>
           )}
 
-          {/* Mobile Divider */}
           {isMobile && (
             <div className="w-full h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent my-8" />
           )}
@@ -226,45 +218,72 @@ export function TechStack() {
   );
 }
 
-function TechBadge({ tech, categoryIdx, techIdx }: { tech: typeof techData[0]['items'][0], categoryIdx: number, techIdx: number }) {
-  return (
-    <motion.div
-      animate={{ opacity: 1, y: 0 }}
-      initial={{ opacity: 0, y: 10 }}
-      transition={{ delay: (categoryIdx * 0.1) + (techIdx * 0.05) }}
-      whileHover={{ scale: 1.05, y: -2 }}
-      className="group relative"
-    >
-      <div className="relative flex items-center gap-2.5 px-4 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-white/[0.15] group-hover:bg-white/[0.06]">
-        {/* Hover Glow */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+function TechBadge({ tech }: { tech: typeof techData[0]['items'][0] }) {
+  const badgeRef = useRef<HTMLDivElement>(null);
 
-        <span className="relative z-10 transition-transform duration-300 group-hover:scale-110">
+  useGSAP(() => {
+    if (!badgeRef.current) return;
+    const hoverTl = gsap.timeline({ paused: true });
+    hoverTl.to(badgeRef.current, {
+      scale: 1.05,
+      y: -2,
+      duration: 0.3,
+      ease: "power2.out",
+    }).to(badgeRef.current.querySelector(".glow"), {
+      opacity: 1,
+      duration: 0.3,
+    }, 0);
+
+    const el = badgeRef.current;
+    const enter = () => hoverTl.play();
+    const leave = () => hoverTl.reverse();
+    el.addEventListener("mouseenter", enter);
+    el.addEventListener("mouseleave", leave);
+    return () => {
+        el.removeEventListener("mouseenter", enter);
+        el.removeEventListener("mouseleave", leave);
+    };
+  }, { scope: badgeRef });
+
+  return (
+    <div ref={badgeRef} className="group relative">
+      <div className="relative flex items-center gap-2.5 px-4 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-white/[0.15]">
+        <div className="glow absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-transparent opacity-0 transition-opacity duration-500" />
+        <span className="relative z-10">
           {tech.icon}
         </span>
         <span className="relative z-10 text-sm font-medium text-white/60 group-hover:text-white transition-colors duration-300">
           {tech.name}
         </span>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 function OrbitalSystem({ size }: { size: number }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!containerRef.current) return;
+    
+    // Core pulse
+    gsap.to(".core-pulse", {
+      scale: 1.1,
+      opacity: 0.8,
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut"
+    });
+  }, { scope: containerRef });
+
   return (
-    <div className="relative" style={{ width: size, height: size }}>
+    <div ref={containerRef} className="relative" style={{ width: size, height: size }}>
       {/* Center Core */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.5, 0.8, 0.5],
-          }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="w-16 h-16 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shadow-[0_0_40px_rgba(34,211,238,0.2)]"
-        >
-          <div className="w-8 h-8 rounded-full bg-cyan-500/20 blur-md animate-pulse" />
-        </motion.div>
+        <div className="core-pulse w-16 h-16 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shadow-[0_0_40px_rgba(34,211,238,0.2)]">
+          <div className="w-8 h-8 rounded-full bg-cyan-500/20 blur-md" />
+        </div>
       </div>
 
       {/* Orbits */}
@@ -289,10 +308,27 @@ function OrbitalSystem({ size }: { size: number }) {
 }
 
 function Orbit({ size, duration, children, angle, reverse = false }: { size: number, duration: number, children: React.ReactNode, angle: number, reverse?: boolean }) {
+  const orbitRef = useRef<HTMLDivElement>(null);
+  const iconRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    gsap.to(orbitRef.current, {
+      rotate: reverse ? -360 : 360,
+      duration: duration,
+      repeat: -1,
+      ease: "none"
+    });
+    gsap.to(iconRef.current, {
+      rotate: reverse ? 360 : -360,
+      duration: duration,
+      repeat: -1,
+      ease: "none"
+    });
+  }, { scope: orbitRef });
+
   return (
-    <motion.div
-      animate={{ rotate: reverse ? -360 : 360 }}
-      transition={{ duration, repeat: Infinity, ease: "linear" }}
+    <div
+      ref={orbitRef}
       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       style={{ width: size, height: size }}
     >
@@ -300,20 +336,17 @@ function Orbit({ size, duration, children, angle, reverse = false }: { size: num
         className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{ transform: `rotate(${angle}deg)` }}
       >
-        <motion.div
-          animate={{ rotate: reverse ? 360 : -360 }}
-          transition={{ duration, repeat: Infinity, ease: "linear" }}
+        <div
+          ref={iconRef}
           className="w-10 h-10 rounded-full bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm flex items-center justify-center relative group"
         >
-          {/* Trail Glow */}
           <div className="absolute inset-0 rounded-full bg-cyan-500/0 group-hover:bg-cyan-500/10 transition-colors blur-xl" />
-
           <div className="relative z-10 transition-transform duration-300 group-hover:scale-110">
             {children}
           </div>
-        </motion.div>
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 

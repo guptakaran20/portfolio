@@ -32,9 +32,10 @@
 //     </section>
 //   );
 // }
-import React from "react";
+import React, { useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { useGSAPScroll } from "@/lib/useGSAPScroll";
 
 const CanvasRevealEffect = dynamic(
   () => import("./CanvasRevealEffect").then((mod) => mod.CanvasRevealEffect),
@@ -42,51 +43,40 @@ const CanvasRevealEffect = dynamic(
 );
 
 const About = () => {
-  return (
-    <section id="about" className="w-full py-16 sm:py-24 md:py-32">
+  const containerRef = useGSAPScroll({ stagger: 0.3, y: 100 });
 
-      <div className="my-6 sm:my-10 flex flex-col lg:flex-row items-center justify-center w-full gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-6 md:px-8">
-        {/* add des prop */}
+  return (
+    <section id="about" className="relative w-full py-16 sm:py-24 md:py-32 bg-[#030303] z-30">
+      <div 
+        ref={containerRef}
+        className="my-6 sm:my-10 flex flex-col lg:flex-row items-center justify-center w-full gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-6 md:px-8"
+      >
         <Card
           title="Foundation"
           icon={<AceternityIcon order="Foundation" />}
-          des="Every project starts with understanding the “why”.
-
-I break down ideas, plan structure, and think through the logic before writing a single line of code."
+          des="Every project starts with understanding the “why”. I break down ideas, plan structure, and think through the logic before writing a single line of code."
         >
           <CanvasRevealEffect
             animationSpeed={5.1}
-            // add these classed for the border rounded overflowing -> rounded-3xl overflow-hidden
             containerClassName="bg-emerald-900 rounded-3xl overflow-hidden"
           />
         </Card>
         <Card
           title="Development"
           icon={<AceternityIcon order="Development" />}
-          des="This is where things come to life.
-
-I build modern, scalable apps using tools like React, Next.js, and Node.js — focusing on clean code and smooth UI."
+          des="This is where things come to life. I build modern, scalable apps using tools like React, Next.js, and Node.js — focusing on clean code and smooth UI."
         >
           <CanvasRevealEffect
             animationSpeed={3}
-            // change bg-black to bg-pink-900
             containerClassName="bg-pink-900 rounded-3xl overflow-hidden"
-            colors={[
-              // change the colors of the
-              [255, 166, 158],
-              [221, 255, 247],
-            ]}
+            colors={[[255, 166, 158], [221, 255, 247]]}
             dotSize={2}
           />
-          {/* Radial gradient for the cute fade */}
-          {/* remove this one */}
-          {/* <div className="absolute inset-0 [mask-image:radial-gradient(400px_at_center,white,transparent)] bg-black/50 dark:bg-black/90" /> */}
         </Card>
         <Card
           title="Optimization"
           icon={<AceternityIcon order="Optimization" />}
-          des="Polish makes the difference.
-From performance tweaks to deployment, I make sure everything runs fast, looks great, and works flawlessly."
+          des="Polish makes the difference. From performance tweaks to deployment, I make sure everything runs fast, looks great, and works flawlessly."
         >
           <CanvasRevealEffect
             animationSpeed={3}

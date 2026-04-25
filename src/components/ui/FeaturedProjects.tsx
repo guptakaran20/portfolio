@@ -1,9 +1,15 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { Link, Terminal } from "lucide-react";
-import React from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useRef } from "react";
 import { buttonVariants } from "./button";
+import { Terminal, Link } from "lucide-react";
+import TextReveal from "./TextReveal";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
@@ -33,114 +39,141 @@ const projects = [
 ];
 
 export function FeaturedProjects() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!sectionRef.current || !containerRef.current) return;
+
+    const section = sectionRef.current;
+    const container = containerRef.current;
+
+    // Wait for a frame to ensure scrollWidth is accurate
+    gsap.delayedCall(0.1, () => {
+      const scrollWidth = section.scrollWidth;
+      const amountToScroll = Math.max(0, scrollWidth - window.innerWidth);
+
+      const tl = gsap.to(section, {
+        x: -amountToScroll,
+        ease: "none",
+        scrollTrigger: {
+          trigger: container,
+          start: "top top",
+          end: () => `+=${amountToScroll}`,
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true,
+          pinSpacing: true,
+        },
+      });
+
+      // Force a refresh after setup
+      ScrollTrigger.refresh();
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(st => {
+        if (st.trigger === container) st.kill();
+      });
+    };
+  }, { scope: containerRef, dependencies: [projects] });
+
   return (
-    <section className="relative w-full py-16 sm:py-24 md:py-32 bg-[#030303] overflow-hidden" id="projects">
-      <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />
-      <div className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-indigo-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />
+    <section 
+      ref={containerRef} 
+      className="relative w-full bg-[#030303] z-10" 
+      id="projects"
+    >
+      <div 
+        ref={sectionRef} 
+        className="flex flex-nowrap h-screen items-center will-change-transform relative bg-[#030303] py-20"
+        style={{ width: "max-content" }}
+      >
+        {/* Background Blobs */}
+        <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen z-0" />
+        <div className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-indigo-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen z-0" />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="mb-10 sm:mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
-            Featured Projects
-          </h2>
-          <div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full" />
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
-          {projects.map((project, index) => (
-            <div key={project.title} className={project.featured ? "md:col-span-2" : "col-span-1"}>
+        {/* Intro Screen */}
+        <div className="w-[100vw] flex flex-col justify-center shrink-0 pr-20 md:pr-40 relative z-10">
+          <div className="max-w-2xl px-10 sm:px-20 md:px-32">
+            <h2 className="text-4xl sm:text-6xl md:text-8xl font-bold text-white mb-6 uppercase tracking-tighter leading-none">
+              Featured Projects
+            </h2>
+            <p className="text-gray-400 text-lg md:text-xl max-w-lg mb-8">
+              A selection of my most impactful work, blending technical excellence with cinematic design.
+            </p>
+            <div className="h-1 w-24 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full" />
+          </div>
+        </div>
+        
+        {/* Projects */}
+        {projects.map((project, index) => (
+          <div key={project.title} className="w-[85vw] sm:w-[75vw] md:w-[65vw] lg:w-[55vw] flex items-center justify-center shrink-0 px-4 md:px-10">
+            <div className="w-full max-w-5xl">
               <ProjectCard project={project} index={index} />
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+
+        {/* Spacer for clean exit */}
+        <div className="w-[20vw] shrink-0" />
       </div>
     </section>
   );
 }
 
 function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const [tapped, setTapped] = React.useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
 
-  const mouseXSpring = useSpring(x);
-  const mouseYSpring = useSpring(y);
+  useGSAP(() => {
+    if (!innerRef.current) return;
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
+    const el = innerRef.current;
+    
+    const onMouseMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const xPct = (x / rect.width - 0.5) * 20;
+      const yPct = (y / rect.height - 0.5) * -20;
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
-  };
+      gsap.to(el, {
+        rotateY: xPct,
+        rotateX: yPct,
+        duration: 0.5,
+        ease: "power2.out",
+        overwrite: "auto",
+      });
+    };
 
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
+    const onMouseLeave = () => {
+      gsap.to(el, {
+        rotateY: 0,
+        rotateX: 0,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    };
 
-  const handleTap = () => {
-    setTapped((prev) => !prev);
-    // Subtle tilt on tap
-    if (!tapped) {
-      x.set(0.08);
-      y.set(-0.08);
-      setTimeout(() => {
-        x.set(0);
-        y.set(0);
-      }, 400);
-    } else {
-      x.set(0);
-      y.set(0);
-    }
-  };
+    el.addEventListener("mousemove", onMouseMove as any);
+    el.addEventListener("mouseleave", onMouseLeave);
+
+    return () => {
+      el.removeEventListener("mousemove", onMouseMove as any);
+      el.removeEventListener("mouseleave", onMouseLeave);
+    };
+  }, { scope: innerRef });
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      style={{ perspective: "1000px" }}
-      className="h-full"
-    >
-      <motion.div
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        onClick={handleTap}
-        style={{
-          rotateX,
-          rotateY,
-          transformStyle: "preserve-3d",
-        }}
-        animate={{
-          scale: tapped ? 1.02 : 1,
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className={`group relative h-full bg-[#0a0a0a] rounded-2xl border p-5 sm:p-6 md:p-8 transition-colors duration-500 flex flex-col justify-between overflow-hidden cursor-pointer
-          ${tapped ? 'border-white/25' : 'border-white/10 hover:border-white/20'}
+    <div ref={cardRef} className="h-full [perspective:1000px]">
+      <div
+        ref={innerRef}
+        className={`group relative h-full bg-[#0a0a0a] rounded-2xl border p-5 sm:p-6 md:p-8 transition-colors duration-500 flex flex-col justify-between overflow-hidden cursor-pointer border-white/10 hover:border-white/20
           ${project.featured ? 'min-h-[280px] sm:min-h-[350px] md:min-h-[400px]' : 'min-h-[250px] sm:min-h-[300px] md:min-h-[350px]'}`}
+        style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Hover / tap subtle glow */}
-        <div className={`absolute inset-0 bg-gradient-to-br transition-colors duration-500 pointer-events-none
-          ${tapped
-            ? 'from-indigo-500/10 via-transparent to-cyan-500/10'
-            : 'from-indigo-500/0 via-transparent to-purple-500/0 group-hover:from-indigo-500/10 group-hover:to-cyan-500/10'
-          }`}
-        />
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-transparent to-purple-500/0 group-hover:from-indigo-500/10 group-hover:to-cyan-500/10 pointer-events-none transition-all duration-500" />
 
         <div style={{ transform: "translateZ(50px)" }} className="relative z-10 flex flex-col h-full">
           <div>
@@ -176,7 +209,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             </div>
           </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
