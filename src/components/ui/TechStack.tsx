@@ -151,6 +151,28 @@ export function TechStack() {
   const gridRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
+    // Floating animation for the whole container
+    gsap.to(leftRef.current, {
+      y: -10,
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut"
+    });
+
+    // Category header scan effect
+    techData.forEach((_, i) => {
+      gsap.to(`.category-header-${i}`, {
+        opacity: 1,
+        duration: 1,
+        delay: i * 0.2,
+        scrollTrigger: {
+          trigger: `.category-header-${i}`,
+          start: "top 90%"
+        }
+      });
+    });
+
     gsap.fromTo(".tech-badge", 
       { opacity: 0, y: 20 },
       { opacity: 1, y: 0, duration: 0.5, stagger: 0.05, scrollTrigger: { trigger: gridRef.current, start: "top 80%" } }
@@ -167,13 +189,15 @@ export function TechStack() {
   return (
     <section id="skills" className="relative w-full min-h-screen py-16 sm:py-20 md:py-24 lg:py-32 bg-[#030303] flex flex-col justify-start">
       <div className="absolute inset-0 bg-gradient-to-b from-[#030303] via-blue-950/5 to-[#030303] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-start gap-8 sm:gap-10 lg:gap-20">
 
           <div ref={leftRef} className="flex-1 w-full space-y-6 sm:space-y-8 lg:space-y-10">
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 tracking-tight">
                 Technical Arsenal
               </h2>
               <p className="text-gray-400 text-sm sm:text-base lg:text-lg max-w-xl">
@@ -184,7 +208,7 @@ export function TechStack() {
             <div ref={gridRef} className="space-y-5 sm:space-y-6 lg:space-y-8">
               {techData.map((category, idx) => (
                 <div key={category.category} className="space-y-4">
-                  <h3 className="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold">
+                  <h3 className={`category-header-${idx} text-xs uppercase tracking-[0.2em] text-white/40 font-semibold opacity-0`}>
                     {category.category}
                   </h3>
 
@@ -196,7 +220,7 @@ export function TechStack() {
                     ))}
                   </div>
                   {idx !== techData.length - 1 && (
-                    <div className="w-full h-px bg-white/5 mt-4 sm:mt-6" />
+                    <div className="w-full h-px bg-gradient-to-r from-white/5 via-white/10 to-transparent mt-4 sm:mt-6" />
                   )}
                 </div>
               ))}
@@ -220,36 +244,78 @@ export function TechStack() {
 
 function TechBadge({ tech }: { tech: typeof techData[0]['items'][0] }) {
   const badgeRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (!badgeRef.current) return;
-    const hoverTl = gsap.timeline({ paused: true });
-    hoverTl.to(badgeRef.current, {
-      scale: 1.05,
-      y: -2,
-      duration: 0.3,
-      ease: "power2.out",
-    }).to(badgeRef.current.querySelector(".glow"), {
-      opacity: 1,
-      duration: 0.3,
-    }, 0);
+    if (!badgeRef.current || !contentRef.current) return;
+    
+    const badge = badgeRef.current;
+    const content = contentRef.current;
+    
+    // Icon pulse animation
+    gsap.to(badge.querySelector(".tech-icon"), {
+      scale: 1.1,
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+      delay: Math.random() * 2
+    });
 
-    const el = badgeRef.current;
-    const enter = () => hoverTl.play();
-    const leave = () => hoverTl.reverse();
-    el.addEventListener("mouseenter", enter);
-    el.addEventListener("mouseleave", leave);
+    // Magnetic Hover Effect
+    const onMouseMove = (e: MouseEvent) => {
+      const rect = badge.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      gsap.to(content, {
+        x: x * 0.3,
+        y: y * 0.3,
+        duration: 0.4,
+        ease: "power2.out"
+      });
+      
+      gsap.to(badge.querySelector(".glow"), {
+        x: x * 0.5,
+        y: y * 0.5,
+        opacity: 1,
+        duration: 0.4
+      });
+    };
+
+    const onMouseLeave = () => {
+      gsap.to(content, {
+        x: 0,
+        y: 0,
+        duration: 0.6,
+        ease: "elastic.out(1, 0.3)"
+      });
+      
+      gsap.to(badge.querySelector(".glow"), {
+        x: 0,
+        y: 0,
+        opacity: 0,
+        duration: 0.6
+      });
+    };
+
+    badge.addEventListener("mousemove", onMouseMove);
+    badge.addEventListener("mouseleave", onMouseLeave);
+    
     return () => {
-        el.removeEventListener("mouseenter", enter);
-        el.removeEventListener("mouseleave", leave);
+      badge.removeEventListener("mousemove", onMouseMove);
+      badge.removeEventListener("mouseleave", onMouseLeave);
     };
   }, { scope: badgeRef });
 
   return (
     <div ref={badgeRef} className="group relative">
-      <div className="relative flex items-center gap-2.5 px-4 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-white/[0.15]">
-        <div className="glow absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-transparent opacity-0 transition-opacity duration-500" />
-        <span className="relative z-10">
+      <div 
+        ref={contentRef}
+        className="relative flex items-center gap-2.5 px-4 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-white/[0.15]"
+      >
+        <div className="glow absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-transparent opacity-0 pointer-events-none blur-xl" />
+        <span className="tech-icon relative z-10 transition-colors duration-300 group-hover:text-white">
           {tech.icon}
         </span>
         <span className="relative z-10 text-sm font-medium text-white/60 group-hover:text-white transition-colors duration-300">
