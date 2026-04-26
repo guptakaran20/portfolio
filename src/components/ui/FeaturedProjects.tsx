@@ -52,10 +52,12 @@ export function FeaturedProjects() {
   useGSAP(() => {
     if (!sectionRef.current || !containerRef.current) return;
 
-    // Mobile: vertical stacked layout with stagger animations
-    if (isMobile) {
+    const mm = gsap.matchMedia();
+
+    mm.add("(max-width: 767px)", () => {
+      // Mobile: vertical stacked layout with stagger animations
       const cards = gsap.utils.toArray<HTMLElement>(".project-card-mobile");
-      cards.forEach((card, i) => {
+      cards.forEach((card) => {
         gsap.fromTo(card,
           { opacity: 0, y: 60, scale: 0.95 },
           {
@@ -72,63 +74,60 @@ export function FeaturedProjects() {
           }
         );
       });
-      return;
-    }
-
-    // Desktop: horizontal scroll
-    const section = sectionRef.current;
-    const container = containerRef.current;
-    const scrollWidth = section.scrollWidth;
-    const amountToScroll = Math.max(0, scrollWidth - window.innerWidth);
-
-    const tl = gsap.to(section, {
-      x: -amountToScroll,
-      ease: "none",
-      scrollTrigger: {
-        trigger: container,
-        start: "top top",
-        end: () => `+=${amountToScroll}`,
-        pin: true,
-        scrub: 0.5,
-        invalidateOnRefresh: true,
-        pinSpacing: true,
-      },
     });
 
-    // Animate each card as it enters the viewport during horizontal scroll
-    const cards = gsap.utils.toArray<HTMLElement>(".project-card-desktop");
-    cards.forEach((card, i) => {
-      gsap.fromTo(card,
-        { opacity: 0, y: 40, scale: 0.92 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.6,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: card,
-            containerAnimation: tl,
-            start: "left 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    });
+    mm.add("(min-width: 768px)", () => {
+      // Desktop: horizontal scroll
+      const section = sectionRef.current!;
+      const container = containerRef.current!;
+      const scrollWidth = section.scrollWidth;
+      const amountToScroll = Math.max(0, scrollWidth - window.innerWidth);
 
-    return () => {
-      ScrollTrigger.getAll().forEach(st => {
-        if (st.trigger === container) st.kill();
+      const tl = gsap.to(section, {
+        x: -amountToScroll,
+        ease: "none",
+        scrollTrigger: {
+          trigger: container,
+          start: "top top",
+          end: () => `+=${amountToScroll}`,
+          pin: true,
+          scrub: 0.5,
+          invalidateOnRefresh: true,
+          pinSpacing: true,
+        },
       });
-    };
-  }, { scope: containerRef, dependencies: [isMobile] });
+
+      // Animate each card as it enters the viewport during horizontal scroll
+      const cards = gsap.utils.toArray<HTMLElement>(".project-card-desktop");
+      cards.forEach((card) => {
+        gsap.fromTo(card,
+          { opacity: 0, y: 40, scale: 0.92 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              containerAnimation: tl,
+              start: "left 80%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      });
+    });
+
+    return () => mm.revert();
+  }, { scope: containerRef });
 
   // Mobile: vertical stacked layout
   if (isMobile) {
     return (
       <section
         ref={containerRef}
-        className="relative w-full bg-[#030303] z-10 py-16 px-4"
+        className="relative w-full bg-[#030303] z-10 pt-16 pb-32 px-4"
         id="projects"
       >
         {/* Background Blobs */}
