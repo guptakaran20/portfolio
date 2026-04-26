@@ -65,7 +65,7 @@ function ElegantShape({
     }, { scope: shapeRef });
 
     return (
-        <div ref={shapeRef} className={cn("absolute", className)}>
+        <div ref={shapeRef} className={cn("absolute will-change-transform", className)}>
             <div
                 style={{
                     width,
@@ -105,7 +105,7 @@ function ParticleField() {
             gsap.to(p, {
                 y: "1100%",
                 opacity: 0,
-                duration: Math.random() * 20 + 20,
+                duration: Math.random() * 25 + 25,
                 repeat: -1,
                 ease: "none",
                 delay: Math.random() * -20,
@@ -116,7 +116,7 @@ function ParticleField() {
     const particles = useRef<{ left: string; top: string }[]>([]);
     
     if (particles.current.length === 0) {
-        particles.current = [...Array(25)].map(() => ({
+        particles.current = [...Array(15)].map(() => ({
             left: Math.random() * 100 + "%",
             top: "-5%",
         }));
@@ -129,7 +129,7 @@ function ParticleField() {
             {particles.current.map((p, i) => (
                 <div
                     key={i}
-                    className="absolute w-1 h-1 bg-white rounded-full opacity-0"
+                    className="absolute w-1 h-1 bg-white rounded-full opacity-0 will-change-transform"
                     style={{
                         left: p.left,
                         top: p.top,
@@ -164,11 +164,11 @@ function LightStreaks() {
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
             <div
                 ref={streak1Ref}
-                className="absolute top-1/4 -left-full w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent blur-sm"
+                className="absolute top-1/4 -left-full w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent blur-sm will-change-transform"
             />
             <div
                 ref={streak2Ref}
-                className="absolute top-2/3 left-full w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/30 to-transparent blur-sm"
+                className="absolute top-2/3 left-full w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/30 to-transparent blur-sm will-change-transform"
             />
         </div>
     );
@@ -234,7 +234,7 @@ function HeroGeometric({
         <div ref={containerRef} className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#030303]">
             <div 
                 ref={backgroundRef}
-                className="absolute inset-0 pointer-events-none"
+                className="absolute inset-0 pointer-events-none will-change-transform"
             >
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" />
                 <ParticleField />

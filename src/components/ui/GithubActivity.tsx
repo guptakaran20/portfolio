@@ -1,8 +1,12 @@
 "use client";
-import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect, useCallback } from 'react';
 import {GitHubCalendar} from 'react-github-calendar';
 import { Code2 } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const customTheme = {
     dark: ['#161b22', '#1e3a5f', '#3b5998', '#6366f1', '#818cf8'],
@@ -15,10 +19,11 @@ const lightTheme = {
 export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
     const [mounted, setMounted] = useState(false);
     const [calendarScale, setCalendarScale] = useState(1);
-    const ref = useRef(null);
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const headingRef = useRef<HTMLDivElement>(null);
+    const calendarCardRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const calendarWrapRef = useRef<HTMLDivElement>(null);
-    const inView = useInView(ref, { once: true, margin: '-100px' });
 
     const recalcScale = useCallback(() => {
         if (!containerRef.current || !calendarWrapRef.current) return;
@@ -29,6 +34,7 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
         } else {
             setCalendarScale(1);
         }
+        ScrollTrigger.refresh();
     }, []);
 
     useEffect(() => {
@@ -38,13 +44,53 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
     useEffect(() => {
         if (!mounted) return;
         // Wait a tick for the calendar to render
-        const timer = setTimeout(recalcScale, 300);
+        const timer = setTimeout(recalcScale, 500);
         window.addEventListener('resize', recalcScale);
         return () => {
             clearTimeout(timer);
             window.removeEventListener('resize', recalcScale);
         };
     }, [mounted, recalcScale]);
+
+    // GSAP scroll-triggered entrance animations
+    useGSAP(() => {
+        if (!sectionRef.current || !headingRef.current || !calendarCardRef.current) return;
+
+        // Staggered heading entrance
+        gsap.fromTo(headingRef.current.children,
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                stagger: 0.15,
+                duration: 0.8,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 85%",
+                    toggleActions: "play none none none",
+                },
+            }
+        );
+
+        // Calendar card entrance
+        gsap.fromTo(calendarCardRef.current,
+            { opacity: 0, y: 40, scale: 0.97 },
+            {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                delay: 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: calendarCardRef.current,
+                    start: "top 90%",
+                    toggleActions: "play none none none",
+                },
+            }
+        );
+    }, { scope: sectionRef });
 
     const isLightMode = darkMode === false;
 
@@ -60,14 +106,9 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
 
     return (
         <section className="relative py-16 sm:py-24 md:py-32">
-            <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
+            <div ref={sectionRef} className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
                 {/* Section heading */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-8 sm:mb-12"
-                >
+                <div ref={headingRef} className="text-center mb-8 sm:mb-12">
                     <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-white">
                         GitHub <span className="gradient-text">Activity</span>
                     </h2>
@@ -75,13 +116,11 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
                         My contribution graph from GitHub.
                     </p>
                     <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mx-auto mt-4" />
-                </motion.div>
+                </div>
 
                 {/* Calendar */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
+                <div
+                    ref={calendarCardRef}
                     className="flex justify-center p-2 sm:p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:shadow-lg hover:shadow-indigo-500/5 transition-shadow duration-500"
                 >
                     <div
@@ -121,7 +160,7 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
                             </div>
                         </div>
                     </div>
-                </motion.div>
+                </div>
             </div>
         </section>
     );

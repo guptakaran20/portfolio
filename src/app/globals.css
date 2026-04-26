@@ -128,6 +128,8 @@
   html {
     @apply font-sans;
     overflow-x: hidden;
+    /* Let Lenis handle smooth scrolling, not CSS */
+    scroll-behavior: auto;
   }
 }
 
@@ -147,6 +149,13 @@
   display: none;
 }
 
+/* GPU compositing hints for animated elements */
+.gpu-accelerated {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
 /* Responsive section spacing */
 .section-padding {
   padding-left: 1rem;
@@ -162,5 +171,16 @@
   .section-padding {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

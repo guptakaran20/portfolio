@@ -175,7 +175,7 @@ export function TechStack() {
 
     gsap.fromTo(".tech-badge", 
       { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.5, stagger: 0.05, scrollTrigger: { trigger: gridRef.current, start: "top 80%" } }
+      { opacity: 1, y: 0, duration: 0.5, stagger: 0.04, ease: "power2.out", scrollTrigger: { trigger: gridRef.current, start: "top 85%" } }
     );
   }, { scope: gridRef });
 
@@ -269,15 +269,15 @@ function TechBadge({ tech }: { tech: typeof techData[0]['items'][0] }) {
       const y = e.clientY - rect.top - rect.height / 2;
       
       gsap.to(content, {
-        x: x * 0.3,
-        y: y * 0.3,
+        x: x * 0.2,
+        y: y * 0.2,
         duration: 0.4,
         ease: "power2.out"
       });
       
       gsap.to(badge.querySelector(".glow"), {
-        x: x * 0.5,
-        y: y * 0.5,
+        x: x * 0.3,
+        y: y * 0.3,
         opacity: 1,
         duration: 0.4
       });

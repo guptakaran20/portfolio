@@ -19,7 +19,6 @@ export const metadata: Metadata = {
 
 import SmoothScroll from "@/components/ui/SmoothScroll";
 import ScrollProgress from "@/components/ui/ScrollProgress";
-import CursorFollower from "@/components/ui/CursorFollower";
 
 export default function RootLayout({
   children,
@@ -32,7 +31,6 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <CursorFollower />
         <ScrollProgress />
         <SmoothScroll>
           {children}

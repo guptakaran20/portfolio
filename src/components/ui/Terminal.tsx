@@ -1,11 +1,15 @@
-'use client'
+"use client";
 import { useState, useRef, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const commands: Record<string, string> = {
     hi: 'Hey 👋 Karan here — Full-Stack Developer & BTech ICE student at NIT Jalandhar. Type "help" to explore.',
 
-    hello: 'Hello! I’m Karan Gupta — building modern full-stack apps. Try "projects" or "skills".',
+    hello: 'Hello! I\'m Karan Gupta — building modern full-stack apps. Try "projects" or "skills".',
 
     hey: 'Hey there! 🚀 Welcome to my dev terminal. Type "help" to see what I can do.',
 
@@ -53,9 +57,12 @@ project_sponsorgrid, project_arovia, project_strangerblogs,
 experience, achievements, currently_learning,
 tools, github, resume, contact, socials, funfact, clear`
 };
+
 export default function Terminal() {
     const sectionRef = useRef<HTMLDivElement>(null);
-    const inView = useInView(sectionRef, { once: true, margin: '-100px' });
+    const headingRef = useRef<HTMLDivElement>(null);
+    const terminalRef = useRef<HTMLDivElement>(null);
+    const [inView, setInView] = useState(false);
     const [history, setHistory] = useState([
         { type: 'system', text: 'Welcome to Karan\'s terminal. Type "help" for available commands.' },
     ]);
@@ -64,6 +71,47 @@ export default function Terminal() {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const isFirstRender = useRef(true);
+
+    // GSAP scroll-triggered entrance animations
+    useGSAP(() => {
+        if (!sectionRef.current || !headingRef.current || !terminalRef.current) return;
+
+        // Heading entrance
+        gsap.fromTo(headingRef.current.children,
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                stagger: 0.15,
+                duration: 0.8,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 80%",
+                    toggleActions: "play none none none",
+                    onEnter: () => setInView(true),
+                },
+            }
+        );
+
+        // Terminal window entrance
+        gsap.fromTo(terminalRef.current,
+            { opacity: 0, y: 40, scale: 0.97 },
+            {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                delay: 0.3,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 80%",
+                    toggleActions: "play none none none",
+                },
+            }
+        );
+    }, { scope: sectionRef });
 
     useEffect(() => {
         if (isFirstRender.current) {
@@ -101,12 +149,7 @@ export default function Terminal() {
         <section id="terminal" className="relative bg-[#030303] py-16 sm:py-24 md:py-32 z-30">
             <div ref={sectionRef} className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8">
                 {/* Section heading */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-8 sm:mb-12"
-                >
+                <div ref={headingRef} className="text-center mb-8 sm:mb-12">
                     <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-white">
                         Developer <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-cyan-500">Terminal</span>
                     </h2>
@@ -114,14 +157,13 @@ export default function Terminal() {
                         Get to know me through the command line.
                     </p>
                     <div className="w-16 h-1 bg-gradient-to-r from-primary to-accent rounded-full mx-auto mt-4" />
-                </motion.div>
+                </div>
 
                 {/* Terminal window */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6, delay: 0.2 }}
+                <div
+                    ref={terminalRef}
                     className="rounded-2xl overflow-hidden border border-white/[0.06] shadow-2xl shadow-indigo-500/5"
+                    style={{ opacity: 0 }}
                 >
                     {/* Title bar */}
                     <div className="flex items-center gap-2 px-4 py-3 bg-white/[0.04] border-b border-white/[0.06]">
@@ -177,7 +219,7 @@ export default function Terminal() {
                         </form>
                         <div ref={endRef} />
                     </div>
-                </motion.div>
+                </div>
             </div>
         </section>
     );

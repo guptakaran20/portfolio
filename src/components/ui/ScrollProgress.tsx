@@ -25,7 +25,7 @@ export default function ScrollProgress() {
   return (
     <div 
       ref={progressRef}
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 via-indigo-500 to-cyan-500 z-[100] origin-left scale-x-0"
+      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 via-indigo-500 to-cyan-500 z-[100] origin-left scale-x-0 will-change-transform"
     />
   );
 }

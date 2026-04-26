@@ -3,8 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion, useScroll, useTransform } from "framer-motion";
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { buttonVariants } from "./button";
 import { Terminal, Link } from "lucide-react";
 import TextReveal from "./TextReveal";
@@ -41,34 +40,80 @@ const projects = [
 export function FeaturedProjects() {
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useGSAP(() => {
     if (!sectionRef.current || !containerRef.current) return;
 
+    // Mobile: vertical stacked layout with stagger animations
+    if (isMobile) {
+      const cards = gsap.utils.toArray<HTMLElement>(".project-card-mobile");
+      cards.forEach((card, i) => {
+        gsap.fromTo(card,
+          { opacity: 0, y: 60, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      });
+      return;
+    }
+
+    // Desktop: horizontal scroll
     const section = sectionRef.current;
     const container = containerRef.current;
+    const scrollWidth = section.scrollWidth;
+    const amountToScroll = Math.max(0, scrollWidth - window.innerWidth);
 
-    // Wait for a frame to ensure scrollWidth is accurate
-    gsap.delayedCall(0.1, () => {
-      const scrollWidth = section.scrollWidth;
-      const amountToScroll = Math.max(0, scrollWidth - window.innerWidth);
+    const tl = gsap.to(section, {
+      x: -amountToScroll,
+      ease: "none",
+      scrollTrigger: {
+        trigger: container,
+        start: "top top",
+        end: () => `+=${amountToScroll}`,
+        pin: true,
+        scrub: 0.5,
+        invalidateOnRefresh: true,
+        pinSpacing: true,
+      },
+    });
 
-      const tl = gsap.to(section, {
-        x: -amountToScroll,
-        ease: "none",
-        scrollTrigger: {
-          trigger: container,
-          start: "top top",
-          end: () => `+=${amountToScroll}`,
-          pin: true,
-          scrub: 1,
-          invalidateOnRefresh: true,
-          pinSpacing: true,
-        },
-      });
-
-      // Force a refresh after setup
-      ScrollTrigger.refresh();
+    // Animate each card as it enters the viewport during horizontal scroll
+    const cards = gsap.utils.toArray<HTMLElement>(".project-card-desktop");
+    cards.forEach((card, i) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 40, scale: 0.92 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: card,
+            containerAnimation: tl,
+            start: "left 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
     });
 
     return () => {
@@ -76,8 +121,44 @@ export function FeaturedProjects() {
         if (st.trigger === container) st.kill();
       });
     };
-  }, { scope: containerRef, dependencies: [projects] });
+  }, { scope: containerRef, dependencies: [isMobile] });
 
+  // Mobile: vertical stacked layout
+  if (isMobile) {
+    return (
+      <section
+        ref={containerRef}
+        className="relative w-full bg-[#030303] z-10 py-16 px-4"
+        id="projects"
+      >
+        {/* Background Blobs */}
+        <div className="absolute top-0 right-0 w-[60vw] h-[60vw] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen z-0" />
+        <div className="absolute bottom-0 left-0 w-[60vw] h-[60vw] bg-indigo-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen z-0" />
+
+        <div ref={sectionRef} className="relative z-10 max-w-2xl mx-auto">
+          <div className="mb-10">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 uppercase tracking-tighter leading-none">
+              Featured Projects
+            </h2>
+            <p className="text-gray-400 text-base max-w-lg mb-6">
+              A selection of my most impactful work, blending technical excellence with cinematic design.
+            </p>
+            <div className="h-1 w-24 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full" />
+          </div>
+
+          <div className="space-y-6">
+            {projects.map((project, index) => (
+              <div key={project.title} className="project-card-mobile">
+                <ProjectCard project={project} index={index} isMobile={true} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Desktop: horizontal scroll layout
   return (
     <section 
       ref={containerRef} 
@@ -86,7 +167,7 @@ export function FeaturedProjects() {
     >
       <div 
         ref={sectionRef} 
-        className="flex flex-nowrap h-screen items-center will-change-transform relative bg-[#030303] py-20"
+        className="flex flex-nowrap h-screen items-center relative bg-[#030303] py-20"
         style={{ width: "max-content" }}
       >
         {/* Background Blobs */}
@@ -108,9 +189,9 @@ export function FeaturedProjects() {
         
         {/* Projects */}
         {projects.map((project, index) => (
-          <div key={project.title} className="w-[85vw] sm:w-[75vw] md:w-[65vw] lg:w-[55vw] flex items-center justify-center shrink-0 px-4 md:px-10">
+          <div key={project.title} className="project-card-desktop w-[85vw] sm:w-[75vw] md:w-[65vw] lg:w-[55vw] flex items-center justify-center shrink-0 px-4 md:px-10">
             <div className="w-full max-w-5xl">
-              <ProjectCard project={project} index={index} />
+              <ProjectCard project={project} index={index} isMobile={false} />
             </div>
           </div>
         ))}
@@ -122,60 +203,54 @@ export function FeaturedProjects() {
   );
 }
 
-function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+function ProjectCard({ project, index, isMobile }: { project: typeof projects[0]; index: number; isMobile: boolean }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (!innerRef.current) return;
+    if (!innerRef.current || isMobile) return;
 
     const el = innerRef.current;
     
+    // Use quickTo for GPU-accelerated, smooth tilt
+    const xTo = gsap.quickTo(el, "rotateY", { duration: 0.4, ease: "power2.out" });
+    const yTo = gsap.quickTo(el, "rotateX", { duration: 0.4, ease: "power2.out" });
+
     const onMouseMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      const xPct = (x / rect.width - 0.5) * 20;
-      const yPct = (y / rect.height - 0.5) * -20;
-
-      gsap.to(el, {
-        rotateY: xPct,
-        rotateX: yPct,
-        duration: 0.5,
-        ease: "power2.out",
-        overwrite: "auto",
-      });
+      const xPct = (x / rect.width - 0.5) * 12;
+      const yPct = (y / rect.height - 0.5) * -12;
+      xTo(xPct);
+      yTo(yPct);
     };
 
     const onMouseLeave = () => {
-      gsap.to(el, {
-        rotateY: 0,
-        rotateX: 0,
-        duration: 0.5,
-        ease: "power2.out",
-      });
+      xTo(0);
+      yTo(0);
     };
 
-    el.addEventListener("mousemove", onMouseMove as any);
+    el.addEventListener("mousemove", onMouseMove);
     el.addEventListener("mouseleave", onMouseLeave);
 
     return () => {
-      el.removeEventListener("mousemove", onMouseMove as any);
+      el.removeEventListener("mousemove", onMouseMove);
       el.removeEventListener("mouseleave", onMouseLeave);
     };
   }, { scope: innerRef });
 
   return (
-    <div ref={cardRef} className="h-full [perspective:1000px]">
+    <div ref={cardRef} className={isMobile ? "" : "h-full [perspective:1000px]"}>
       <div
         ref={innerRef}
-        className={`group relative h-full bg-[#0a0a0a] rounded-2xl border p-5 sm:p-6 md:p-8 transition-colors duration-500 flex flex-col justify-between overflow-hidden cursor-pointer border-white/10 hover:border-white/20
+        className={`group relative h-full bg-[#0a0a0a] rounded-2xl border p-5 sm:p-6 md:p-8 transition-colors duration-500 flex flex-col justify-between overflow-hidden border-white/10 hover:border-white/20
           ${project.featured ? 'min-h-[280px] sm:min-h-[350px] md:min-h-[400px]' : 'min-h-[250px] sm:min-h-[300px] md:min-h-[350px]'}`}
-        style={{ transformStyle: "preserve-3d" }}
+        style={isMobile ? {} : { transformStyle: "preserve-3d", willChange: "transform" }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-transparent to-purple-500/0 group-hover:from-indigo-500/10 group-hover:to-cyan-500/10 pointer-events-none transition-all duration-500" />
 
-        <div style={{ transform: "translateZ(50px)" }} className="relative z-10 flex flex-col h-full">
+        <div style={isMobile ? {} : { transform: "translateZ(50px)" }} className="relative z-10 flex flex-col h-full">
           <div>
             {project.featured && (
               <span className="inline-block px-3 py-1 mb-4 rounded-full bg-indigo-500/20 text-indigo-300 text-[10px] md:text-xs font-semibold tracking-wider border border-indigo-500/30">
@@ -193,17 +268,17 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
           <div className="mt-auto">
             <div className="flex flex-wrap gap-2 mb-6">
               {project.tech.map((t) => (
-                <span key={t} className="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-sm rounded-md">
+                <span key={t} className="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs sm:text-sm rounded-md">
                   {t}
                 </span>
               ))}
             </div>
 
-            <div className="flex items-center gap-4">
-              <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "default", className: "bg-white text-black hover:bg-gray-200" })}>
+            <div className="flex items-center gap-3 sm:gap-4">
+              <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "default", className: "bg-white text-black hover:bg-gray-200 text-sm" })}>
                 Live Demo <Link className="w-4 h-4 ml-2" />
               </a>
-              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "outline", className: "border-white/20 hover:bg-white/10 text-white" })}>
+              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "outline", className: "border-white/20 hover:bg-white/10 text-white text-sm" })}>
                 GitHub <Terminal className="w-4 h-4 ml-2" />
               </a>
             </div>

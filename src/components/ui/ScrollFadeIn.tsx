@@ -1,7 +1,11 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
 import React, { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface ScrollFadeInProps {
   children: React.ReactNode;
@@ -9,19 +13,31 @@ interface ScrollFadeInProps {
 }
 
 export function ScrollFadeIn({ children, className }: ScrollFadeInProps) {
-  const { scrollY } = useScroll();
+  const ref = useRef<HTMLDivElement>(null);
 
-  // Fade in as user scrolls through the transition zone (matches HeroScrollAnimation timing)
-  const opacity = useTransform(scrollY, [500, 1000], [0, 1]);
-  const y = useTransform(scrollY, [500, 1000], [40, 0]);
-  const scale = useTransform(scrollY, [500, 1000], [0.98, 1]);
+  useGSAP(() => {
+    if (!ref.current) return;
+
+    gsap.fromTo(ref.current,
+      { opacity: 0, y: 40, scale: 0.98 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ref.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      }
+    );
+  }, { scope: ref });
 
   return (
-    <motion.div
-      style={{ opacity, y, scale }}
-      className={className}
-    >
+    <div ref={ref} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }

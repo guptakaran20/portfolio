@@ -111,7 +111,7 @@ const Card = ({
       onClick={() => setHovered((prev) => !prev)}
       // change h-[30rem] to h-[35rem], add rounded-3xl
       className="border border-black/[0.2] group/canvas-card flex items-center justify-center
-       dark:border-white/[0.2] max-w-[90vw] md:max-w-sm w-full mx-auto p-4 relative h-[20rem] sm:h-[25rem] md:h-[30rem] lg:h-[35rem] rounded-3xl "
+       dark:border-white/[0.2] max-w-[90vw] md:max-w-sm w-full mx-auto p-4 relative h-[16rem] sm:h-[22rem] md:h-[28rem] lg:h-[35rem] rounded-3xl "
       style={{
         //   add these two
         //   you can generate the color from here https://cssgradient.io/
