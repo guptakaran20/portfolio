@@ -1,14 +1,9 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
 import React, { useRef, useEffect, useState } from "react";
 import { buttonVariants } from "./button";
 import { Terminal, Link } from "lucide-react";
-import TextReveal from "./TextReveal";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
@@ -45,82 +40,106 @@ export function FeaturedProjects() {
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
-    window.addEventListener("resize", check);
+    window.addEventListener("resize", check, { passive: true });
     return () => window.removeEventListener("resize", check);
   }, []);
 
   useGSAP(() => {
     if (!sectionRef.current || !containerRef.current) return;
 
-    const mm = gsap.matchMedia();
+    const ctx = gsap.context((self) => {
+      const mm = gsap.matchMedia();
 
-    mm.add("(max-width: 767px)", () => {
-      // Mobile: vertical stacked layout with stagger animations
-      const cards = gsap.utils.toArray<HTMLElement>(".project-card-mobile");
-      cards.forEach((card) => {
-        gsap.fromTo(card,
-          { opacity: 0, y: 60, scale: 0.95 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            ease: "power3.out",
+      mm.add("(max-width: 767px)", () => {
+        // Mobile: vertical stacked layout with stagger animations
+        const cards = gsap.utils.toArray<HTMLElement>(".project-card-mobile");
+        cards.forEach((card) => {
+          gsap.fromTo(card,
+            { opacity: 0, y: 60, scale: 0.95 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.8,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                toggleActions: "play none none none",
+              },
+            }
+          );
+        });
+      });
+
+      mm.add("(min-width: 768px)", () => {
+        // Desktop: horizontal scroll
+        const section = sectionRef.current!;
+        const container = containerRef.current!;
+        
+        const initHorizontalScroll = () => {
+          // Clear any existing scroll triggers to avoid duplication
+          ScrollTrigger.getAll().forEach(st => {
+             if (st.vars.trigger === container) st.kill();
+          });
+
+          const scrollWidth = section.scrollWidth;
+          const amountToScroll = scrollWidth - window.innerWidth;
+
+          if (amountToScroll <= 0) return;
+
+          const tl = gsap.to(section, {
+            x: -amountToScroll,
+            ease: "none",
             scrollTrigger: {
-              trigger: card,
-              start: "top 85%",
-              toggleActions: "play none none none",
+              trigger: container,
+              start: "top top",
+              end: () => `+=${amountToScroll}`,
+              pin: true,
+              scrub: 1,
+              invalidateOnRefresh: true,
+              pinSpacing: true,
+              anticipatePin: 1
             },
-          }
-        );
+          });
+
+          // Animate each card as it enters the viewport during horizontal scroll
+          const cards = gsap.utils.toArray<HTMLElement>(".project-card-desktop");
+          cards.forEach((card) => {
+            gsap.fromTo(card,
+              { opacity: 0, y: 40, scale: 0.92 },
+              {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.6,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: card,
+                  containerAnimation: tl,
+                  start: "left 85%",
+                  toggleActions: "play none none none",
+                },
+              }
+            );
+          });
+          
+          ScrollTrigger.refresh();
+        };
+
+        // Initialize with a small delay to allow for image/font loading
+        const timer = setTimeout(initHorizontalScroll, 250);
+        window.addEventListener('resize', initHorizontalScroll);
+
+        return () => {
+          clearTimeout(timer);
+          window.removeEventListener('resize', initHorizontalScroll);
+        };
       });
-    });
+    }, containerRef);
 
-    mm.add("(min-width: 768px)", () => {
-      // Desktop: horizontal scroll
-      const section = sectionRef.current!;
-      const container = containerRef.current!;
-      const scrollWidth = section.scrollWidth;
-      const amountToScroll = Math.max(0, scrollWidth - window.innerWidth);
-
-      const tl = gsap.to(section, {
-        x: -amountToScroll,
-        ease: "none",
-        scrollTrigger: {
-          trigger: container,
-          start: "top top",
-          end: () => `+=${amountToScroll}`,
-          pin: true,
-          scrub: 0.5,
-          invalidateOnRefresh: true,
-          pinSpacing: true,
-        },
-      });
-
-      // Animate each card as it enters the viewport during horizontal scroll
-      const cards = gsap.utils.toArray<HTMLElement>(".project-card-desktop");
-      cards.forEach((card) => {
-        gsap.fromTo(card,
-          { opacity: 0, y: 40, scale: 0.92 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.6,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: card,
-              containerAnimation: tl,
-              start: "left 80%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      });
-    });
-
-    return () => mm.revert();
-  }, { scope: containerRef });
+    return () => ctx.revert();
+  }, { scope: containerRef, dependencies: [isMobile] });
 
   // Mobile: vertical stacked layout
   if (isMobile) {
@@ -147,7 +166,7 @@ export function FeaturedProjects() {
 
           <div className="space-y-6">
             {projects.map((project, index) => (
-              <div key={project.title} className="project-card-mobile">
+              <div key={project.title} className="project-card-mobile will-change-transform">
                 <ProjectCard project={project} index={index} isMobile={true} />
               </div>
             ))}
@@ -161,12 +180,12 @@ export function FeaturedProjects() {
   return (
     <section 
       ref={containerRef} 
-      className="relative w-full bg-[#030303] z-10" 
+      className="relative w-full bg-[#030303] z-10 overflow-hidden" 
       id="projects"
     >
       <div 
         ref={sectionRef} 
-        className="flex flex-nowrap h-screen items-center relative bg-[#030303] py-20"
+        className="flex flex-nowrap h-screen items-center relative bg-[#030303] py-20 will-change-transform"
         style={{ width: "max-content" }}
       >
         {/* Background Blobs */}
@@ -188,7 +207,7 @@ export function FeaturedProjects() {
         
         {/* Projects */}
         {projects.map((project, index) => (
-          <div key={project.title} className="project-card-desktop w-[85vw] sm:w-[75vw] md:w-[65vw] lg:w-[55vw] flex items-center justify-center shrink-0 px-4 md:px-10">
+          <div key={project.title} className="project-card-desktop w-[85vw] sm:w-[75vw] md:w-[65vw] lg:w-[55vw] flex items-center justify-center shrink-0 px-4 md:px-10 will-change-transform">
             <div className="w-full max-w-5xl">
               <ProjectCard project={project} index={index} isMobile={false} />
             </div>
@@ -203,7 +222,6 @@ export function FeaturedProjects() {
 }
 
 function ProjectCard({ project, index, isMobile }: { project: typeof projects[0]; index: number; isMobile: boolean }) {
-  const cardRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -211,41 +229,46 @@ function ProjectCard({ project, index, isMobile }: { project: typeof projects[0]
 
     const el = innerRef.current;
     
-    // Use quickTo for GPU-accelerated, smooth tilt
-    const xTo = gsap.quickTo(el, "rotateY", { duration: 0.4, ease: "power2.out" });
-    const yTo = gsap.quickTo(el, "rotateX", { duration: 0.4, ease: "power2.out" });
+    const ctx = gsap.context(() => {
+      // Use quickTo for GPU-accelerated, smooth tilt
+      const xTo = gsap.quickTo(el, "rotateY", { duration: 0.4, ease: "power2.out" });
+      const yTo = gsap.quickTo(el, "rotateX", { duration: 0.4, ease: "power2.out" });
 
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const xPct = (x / rect.width - 0.5) * 12;
-      const yPct = (y / rect.height - 0.5) * -12;
-      xTo(xPct);
-      yTo(yPct);
-    };
+      let rafId: number;
 
-    const onMouseLeave = () => {
-      xTo(0);
-      yTo(0);
-    };
+      const onMouseMove = (e: MouseEvent) => {
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          const rect = el.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const xPct = (x / rect.width - 0.5) * 12;
+          const yPct = (y / rect.height - 0.5) * -12;
+          xTo(xPct);
+          yTo(yPct);
+        });
+      };
 
-    el.addEventListener("mousemove", onMouseMove);
-    el.addEventListener("mouseleave", onMouseLeave);
+      const onMouseLeave = () => {
+        cancelAnimationFrame(rafId);
+        xTo(0);
+        yTo(0);
+      };
 
-    return () => {
-      el.removeEventListener("mousemove", onMouseMove);
-      el.removeEventListener("mouseleave", onMouseLeave);
-    };
-  }, { scope: innerRef });
+      el.addEventListener("mousemove", onMouseMove, { passive: true });
+      el.addEventListener("mouseleave", onMouseLeave, { passive: true });
+    }, innerRef);
+
+    return () => ctx.revert();
+  }, { scope: innerRef, dependencies: [isMobile] });
 
   return (
-    <div ref={cardRef} className={isMobile ? "" : "h-full [perspective:1000px]"}>
+    <div className={isMobile ? "" : "h-full [perspective:1000px]"}>
       <div
         ref={innerRef}
-        className={`group relative h-full bg-[#0a0a0a] rounded-2xl border p-5 sm:p-6 md:p-8 transition-colors duration-500 flex flex-col justify-between overflow-hidden border-white/10 hover:border-white/20
+        className={`group relative h-full bg-[#0a0a0a] rounded-2xl border p-5 sm:p-6 md:p-8 transition-colors duration-500 flex flex-col justify-between overflow-hidden border-white/10 hover:border-white/20 will-change-transform
           ${project.featured ? 'min-h-[280px] sm:min-h-[350px] md:min-h-[400px]' : 'min-h-[250px] sm:min-h-[300px] md:min-h-[350px]'}`}
-        style={isMobile ? {} : { transformStyle: "preserve-3d", willChange: "transform" }}
+        style={isMobile ? {} : { transformStyle: "preserve-3d" }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-transparent to-purple-500/0 group-hover:from-indigo-500/10 group-hover:to-cyan-500/10 pointer-events-none transition-all duration-500" />
 
@@ -287,3 +310,4 @@ function ProjectCard({ project, index, isMobile }: { project: typeof projects[0]
     </div>
   );
 }
+

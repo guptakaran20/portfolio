@@ -22,6 +22,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-github-calendar": "^5.0.6",
+    "react-intersection-observer": "^10.0.3",
     "shadcn": "^4.3.1",
     "split-type": "^0.3.4",
     "tailwind-merge": "^3.5.0",

@@ -1,14 +1,10 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { Circle, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRef, useState, useEffect } from "react";
 import TypingText from "./TypingText";
-
-gsap.registerPlugin(ScrollTrigger);
 
 function ElegantShape({
     className,
@@ -30,38 +26,42 @@ function ElegantShape({
     useGSAP(() => {
         if (!shapeRef.current) return;
         
-        // Entrance
-        gsap.fromTo(shapeRef.current, 
-            { opacity: 0, y: -150, rotate: rotate - 15 },
-            { 
-                opacity: 1, 
-                y: 0, 
-                rotate: rotate, 
-                duration: 2.4, 
-                delay, 
-                ease: "power4.out" 
-            }
-        );
+        const ctx = gsap.context(() => {
+            // Entrance
+            gsap.fromTo(shapeRef.current, 
+                { opacity: 0, y: -150, rotate: rotate - 15 },
+                { 
+                    opacity: 1, 
+                    y: 0, 
+                    rotate: rotate, 
+                    duration: 2.4, 
+                    delay, 
+                    ease: "power4.out" 
+                }
+            );
 
-        // Floating animation
-        gsap.to(shapeRef.current.firstChild, {
-            y: 15,
-            duration: 6,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut",
-        });
+            // Floating animation
+            gsap.to(shapeRef.current?.firstChild, {
+                y: 15,
+                duration: 6,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+            });
 
-        // Parallax
-        gsap.to(shapeRef.current, {
-            y: 100,
-            scrollTrigger: {
-                trigger: shapeRef.current,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true,
-            }
-        });
+            // Parallax
+            gsap.to(shapeRef.current, {
+                y: 100,
+                scrollTrigger: {
+                    trigger: shapeRef.current,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true,
+                }
+            });
+        }, shapeRef);
+
+        return () => ctx.revert();
     }, { scope: shapeRef });
 
     return (
@@ -100,17 +100,32 @@ function ParticleField() {
     useGSAP(() => {
         if (!mounted || !containerRef.current) return;
         
-        const particles = containerRef.current.children;
-        Array.from(particles).forEach((p) => {
-            gsap.to(p, {
-                y: "1100%",
-                opacity: 0,
-                duration: Math.random() * 25 + 25,
-                repeat: -1,
-                ease: "none",
-                delay: Math.random() * -20,
-            });
-        });
+        const ctx = gsap.context(() => {
+            const particles = containerRef.current?.children;
+            if (!particles) return;
+
+            // Use requestIdleCallback to stagger particle animation start
+            const initParticles = () => {
+                Array.from(particles).forEach((p) => {
+                    gsap.to(p, {
+                        y: "1100%",
+                        opacity: 0,
+                        duration: Math.random() * 25 + 25,
+                        repeat: -1,
+                        ease: "none",
+                        delay: Math.random() * -20,
+                    });
+                });
+            };
+
+            if ('requestIdleCallback' in window) {
+                (window as any).requestIdleCallback(initParticles);
+            } else {
+                setTimeout(initParticles, 1000);
+            }
+        }, containerRef);
+
+        return () => ctx.revert();
     }, { scope: containerRef, dependencies: [mounted] });
 
     const particles = useRef<{ left: string; top: string }[]>([]);
@@ -145,19 +160,22 @@ function LightStreaks() {
     const streak2Ref = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
-        gsap.to(streak1Ref.current, {
-            x: "200%",
-            duration: 8,
-            repeat: -1,
-            ease: "power1.inOut",
+        const ctx = gsap.context(() => {
+            gsap.to(streak1Ref.current, {
+                x: "200%",
+                duration: 8,
+                repeat: -1,
+                ease: "power1.inOut",
+            });
+            gsap.to(streak2Ref.current, {
+                x: "-200%",
+                duration: 12,
+                repeat: -1,
+                ease: "power1.inOut",
+                delay: 2,
+            });
         });
-        gsap.to(streak2Ref.current, {
-            x: "-200%",
-            duration: 12,
-            repeat: -1,
-            ease: "power1.inOut",
-            delay: 2,
-        });
+        return () => ctx.revert();
     });
 
     return (
@@ -192,42 +210,48 @@ function HeroGeometric({
     useGSAP(() => {
         if (!contentRef.current) return;
 
-        const children = contentRef.current.children;
-        gsap.fromTo(children, 
-            { opacity: 0, y: 30 },
-            { 
-                opacity: 1, 
-                y: 0, 
-                stagger: 0.2, 
-                duration: 1.2, 
-                ease: "power3.out",
-                delay: 0.5 
+        const ctx = gsap.context(() => {
+            const children = contentRef.current?.children;
+            if (children) {
+                gsap.fromTo(children, 
+                    { opacity: 0, y: 30 },
+                    { 
+                        opacity: 1, 
+                        y: 0, 
+                        stagger: 0.2, 
+                        duration: 1.2, 
+                        ease: "power3.out",
+                        delay: 0.5 
+                    }
+                );
             }
-        );
 
-        // Parallax background
-        gsap.to(backgroundRef.current, {
-            y: 100,
-            scale: 1.1,
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: "top top",
-                end: "bottom top",
-                scrub: true,
-            }
-        });
+            // Parallax background
+            gsap.to(backgroundRef.current, {
+                y: 100,
+                scale: 1.1,
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true,
+                }
+            });
 
-        // Parallax content
-        gsap.to(contentRef.current, {
-            y: -50,
-            opacity: 0,
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: "top top",
-                end: "bottom top",
-                scrub: true,
-            }
-        });
+            // Parallax content
+            gsap.to(contentRef.current, {
+                y: -50,
+                opacity: 0,
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true,
+                }
+            });
+        }, containerRef);
+
+        return () => ctx.revert();
     }, { scope: containerRef });
 
     return (
@@ -347,4 +371,5 @@ function HeroGeometric({
 }
 
 export { HeroGeometric };
+
 

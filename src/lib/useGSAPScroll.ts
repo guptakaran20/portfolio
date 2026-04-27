@@ -1,11 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useRef } from "react";
+import { gsap, useGSAP } from "@/lib/gsap";
 
 interface GSAPScrollOptions {
   y?: number;
@@ -35,25 +31,30 @@ export const useGSAPScroll = (options: GSAPScrollOptions = {}) => {
   useGSAP(() => {
     if (!elementRef.current) return;
 
-    const elements = elementRef.current.children.length > 0 
-      ? elementRef.current.children 
-      : [elementRef.current];
+    const ctx = gsap.context(() => {
+      const elements = elementRef.current.children.length > 0 
+        ? elementRef.current.children 
+        : [elementRef.current];
 
-    gsap.from(elements, {
-      y,
-      x,
-      opacity,
-      duration,
-      delay,
-      stagger,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: elementRef.current,
-        start,
-        toggleActions: once ? "play none none none" : "play none none reverse",
-      },
-    });
+      gsap.from(elements, {
+        y,
+        x,
+        opacity,
+        duration,
+        delay,
+        stagger,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: elementRef.current,
+          start,
+          toggleActions: once ? "play none none none" : "play none none reverse",
+        },
+      });
+    }, elementRef);
+
+    return () => ctx.revert();
   }, { scope: elementRef });
 
   return elementRef;
 };
+

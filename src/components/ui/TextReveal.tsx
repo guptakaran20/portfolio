@@ -1,59 +1,50 @@
 "use client";
 
 import React, { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import SplitType from "split-type";
-import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger);
-
-type TextRevealProps = {
+interface TextRevealProps {
+  text: string;
   className?: string;
-  once?: boolean;
-  as?: "h1" | "h2" | "h3" | "p" | "div" | "span";
-  children: React.ReactNode;
-};
+}
 
-export default function TextReveal({
-  children,
-  className = "",
-  once = true,
-  as = "h2",
-}: TextRevealProps) {
-  const textRef = useRef<HTMLElement | null>(null);
+export const TextReveal: React.FC<TextRevealProps> = ({ text, className = "" }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLHeadingElement>(null);
 
-  useGSAP(() => {
-    if (!textRef.current) return;
+  useGSAP(
+    () => {
+      if (!textRef.current) return;
 
-    const split = new SplitType(textRef.current, {
-      types: "chars,words",
-    });
+      const split = new SplitType(textRef.current, {
+        types: "chars,words",
+        tagName: "span",
+      });
 
-    gsap.from(split.chars, {
-      opacity: 0,
-      y: 20,
-      rotateX: -90,
-      stagger: 0.02,
-      duration: 1,
-      ease: "power4.out",
-      scrollTrigger: {
-        trigger: textRef.current,
-        start: "top 90%",
-        toggleActions: once
-          ? "play none none none"
-          : "play none none reverse",
-      },
-    });
-
-    return () => split.revert();
-  }, { scope: textRef });
-
-  const Component = as;
+      gsap.from(split.chars, {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+          end: "top 20%",
+          scrub: 1,
+        },
+        opacity: 0.2,
+        stagger: 0.1,
+        ease: "none",
+      });
+    },
+    { scope: containerRef }
+  );
 
   return (
-    <Component ref={textRef as any} className={className}>
-      {children}
-    </Component>
+    <div ref={containerRef} className={`py-20 ${className}`}>
+      <h2
+        ref={textRef}
+        className="text-4xl md:text-6xl font-bold text-white leading-tight"
+      >
+        {text}
+      </h2>
+    </div>
   );
-}
+};

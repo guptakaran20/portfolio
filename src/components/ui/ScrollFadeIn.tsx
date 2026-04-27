@@ -1,43 +1,66 @@
 "use client";
 
 import React, { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(ScrollTrigger);
+import { gsap, useGSAP } from "@/lib/gsap";
 
 interface ScrollFadeInProps {
   children: React.ReactNode;
+  delay?: number;
+  direction?: "up" | "down" | "left" | "right";
   className?: string;
 }
 
-export function ScrollFadeIn({ children, className }: ScrollFadeInProps) {
-  const ref = useRef<HTMLDivElement>(null);
+const ScrollFadeIn: React.FC<ScrollFadeInProps> = ({
+  children,
+  delay = 0,
+  direction = "up",
+  className = "",
+}) => {
+  const elementRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(() => {
-    if (!ref.current) return;
+  useGSAP(
+    () => {
+      const element = elementRef.current;
+      if (!element) return;
 
-    gsap.fromTo(ref.current,
-      { opacity: 0, y: 40, scale: 0.98 },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ref.current,
-          start: "top 85%",
-          toggleActions: "play none none none",
+      const offsets = {
+        up: { y: 30 },
+        down: { y: -30 },
+        left: { x: 30 },
+        right: { x: -30 },
+      };
+
+      const offset = offsets[direction];
+
+      gsap.fromTo(
+        element,
+        {
+          opacity: 0,
+          ...offset,
         },
-      }
-    );
-  }, { scope: ref });
+        {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          duration: 1,
+          delay,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 90%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    },
+    { scope: elementRef }
+  );
 
   return (
-    <div ref={ref} className={className}>
+    <div ref={elementRef} className={className}>
       {children}
     </div>
   );
-}
+};
+
+export default ScrollFadeIn;

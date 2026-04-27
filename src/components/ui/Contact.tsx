@@ -5,53 +5,75 @@ import { useState, useRef } from "react";
 import { Button } from "./button";
 import { Input } from "./input";
 import { Textarea } from "./textarea";
-import { useGSAPScroll } from "@/lib/useGSAPScroll";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import { gsap, useGSAP } from "@/lib/gsap";
 
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const leftRef = useGSAPScroll({ x: -50 });
-  const rightRef = useGSAPScroll({ x: 50, delay: 0.2 });
+  const leftRef = useRef<HTMLDivElement>(null);
+  const rightRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // Floating background particles
-    const particles = gsap.utils.toArray(".contact-particle");
-    particles.forEach((particle: any) => {
-      gsap.to(particle, {
-        x: "random(-40, 40)",
-        y: "random(-40, 40)",
-        duration: "random(3, 5)",
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
-    });
+    if (!containerRef.current) return;
 
-    // Magnetic effect for social links
-    const links = gsap.utils.toArray(".contact-link");
-    links.forEach((link: any) => {
-      const content = link.querySelector(".link-content");
-      const icon = link.querySelector(".link-icon");
-      
-      const onMouseMove = (e: MouseEvent) => {
-        const rect = link.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
+    const ctx = gsap.context(() => {
+      // Entrance animations
+      gsap.from([leftRef.current, rightRef.current], {
+        opacity: 0,
+        x: (i) => i === 0 ? -50 : 50,
+        duration: 1,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%"
+        }
+      });
+
+      // Floating background particles
+      const particles = gsap.utils.toArray(".contact-particle");
+      particles.forEach((particle: any) => {
+        gsap.to(particle, {
+          x: "random(-40, 40)",
+          y: "random(-40, 40)",
+          duration: "random(3, 5)",
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      });
+
+      // Magnetic effect for social links
+      const links = gsap.utils.toArray(".contact-link");
+      links.forEach((link: any) => {
+        const content = link.querySelector(".link-content");
+        const icon = link.querySelector(".link-icon");
         
-        gsap.to(content, { x: x * 0.2, y: y * 0.2, duration: 0.4 });
-        gsap.to(icon, { x: x * 0.4, y: y * 0.4, duration: 0.4 });
-      };
-      
-      const onMouseLeave = () => {
-        gsap.to([content, icon], { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
-      };
-      
-      link.addEventListener("mousemove", onMouseMove);
-      link.addEventListener("mouseleave", onMouseLeave);
-    });
+        let rafId: number;
+
+        const onMouseMove = (e: MouseEvent) => {
+          cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(() => {
+            const rect = link.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            gsap.to(content, { x: x * 0.2, y: y * 0.2, duration: 0.4 });
+            gsap.to(icon, { x: x * 0.4, y: y * 0.4, duration: 0.4 });
+          });
+        };
+        
+        const onMouseLeave = () => {
+          cancelAnimationFrame(rafId);
+          gsap.to([content, icon], { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
+        };
+        
+        link.addEventListener("mousemove", onMouseMove, { passive: true });
+        link.addEventListener("mouseleave", onMouseLeave, { passive: true });
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
   }, { scope: containerRef });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -103,7 +125,7 @@ export function Contact() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 md:gap-16">
           
-          <div ref={leftRef} className="flex flex-col justify-center">
+          <div ref={leftRef} className="flex flex-col justify-center will-change-transform">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
               Let&apos;s build something great together.
             </h2>
@@ -130,7 +152,7 @@ export function Contact() {
             </div>
           </div>
 
-          <div ref={rightRef}>
+          <div ref={rightRef} className="will-change-transform">
             <form onSubmit={handleSubmit} className="bg-[#0a0a0a] p-5 sm:p-6 md:p-8 rounded-2xl border border-white/10 flex flex-col gap-4 sm:gap-6 relative">
               {isSuccess && (
                 <div className="success-message absolute inset-0 bg-[#0a0a0a]/90 backdrop-blur-sm z-50 flex flex-center rounded-2xl flex-col items-center justify-center p-8 text-center">
@@ -195,10 +217,11 @@ export function Contact() {
 function ContactLink({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) {
   return (
     <a href={href} className="contact-link group flex items-center gap-4 text-gray-300 hover:text-white transition-colors">
-      <div className="link-icon w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/30 transition-colors">
+      <div className="link-icon w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/30 transition-colors will-change-transform">
         {icon}
       </div>
-      <span className="link-content text-sm sm:text-base md:text-lg break-all sm:break-normal">{label}</span>
+      <span className="link-content text-sm sm:text-base md:text-lg break-all sm:break-normal will-change-transform">{label}</span>
     </a>
   );
 }
+
