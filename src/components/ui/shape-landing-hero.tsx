@@ -25,43 +25,43 @@ function ElegantShape({
 
     useGSAP(() => {
         if (!shapeRef.current) return;
-        
-        const ctx = gsap.context(() => {
-            // Entrance
-            gsap.fromTo(shapeRef.current, 
-                { opacity: 0, y: -150, rotate: rotate - 15 },
-                { 
-                    opacity: 1, 
-                    y: 0, 
-                    rotate: rotate, 
-                    duration: 2.4, 
-                    delay, 
-                    ease: "power4.out" 
-                }
-            );
 
-            // Floating animation
-            gsap.to(shapeRef.current?.firstChild, {
+        // Entrance
+        gsap.fromTo(shapeRef.current,
+            { opacity: 0, y: -150, rotate: rotate - 15 },
+            {
+                opacity: 1,
+                y: 0,
+                rotate: rotate,
+                duration: 2.4,
+                delay,
+                ease: "power4.out"
+            }
+        );
+
+        // Floating animation
+        const child = shapeRef.current?.firstElementChild;
+
+        if (child) {
+            gsap.to(child, {
                 y: 15,
                 duration: 6,
                 repeat: -1,
                 yoyo: true,
                 ease: "sine.inOut",
             });
+        }
 
-            // Parallax
-            gsap.to(shapeRef.current, {
-                y: 100,
-                scrollTrigger: {
-                    trigger: shapeRef.current,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true,
-                }
-            });
-        }, shapeRef);
-
-        return () => ctx.revert();
+        // Parallax
+        gsap.to(shapeRef.current, {
+            y: 100,
+            scrollTrigger: {
+                trigger: shapeRef.current,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+            }
+        });
     }, { scope: shapeRef });
 
     return (
@@ -99,37 +99,33 @@ function ParticleField() {
 
     useGSAP(() => {
         if (!mounted || !containerRef.current) return;
-        
-        const ctx = gsap.context(() => {
-            const particles = containerRef.current?.children;
-            if (!particles) return;
 
-            // Use requestIdleCallback to stagger particle animation start
-            const initParticles = () => {
-                Array.from(particles).forEach((p) => {
-                    gsap.to(p, {
-                        y: "1100%",
-                        opacity: 0,
-                        duration: Math.random() * 25 + 25,
-                        repeat: -1,
-                        ease: "none",
-                        delay: Math.random() * -20,
-                    });
+        const particles = containerRef.current?.children;
+        if (!particles) return;
+
+        // Use requestIdleCallback to stagger particle animation start
+        const initParticles = () => {
+            Array.from(particles).forEach((p) => {
+                gsap.to(p, {
+                    y: "1100%",
+                    opacity: 0,
+                    duration: Math.random() * 25 + 25,
+                    repeat: -1,
+                    ease: "none",
+                    delay: Math.random() * -20,
                 });
-            };
+            });
+        };
 
-            if ('requestIdleCallback' in window) {
-                (window as any).requestIdleCallback(initParticles);
-            } else {
-                setTimeout(initParticles, 1000);
-            }
-        }, containerRef);
-
-        return () => ctx.revert();
+        if ('requestIdleCallback' in window) {
+            (window as any).requestIdleCallback(initParticles);
+        } else {
+            setTimeout(initParticles, 1000);
+        }
     }, { scope: containerRef, dependencies: [mounted] });
 
     const particles = useRef<{ left: string; top: string }[]>([]);
-    
+
     if (particles.current.length === 0) {
         particles.current = [...Array(15)].map(() => ({
             left: Math.random() * 100 + "%",
@@ -160,22 +156,19 @@ function LightStreaks() {
     const streak2Ref = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
-        const ctx = gsap.context(() => {
-            gsap.to(streak1Ref.current, {
-                x: "200%",
-                duration: 8,
-                repeat: -1,
-                ease: "power1.inOut",
-            });
-            gsap.to(streak2Ref.current, {
-                x: "-200%",
-                duration: 12,
-                repeat: -1,
-                ease: "power1.inOut",
-                delay: 2,
-            });
+        gsap.to(streak1Ref.current, {
+            x: "200%",
+            duration: 8,
+            repeat: -1,
+            ease: "power1.inOut",
         });
-        return () => ctx.revert();
+        gsap.to(streak2Ref.current, {
+            x: "-200%",
+            duration: 12,
+            repeat: -1,
+            ease: "power1.inOut",
+            delay: 2,
+        });
     });
 
     return (
@@ -210,60 +203,56 @@ function HeroGeometric({
     useGSAP(() => {
         if (!contentRef.current) return;
 
-        const ctx = gsap.context(() => {
-            const children = contentRef.current?.children;
-            if (children) {
-                gsap.fromTo(children, 
-                    { opacity: 0, y: 30 },
-                    { 
-                        opacity: 1, 
-                        y: 0, 
-                        stagger: 0.2, 
-                        duration: 1.2, 
-                        ease: "power3.out",
-                        delay: 0.5 
-                    }
-                );
+        const children = contentRef.current?.children;
+        if (children) {
+            gsap.fromTo(children,
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    stagger: 0.2,
+                    duration: 1.2,
+                    ease: "power3.out",
+                    delay: 0.5
+                }
+            );
+        }
+
+        // Parallax background
+        gsap.to(backgroundRef.current, {
+            y: 100,
+            scale: 1.1,
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top top",
+                end: "bottom top",
+                scrub: true,
             }
+        });
 
-            // Parallax background
-            gsap.to(backgroundRef.current, {
-                y: 100,
-                scale: 1.1,
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true,
-                }
-            });
-
-            // Parallax content
-            gsap.to(contentRef.current, {
-                y: -50,
-                opacity: 0,
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true,
-                }
-            });
-        }, containerRef);
-
-        return () => ctx.revert();
+        // Parallax content
+        gsap.to(contentRef.current, {
+            y: -50,
+            opacity: 0,
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top top",
+                end: "bottom top",
+                scrub: true,
+            }
+        });
     }, { scope: containerRef });
 
     return (
         <div ref={containerRef} className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#030303]">
-            <div 
+            <div
                 ref={backgroundRef}
                 className="absolute inset-0 pointer-events-none will-change-transform"
             >
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" />
                 <ParticleField />
                 <LightStreaks />
-                
+
                 <div className="absolute inset-0 overflow-hidden">
                     <ElegantShape
                         delay={0.3}
@@ -312,7 +301,7 @@ function HeroGeometric({
                 </div>
             </div>
 
-            <div 
+            <div
                 ref={contentRef}
                 className="relative z-10 w-full px-4 sm:px-6 md:px-8"
             >
@@ -347,16 +336,16 @@ function HeroGeometric({
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <a 
-                            href="/resume.pdf" 
-                            download 
+                        <a
+                            href="/resume.pdf"
+                            download
                             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-white/90 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)] group hover:scale-105"
                         >
                             <Download className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
                             Download Resume
                         </a>
-                        <a 
-                            href="#projects" 
+                        <a
+                            href="#projects"
                             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-transparent border border-white/10 text-white font-medium hover:bg-white/5 transition-all group hover:scale-105"
                         >
                             View Projects

@@ -32,25 +32,21 @@ export function Footer() {
     const el = footerRef.current;
     if (!el) return;
 
-    const ctx = gsap.context(() => {
-      gsap.fromTo(el.children,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.15,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 95%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }, footerRef);
-
-    return () => ctx.revert();
+    gsap.fromTo(el.children,
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        stagger: 0.15,
+        duration: 0.7,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 95%",
+          toggleActions: "play none none none",
+        },
+      }
+    );
   }, { scope: footerRef });
 
   return (

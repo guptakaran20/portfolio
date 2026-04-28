@@ -17,63 +17,81 @@ export function Contact() {
   useGSAP(() => {
     if (!containerRef.current) return;
 
-    const ctx = gsap.context(() => {
-      // Entrance animations
-      gsap.from([leftRef.current, rightRef.current], {
-        opacity: 0,
-        x: (i) => i === 0 ? -50 : 50,
-        duration: 1,
-        stagger: 0.2,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 80%"
-        }
-      });
+    // Entrance animations
+    const elements = [leftRef.current, rightRef.current].filter(Boolean);
 
-      // Floating background particles
-      const particles = gsap.utils.toArray(".contact-particle");
-      particles.forEach((particle: any) => {
-        gsap.to(particle, {
-          x: "random(-40, 40)",
-          y: "random(-40, 40)",
-          duration: "random(3, 5)",
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut"
+    if (elements.length === 0) return;
+
+    gsap.from(elements, {
+      opacity: 0,
+      x: (i) => (i === 0 ? -50 : 50),
+      duration: 1,
+      stagger: 0.2,
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top bottom",
+      },
+    });
+
+    // Floating background particles
+    const particles = gsap.utils.toArray<HTMLElement>(
+  ".contact-particle",
+  containerRef.current
+);
+    particles.forEach((particle) => {
+      gsap.to(particle, {
+        x: "random(-40, 40)",
+        y: "random(-40, 40)",
+        duration: "random(3, 5)",
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+    });
+
+    // Magnetic effect for social links
+    const links = gsap.utils.toArray<HTMLElement>(
+  ".contact-link",
+  containerRef.current
+);
+    const cleanupFns: (() => void)[] = [];
+
+    links.forEach((link) => {
+      const content = link.querySelector(".link-content");
+      const icon = link.querySelector(".link-icon");
+
+      let rafId: number;
+
+      const onMouseMove = (e: MouseEvent) => {
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          const rect = link.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+
+          gsap.to(content, { x: x * 0.2, y: y * 0.2, duration: 0.4 });
+          gsap.to(icon, { x: x * 0.4, y: y * 0.4, duration: 0.4 });
         });
+      };
+
+      const onMouseLeave = () => {
+        cancelAnimationFrame(rafId);
+        gsap.to([content, icon], { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
+      };
+
+      link.addEventListener("mousemove", onMouseMove, { passive: true });
+      link.addEventListener("mouseleave", onMouseLeave, { passive: true });
+
+      cleanupFns.push(() => {
+        cancelAnimationFrame(rafId);
+        link.removeEventListener("mousemove", onMouseMove);
+        link.removeEventListener("mouseleave", onMouseLeave);
       });
-
-      // Magnetic effect for social links
-      const links = gsap.utils.toArray(".contact-link");
-      links.forEach((link: any) => {
-        const content = link.querySelector(".link-content");
-        const icon = link.querySelector(".link-icon");
-        
-        let rafId: number;
-
-        const onMouseMove = (e: MouseEvent) => {
-          cancelAnimationFrame(rafId);
-          rafId = requestAnimationFrame(() => {
-            const rect = link.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            
-            gsap.to(content, { x: x * 0.2, y: y * 0.2, duration: 0.4 });
-            gsap.to(icon, { x: x * 0.4, y: y * 0.4, duration: 0.4 });
-          });
-        };
-        
-        const onMouseLeave = () => {
-          cancelAnimationFrame(rafId);
-          gsap.to([content, icon], { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
-        };
-        
-        link.addEventListener("mousemove", onMouseMove, { passive: true });
-        link.addEventListener("mouseleave", onMouseLeave, { passive: true });
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
+    });
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+    return () => cleanupFns.forEach(fn => fn());
   }, { scope: containerRef });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -98,9 +116,9 @@ export function Contact() {
       });
 
       setIsSuccess(true);
-      
+
       // Success animation
-      gsap.fromTo(".success-message", 
+      gsap.fromTo(".success-message",
         { scale: 0.8, opacity: 0 },
         { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)" }
       );
@@ -121,10 +139,10 @@ export function Contact() {
       <div className="contact-particle absolute top-20 left-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="contact-particle absolute bottom-20 right-10 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 left-0 w-full h-[50vh] bg-gradient-to-t from-cyan-900/5 to-transparent pointer-events-none" />
-      
+
       <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 md:gap-16">
-          
+
           <div ref={leftRef} className="flex flex-col justify-center will-change-transform">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
               Let&apos;s build something great together.
@@ -132,22 +150,22 @@ export function Contact() {
             <p className="text-gray-400 mb-6 sm:mb-10 text-sm sm:text-base md:text-lg">
               Have a project in mind or just want to chat? Drop me a message and I&apos;ll get back to you as soon as possible.
             </p>
-            
+
             <div className="space-y-6">
-              <ContactLink 
-                href="mailto:guptakaran0720@gmail.com" 
-                icon={<Mail className="w-5 h-5" />} 
-                label="guptakaran0720@gmail.com" 
+              <ContactLink
+                href="mailto:guptakaran0720@gmail.com"
+                icon={<Mail className="w-5 h-5" />}
+                label="guptakaran0720@gmail.com"
               />
-              <ContactLink 
-                href="https://github.com/guptakaran20" 
-                icon={<Terminal className="w-5 h-5" />} 
-                label="github.com/guptakaran20" 
+              <ContactLink
+                href="https://github.com/guptakaran20"
+                icon={<Terminal className="w-5 h-5" />}
+                label="github.com/guptakaran20"
               />
-              <ContactLink 
-                href="https://www.linkedin.com/in/guptakaran0720/" 
-                icon={<Briefcase className="w-5 h-5" />} 
-                label="linkedin.com/in/guptakaran0720" 
+              <ContactLink
+                href="https://www.linkedin.com/in/guptakaran0720/"
+                icon={<Briefcase className="w-5 h-5" />}
+                label="linkedin.com/in/guptakaran0720"
               />
             </div>
           </div>
@@ -163,40 +181,40 @@ export function Contact() {
                   <p className="text-gray-400">I&apos;ll get back to you shortly.</p>
                 </div>
               )}
-              
+
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">Name</label>
-                <Input 
-                  id="name" 
-                  name="name" 
-                  required 
-                  placeholder="Karan Gupta" 
-                  className="bg-black/50 border-white/10 focus-visible:ring-cyan-500 text-white h-12" 
+                <Input
+                  id="name"
+                  name="name"
+                  required
+                  placeholder="Karan Gupta"
+                  className="bg-black/50 border-white/10 focus-visible:ring-cyan-500 text-white h-12"
                 />
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">Email</label>
-                <Input 
-                  id="email" 
-                  name="email" 
-                  required 
-                  type="email" 
-                  placeholder="guptakaran0720@gmail.com" 
-                  className="bg-black/50 border-white/10 focus-visible:ring-cyan-500 text-white h-12" 
+                <Input
+                  id="email"
+                  name="email"
+                  required
+                  type="email"
+                  placeholder="guptakaran0720@gmail.com"
+                  className="bg-black/50 border-white/10 focus-visible:ring-cyan-500 text-white h-12"
                 />
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">Message</label>
-                <Textarea 
-                  id="message" 
-                  name="message" 
-                  required 
-                  placeholder="Tell me about your project..." 
-                  className="bg-black/50 border-white/10 focus-visible:ring-cyan-500 text-white min-h-[150px] resize-none" 
+                <Textarea
+                  id="message"
+                  name="message"
+                  required
+                  placeholder="Tell me about your project..."
+                  className="bg-black/50 border-white/10 focus-visible:ring-cyan-500 text-white min-h-[150px] resize-none"
                 />
               </div>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={isSubmitting || isSuccess}
                 className={`h-12 w-full transition-all duration-300 bg-white text-black hover:bg-gray-200`}
               >

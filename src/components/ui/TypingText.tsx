@@ -17,37 +17,33 @@ export default function TypingText({ texts, delay = 0, repeatDelay = 2 }: Typing
   useGSAP(() => {
     if (!textRef.current) return;
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        repeat: -1,
-        delay: delay,
-      });
+    const tl = gsap.timeline({
+      repeat: -1,
+      delay: delay,
+    });
 
-      texts.forEach((text) => {
-        tl.to(textRef.current, {
-          duration: text.length * 0.1,
-          text: text,
-          ease: "none",
-        })
-        .to({}, { duration: repeatDelay }) // Pause at end
-        .to(textRef.current, {
-          duration: text.length * 0.05,
-          text: "",
-          ease: "none",
-        });
+    texts.forEach((text) => {
+      tl.to(textRef.current, {
+        duration: text.length * 0.1,
+        text: text,
+        ease: "none",
+      })
+      .to({}, { duration: repeatDelay }) // Pause at end
+      .to(textRef.current, {
+        duration: text.length * 0.05,
+        text: "",
+        ease: "none",
       });
+    });
 
-      // Cursor blink
-      gsap.to(cursorRef.current, {
-        opacity: 0,
-        duration: 0.5,
-        repeat: -1,
-        yoyo: true,
-        ease: "power2.inOut",
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
+    // Cursor blink
+    gsap.to(cursorRef.current, {
+      opacity: 0,
+      duration: 0.5,
+      repeat: -1,
+      yoyo: true,
+      ease: "power2.inOut",
+    });
   }, { scope: containerRef, dependencies: [texts, delay, repeatDelay] });
 
   return (

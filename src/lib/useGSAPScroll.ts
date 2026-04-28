@@ -31,28 +31,24 @@ export const useGSAPScroll = (options: GSAPScrollOptions = {}) => {
   useGSAP(() => {
     if (!elementRef.current) return;
 
-    const ctx = gsap.context(() => {
-      const elements = elementRef.current.children.length > 0 
-        ? elementRef.current.children 
-        : [elementRef.current];
+    const elements = elementRef.current.children.length > 0 
+      ? elementRef.current.children 
+      : [elementRef.current];
 
-      gsap.from(elements, {
-        y,
-        x,
-        opacity,
-        duration,
-        delay,
-        stagger,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: elementRef.current,
-          start,
-          toggleActions: once ? "play none none none" : "play none none reverse",
-        },
-      });
-    }, elementRef);
-
-    return () => ctx.revert();
+    gsap.from(elements, {
+      y,
+      x,
+      opacity,
+      duration,
+      delay,
+      stagger,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: elementRef.current,
+        start,
+        toggleActions: once ? "play none none none" : "play none none reverse",
+      },
+    });
   }, { scope: elementRef });
 
   return elementRef;

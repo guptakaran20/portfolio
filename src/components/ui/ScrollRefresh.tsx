@@ -8,7 +8,7 @@ export default function ScrollRefresh() {
     // Initial refresh after a short delay to ensure all dynamic components have mounted
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 1000);
+    }, 2000);
 
     // Refresh on window focus to handle tab switching
     const handleFocus = () => ScrollTrigger.refresh();

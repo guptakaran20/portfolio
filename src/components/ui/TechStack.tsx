@@ -4,8 +4,8 @@ import {
   Code2, Zap, Atom, Server, Hexagon,
   Database, Layout, Terminal, Box } from "lucide-react";
 import { TechBadgeInteractive, OrbitalSystem } from "./TechStackInteractive";
-import { TechStackAnimations } from "./TechStackAnimations";
 import { useRef } from "react";
+import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
 
 // Custom Icon Components for missing lucide-react icons
 const GithubIcon = ({ className }: { className?: string }) => (
@@ -144,13 +144,71 @@ const techData = [
 ];
 
 export function TechStack() {
+  const sectionRef = useRef<HTMLDivElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
+  useGSAP(() => {
+    if (!sectionRef.current) return;
+
+    // Floating animation for the left content
+    if (leftRef.current) {
+      gsap.to(leftRef.current, {
+        y: -10,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+    }
+
+    // Category headers animation
+    const headers = sectionRef.current.querySelectorAll('h3');
+    if (headers.length > 0) {
+      headers.forEach((header: Element) => {
+        gsap.fromTo(header, 
+          { opacity: 0, y: 10 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: header,
+              start: "top 95%",
+              toggleActions: "play none none none"
+            }
+          }
+        );
+      });
+    }
+
+    // Tech badges stagger
+    const badges = sectionRef.current.querySelectorAll('.tech-badge');
+    if (badges.length > 0) {
+      gsap.fromTo(badges, 
+        { opacity: 0, y: 20 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 0.5, 
+          stagger: 0.02, 
+          ease: "power2.out", 
+          scrollTrigger: { 
+            trigger: gridRef.current || sectionRef.current, 
+            start: "top 85%" 
+          } 
+        }
+      );
+    }
+    
+    // Refresh ScrollTrigger after a delay
+    const timer = setTimeout(() => ScrollTrigger.refresh(), 500);
+    return () => clearTimeout(timer);
+  }, { scope: sectionRef, dependencies: [techData.length] });
+
   return (
-    <section id="skills" className="relative w-full min-h-screen py-16 sm:py-20 md:py-24 lg:py-32 bg-[#030303] flex flex-col justify-start">
-      <TechStackAnimations gridRef={gridRef} leftRef={leftRef} techDataCount={techData.length} />
-      
+    <section ref={sectionRef} id="skills" className="relative w-full min-h-screen py-16 sm:py-20 md:py-24 lg:py-32 bg-[#030303] flex flex-col justify-start">
       <div className="absolute inset-0 bg-gradient-to-b from-[#030303] via-blue-950/5 to-[#030303] pointer-events-none" />
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />

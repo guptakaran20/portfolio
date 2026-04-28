@@ -47,98 +47,91 @@ export function FeaturedProjects() {
   useGSAP(() => {
     if (!sectionRef.current || !containerRef.current) return;
 
-    const ctx = gsap.context((self) => {
-      const mm = gsap.matchMedia();
+    const mm = gsap.matchMedia();
 
-      mm.add("(max-width: 767px)", () => {
-        // Mobile: vertical stacked layout with stagger animations
-        const cards = gsap.utils.toArray<HTMLElement>(".project-card-mobile");
+    mm.add("(max-width: 767px)", () => {
+      // Mobile: vertical stacked layout with stagger animations
+      const cards = gsap.utils.toArray<HTMLElement>(".project-card-mobile");
+      cards.forEach((card) => {
+        gsap.fromTo(card,
+          { opacity: 0, y: 60, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      });
+    });
+
+    mm.add("(min-width: 768px)", () => {
+      // Desktop: horizontal scroll
+      const section = sectionRef.current!;
+      const container = containerRef.current!;
+      
+      const initHorizontalScroll = () => {
+        const scrollWidth = section.scrollWidth;
+        const amountToScroll = scrollWidth - window.innerWidth;
+
+        if (amountToScroll <= 0) return;
+
+        const tl = gsap.to(section, {
+          x: -amountToScroll,
+          ease: "none",
+          scrollTrigger: {
+            trigger: container,
+            start: "top top",
+            end: () => `+=${amountToScroll}`,
+            pin: true,
+            scrub: 1,
+            invalidateOnRefresh: true,
+            pinSpacing: true,
+            anticipatePin: 1
+          },
+        });
+
+        // Animate each card as it enters the viewport during horizontal scroll
+        const cards = gsap.utils.toArray<HTMLElement>(".project-card-desktop");
         cards.forEach((card) => {
           gsap.fromTo(card,
-            { opacity: 0, y: 60, scale: 0.95 },
+            { opacity: 0, y: 40, scale: 0.92 },
             {
               opacity: 1,
               y: 0,
               scale: 1,
-              duration: 0.8,
-              ease: "power3.out",
+              duration: 0.6,
+              ease: "power2.out",
               scrollTrigger: {
                 trigger: card,
-                start: "top 85%",
+                containerAnimation: tl,
+                start: "left 85%",
                 toggleActions: "play none none none",
               },
             }
           );
         });
-      });
-
-      mm.add("(min-width: 768px)", () => {
-        // Desktop: horizontal scroll
-        const section = sectionRef.current!;
-        const container = containerRef.current!;
         
-        const initHorizontalScroll = () => {
-          // Clear any existing scroll triggers to avoid duplication
-          ScrollTrigger.getAll().forEach(st => {
-             if (st.vars.trigger === container) st.kill();
-          });
+        ScrollTrigger.refresh();
+      };
 
-          const scrollWidth = section.scrollWidth;
-          const amountToScroll = scrollWidth - window.innerWidth;
+      // Use a longer delay for desktop to ensure Lenis and layout are ready
+      const timer = setTimeout(initHorizontalScroll, 500);
+      window.addEventListener('resize', initHorizontalScroll);
 
-          if (amountToScroll <= 0) return;
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener('resize', initHorizontalScroll);
+      };
+    });
 
-          const tl = gsap.to(section, {
-            x: -amountToScroll,
-            ease: "none",
-            scrollTrigger: {
-              trigger: container,
-              start: "top top",
-              end: () => `+=${amountToScroll}`,
-              pin: true,
-              scrub: 1,
-              invalidateOnRefresh: true,
-              pinSpacing: true,
-              anticipatePin: 1
-            },
-          });
-
-          // Animate each card as it enters the viewport during horizontal scroll
-          const cards = gsap.utils.toArray<HTMLElement>(".project-card-desktop");
-          cards.forEach((card) => {
-            gsap.fromTo(card,
-              { opacity: 0, y: 40, scale: 0.92 },
-              {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.6,
-                ease: "power2.out",
-                scrollTrigger: {
-                  trigger: card,
-                  containerAnimation: tl,
-                  start: "left 85%",
-                  toggleActions: "play none none none",
-                },
-              }
-            );
-          });
-          
-          ScrollTrigger.refresh();
-        };
-
-        // Initialize with a small delay to allow for image/font loading
-        const timer = setTimeout(initHorizontalScroll, 250);
-        window.addEventListener('resize', initHorizontalScroll);
-
-        return () => {
-          clearTimeout(timer);
-          window.removeEventListener('resize', initHorizontalScroll);
-        };
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
+    return () => mm.revert();
   }, { scope: containerRef, dependencies: [isMobile] });
 
   // Mobile: vertical stacked layout
@@ -229,37 +222,44 @@ function ProjectCard({ project, index, isMobile }: { project: typeof projects[0]
 
     const el = innerRef.current;
     
-    const ctx = gsap.context(() => {
-      // Use quickTo for GPU-accelerated, smooth tilt
-      const xTo = gsap.quickTo(el, "rotateY", { duration: 0.4, ease: "power2.out" });
-      const yTo = gsap.quickTo(el, "rotateX", { duration: 0.4, ease: "power2.out" });
+    // Explicitly initialize properties to avoid "not eligible for reset" warnings
+    gsap.set(el, { rotateX: 0, rotateY: 0, transformStyle: "preserve-3d" });
 
-      let rafId: number;
+    // Use quickTo for GPU-accelerated, smooth tilt
+    const xTo = gsap.quickTo(el, "rotateY", { duration: 0.4, ease: "power2.out" });
+    const yTo = gsap.quickTo(el, "rotateX", { duration: 0.4, ease: "power2.out" });
 
-      const onMouseMove = (e: MouseEvent) => {
-        cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(() => {
-          const rect = el.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          const xPct = (x / rect.width - 0.5) * 12;
-          const yPct = (y / rect.height - 0.5) * -12;
-          xTo(xPct);
-          yTo(yPct);
-        });
-      };
+    let rafId: number;
 
-      const onMouseLeave = () => {
-        cancelAnimationFrame(rafId);
-        xTo(0);
-        yTo(0);
-      };
+    const onMouseMove = (e: MouseEvent) => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const xPct = (x / rect.width - 0.5) * 12;
+        const yPct = (y / rect.height - 0.5) * -12;
+        xTo(xPct);
+        yTo(yPct);
+      });
+    };
 
-      el.addEventListener("mousemove", onMouseMove, { passive: true });
-      el.addEventListener("mouseleave", onMouseLeave, { passive: true });
-    }, innerRef);
+    const onMouseLeave = () => {
+      cancelAnimationFrame(rafId);
+      xTo(0);
+      yTo(0);
+    };
 
-    return () => ctx.revert();
+    el.addEventListener("mousemove", onMouseMove, { passive: true });
+    el.addEventListener("mouseleave", onMouseLeave, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      el.removeEventListener("mousemove", onMouseMove);
+      el.removeEventListener("mouseleave", onMouseLeave);
+      // Explicitly reset on cleanup to be safe
+      gsap.set(el, { rotateX: 0, rotateY: 0 });
+    };
   }, { scope: innerRef, dependencies: [isMobile] });
 
   return (
