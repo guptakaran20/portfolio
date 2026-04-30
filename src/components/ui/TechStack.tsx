@@ -1,11 +1,8 @@
-"use client";
-
 import {
   Code2, Zap, Atom, Server, Hexagon,
   Database, Layout, Terminal, Box } from "lucide-react";
-import { TechBadgeInteractive, OrbitalSystem } from "./TechStackInteractive";
-import { useRef } from "react";
-import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
+import { TechStackAnimations, TechBadge, OrbitalSystem } from "./TechStackClient";
+import { cn } from "@/lib/utils";
 
 // Custom Icon Components for missing lucide-react icons
 const GithubIcon = ({ className }: { className?: string }) => (
@@ -144,71 +141,9 @@ const techData = [
 ];
 
 export function TechStack() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const leftRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    if (!sectionRef.current) return;
-
-    // Floating animation for the left content
-    if (leftRef.current) {
-      gsap.to(leftRef.current, {
-        y: -10,
-        duration: 3,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
-    }
-
-    // Category headers animation
-    const headers = sectionRef.current.querySelectorAll('h3');
-    if (headers.length > 0) {
-      headers.forEach((header: Element) => {
-        gsap.fromTo(header, 
-          { opacity: 0, y: 10 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: header,
-              start: "top 95%",
-              toggleActions: "play none none none"
-            }
-          }
-        );
-      });
-    }
-
-    // Tech badges stagger
-    const badges = sectionRef.current.querySelectorAll('.tech-badge');
-    if (badges.length > 0) {
-      gsap.fromTo(badges, 
-        { opacity: 0, y: 20 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration: 0.5, 
-          stagger: 0.02, 
-          ease: "power2.out", 
-          scrollTrigger: { 
-            trigger: gridRef.current || sectionRef.current, 
-            start: "top 85%" 
-          } 
-        }
-      );
-    }
-    
-    // Refresh ScrollTrigger after a delay
-    const timer = setTimeout(() => ScrollTrigger.refresh(), 500);
-    return () => clearTimeout(timer);
-  }, { scope: sectionRef, dependencies: [techData.length] });
-
   return (
-    <section ref={sectionRef} id="skills" className="relative w-full min-h-screen py-16 sm:py-20 md:py-24 lg:py-32 bg-[#030303] flex flex-col justify-start">
+    <section id="skills" className="relative w-full min-h-screen py-16 sm:py-20 md:py-24 lg:py-32 bg-[#030303] flex flex-col justify-start">
+      <TechStackAnimations />
       <div className="absolute inset-0 bg-gradient-to-b from-[#030303] via-blue-950/5 to-[#030303] pointer-events-none" />
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
@@ -216,7 +151,7 @@ export function TechStack() {
       <div className="container mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-start gap-8 sm:gap-10 lg:gap-20">
 
-          <div ref={leftRef} className="flex-1 w-full space-y-6 sm:space-y-8 lg:space-y-10 will-change-transform">
+          <div id="tech-left-column" className="flex-1 w-full space-y-6 sm:space-y-8 lg:space-y-10" style={{ willChange: "transform" }}>
             <div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 tracking-tight">
                 Technical Arsenal
@@ -226,24 +161,17 @@ export function TechStack() {
               </p>
             </div>
 
-            <div ref={gridRef} className="space-y-5 sm:space-y-6 lg:space-y-8">
+            <div id="tech-grid" className="space-y-5 sm:space-y-6 lg:space-y-8">
               {techData.map((category, idx) => (
                 <div key={category.category} className="space-y-4">
-                  <h3 className={`category-header-${idx} text-xs uppercase tracking-[0.2em] text-white/40 font-semibold`}>
+                  <h3 className={`category-header-${idx} text-xs uppercase tracking-[0.2em] text-white/40 font-semibold opacity-0`} style={{ willChange: "opacity" }}>
                     {category.category}
                   </h3>
 
                   <div className="flex flex-wrap gap-2 sm:gap-3">
                     {category.items.map((tech) => (
-                      <div key={tech.name} className="tech-badge">
-                        <TechBadgeInteractive>
-                          <span className="tech-icon relative z-10 transition-colors duration-300 group-hover:text-white">
-                            {tech.icon}
-                          </span>
-                          <span className="relative z-10 text-sm font-medium text-white/60 group-hover:text-white transition-colors duration-300">
-                            {tech.name}
-                          </span>
-                        </TechBadgeInteractive>
+                      <div key={tech.name} className="tech-badge" style={{ willChange: "transform, opacity" }}>
+                        <TechBadge tech={tech} />
                       </div>
                     ))}
                   </div>
@@ -256,7 +184,7 @@ export function TechStack() {
           </div>
 
           <div className="hidden lg:flex lg:w-[40%] sticky top-32 py-64 items-center justify-center">
-            <OrbitalSystem size={320} Atom={Atom} Hexagon={Hexagon} Database={Database} />
+            <OrbitalSystem size={320} />
           </div>
 
           <div className="lg:hidden w-full h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent my-8" />
@@ -265,4 +193,3 @@ export function TechStack() {
     </section>
   );
 }
-

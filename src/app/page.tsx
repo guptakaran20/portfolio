@@ -1,18 +1,15 @@
 import dynamic from "next/dynamic";
 import { HeroGeometric } from "@/components/ui/shape-landing-hero";
-import CursorFollower from "@/components/ui/CursorFollower";
-import ScrollRefresh from "@/components/ui/ScrollRefresh";
 
-// Hero is above the fold - load immediately
-const About = dynamic(() => import("@/components/ui/About"));
-const TechStack = dynamic(() => import("@/components/ui/TechStack").then(mod => mod.TechStack));
-const FeaturedProjects = dynamic(() => import("@/components/ui/FeaturedProjects").then(mod => mod.FeaturedProjects));
-const Terminal = dynamic(() => import("@/components/ui/Terminal"));
-const GitHubActivity = dynamic(() => import("@/components/ui/GithubActivity"));
-const Marquee = dynamic(() => import("@/components/ui/Marquee"));
-const Contact = dynamic(() => import("@/components/ui/Contact").then(mod => mod.Contact));
-const Footer = dynamic(() => import("@/components/ui/Footer").then(mod => mod.Footer));
-const BottomNavBar = dynamic(() => import("@/components/ui/bottom-nav-bar").then(mod => mod.BottomNavBar));
+// Dynamically import components below the fold to reduce initial bundle size
+const TechStack = dynamic(() => import("@/components/ui/TechStack").then(m => m.TechStack), { ssr: true });
+const FeaturedProjects = dynamic(() => import("@/components/ui/FeaturedProjects").then(m => m.FeaturedProjects), { ssr: true });
+const About = dynamic(() => import("@/components/ui/About"), { ssr: true });
+const Contact = dynamic(() => import("@/components/ui/Contact"), { ssr: true });
+const Footer = dynamic(() => import("@/components/ui/Footer").then(m => m.Footer), { ssr: true });
+const BottomNavBar = dynamic(() => import("@/components/ui/bottom-nav-bar").then(m => m.BottomNavBar), { ssr: true });
+
+import { TerminalClient, GithubActivityClient } from "@/components/ui/DynamicComponents";
 
 export default function Home() {
   return (
@@ -28,24 +25,15 @@ export default function Home() {
         <TechStack />
       </div>
 
-      <div id="projects">
+      <div id="projects" className="w-full">
         <FeaturedProjects />
       </div>
+      
 
-      <div id="about">
-        <About />
-      </div>
-
-      <div className="space-y-24 py-24">
-        <div id="terminal">
-          <Terminal />
-        </div>
-        <GitHubActivity darkMode={true} />
-      </div>
-
-      <div id="contact">
-        <Contact />
-      </div>
+      <TerminalClient />
+      <About />
+      <GithubActivityClient darkMode={true} />
+      <Contact />
       <Footer />
 
       <BottomNavBar stickyBottom={true} />
