@@ -1,14 +1,7 @@
-"use client";
-
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import React, { useRef, useEffect, useState } from "react";
+import React from "react";
 import { buttonVariants } from "./button";
 import { Terminal, Link } from "lucide-react";
-import TextReveal from "./TextReveal";
-
-gsap.registerPlugin(ScrollTrigger);
+import { FeaturedProjectsClient } from "./FeaturedProjectsClient";
 
 const projects = [
   {
@@ -38,103 +31,20 @@ const projects = [
 ];
 
 export function FeaturedProjects() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  return (
+    <>
+      <FeaturedProjectsClient />
 
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  useGSAP(() => {
-    if (!sectionRef.current || !containerRef.current) return;
-
-    const mm = gsap.matchMedia();
-
-    mm.add("(max-width: 767px)", () => {
-      // Mobile: vertical stacked layout with stagger animations
-      const cards = gsap.utils.toArray<HTMLElement>(".project-card-mobile");
-      cards.forEach((card) => {
-        gsap.fromTo(card,
-          { opacity: 0, y: 60, scale: 0.95 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      });
-    });
-
-    mm.add("(min-width: 768px)", () => {
-      // Desktop: horizontal scroll
-      const section = sectionRef.current!;
-      const container = containerRef.current!;
-      const scrollWidth = section.scrollWidth;
-      const amountToScroll = Math.max(0, scrollWidth - window.innerWidth);
-
-      const tl = gsap.to(section, {
-        x: -amountToScroll,
-        ease: "none",
-        scrollTrigger: {
-          trigger: container,
-          start: "top top",
-          end: () => `+=${amountToScroll}`,
-          pin: true,
-          scrub: 0.5,
-          invalidateOnRefresh: true,
-          pinSpacing: true,
-        },
-      });
-
-      // Animate each card as it enters the viewport during horizontal scroll
-      const cards = gsap.utils.toArray<HTMLElement>(".project-card-desktop");
-      cards.forEach((card) => {
-        gsap.fromTo(card,
-          { opacity: 0, y: 40, scale: 0.92 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.6,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: card,
-              containerAnimation: tl,
-              start: "left 80%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      });
-    });
-
-    return () => mm.revert();
-  }, { scope: containerRef });
-
-  // Mobile: vertical stacked layout
-  if (isMobile) {
-    return (
+      {/* Mobile: vertical stacked layout */}
       <section
-        ref={containerRef}
-        className="relative w-full bg-[#030303] z-10 pt-16 pb-32 px-4"
-        id="projects"
+        className="md:hidden relative w-full bg-[#030303] z-10 pt-16 pb-32 px-4"
+        id="projects-mobile"
       >
         {/* Background Blobs */}
         <div className="absolute top-0 right-0 w-[60vw] h-[60vw] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen z-0" />
         <div className="absolute bottom-0 left-0 w-[60vw] h-[60vw] bg-indigo-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen z-0" />
 
-        <div ref={sectionRef} className="relative z-10 max-w-2xl mx-auto">
+        <div className="relative z-10 max-w-2xl mx-auto">
           <div className="mb-10">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 uppercase tracking-tighter leading-none">
               Featured Projects
@@ -147,109 +57,68 @@ export function FeaturedProjects() {
 
           <div className="space-y-6">
             {projects.map((project, index) => (
-              <div key={project.title} className="project-card-mobile">
-                <ProjectCard project={project} index={index} isMobile={true} />
+              <div key={project.title} className="project-card-mobile" style={{ willChange: "transform, opacity" }}>
+                <ProjectCard project={project} isMobile={true} />
               </div>
             ))}
           </div>
         </div>
       </section>
-    );
-  }
 
-  // Desktop: horizontal scroll layout
-  return (
-    <section 
-      ref={containerRef} 
-      className="relative w-full bg-[#030303] z-10" 
-      id="projects"
-    >
-      <div 
-        ref={sectionRef} 
-        className="flex flex-nowrap h-screen items-center relative bg-[#030303] py-20"
-        style={{ width: "max-content" }}
+      {/* Desktop: horizontal scroll layout */}
+      <section 
+        className="hidden md:block relative w-full bg-[#030303] z-10 desktop-container" 
+        id="projects-desktop"
       >
-        {/* Background Blobs */}
-        <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen z-0" />
-        <div className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-indigo-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen z-0" />
+        <div 
+          className="flex flex-nowrap h-screen items-center relative bg-[#030303] py-20 desktop-section"
+          style={{ width: "max-content", willChange: "transform" }}
+        >
+          {/* Background Blobs */}
+          <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen z-0" />
+          <div className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-indigo-900/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen z-0" />
 
-        {/* Intro Screen */}
-        <div className="w-[100vw] flex flex-col justify-center shrink-0 pr-20 md:pr-40 relative z-10">
-          <div className="max-w-2xl px-10 sm:px-20 md:px-32">
-            <h2 className="text-4xl sm:text-6xl md:text-8xl font-bold text-white mb-6 uppercase tracking-tighter leading-none">
-              Featured Projects
-            </h2>
-            <p className="text-gray-400 text-lg md:text-xl max-w-lg mb-8">
-              A selection of my most impactful work, blending technical excellence with cinematic design.
-            </p>
-            <div className="h-1 w-24 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full" />
-          </div>
-        </div>
-        
-        {/* Projects */}
-        {projects.map((project, index) => (
-          <div key={project.title} className="project-card-desktop w-[85vw] sm:w-[75vw] md:w-[65vw] lg:w-[55vw] flex items-center justify-center shrink-0 px-4 md:px-10">
-            <div className="w-full max-w-5xl">
-              <ProjectCard project={project} index={index} isMobile={false} />
+          {/* Intro Screen */}
+          <div className="w-[100vw] flex flex-col justify-center shrink-0 pr-20 md:pr-40 relative z-10">
+            <div className="max-w-2xl px-10 sm:px-20 md:px-32">
+              <h2 className="text-4xl sm:text-6xl md:text-8xl font-bold text-white mb-6 uppercase tracking-tighter leading-none">
+                Featured Projects
+              </h2>
+              <p className="text-gray-400 text-lg md:text-xl max-w-lg mb-8">
+                A selection of my most impactful work, blending technical excellence with cinematic design.
+              </p>
+              <div className="h-1 w-24 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full" />
             </div>
           </div>
-        ))}
+          
+          {/* Projects */}
+          {projects.map((project, index) => (
+            <div key={project.title} className="project-card-desktop w-[85vw] sm:w-[75vw] md:w-[65vw] lg:w-[55vw] flex items-center justify-center shrink-0 px-4 md:px-10" style={{ willChange: "transform, opacity" }}>
+              <div className="w-full max-w-5xl">
+                <ProjectCard project={project} isMobile={false} />
+              </div>
+            </div>
+          ))}
 
-        {/* Spacer for clean exit */}
-        <div className="w-[20vw] shrink-0" />
-      </div>
-    </section>
+          {/* Spacer for clean exit */}
+          <div className="w-[20vw] shrink-0" />
+        </div>
+      </section>
+    </>
   );
 }
 
-function ProjectCard({ project, index, isMobile }: { project: typeof projects[0]; index: number; isMobile: boolean }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const innerRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    if (!innerRef.current || isMobile) return;
-
-    const el = innerRef.current;
-    
-    // Use quickTo for GPU-accelerated, smooth tilt
-    const xTo = gsap.quickTo(el, "rotateY", { duration: 0.4, ease: "power2.out" });
-    const yTo = gsap.quickTo(el, "rotateX", { duration: 0.4, ease: "power2.out" });
-
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const xPct = (x / rect.width - 0.5) * 12;
-      const yPct = (y / rect.height - 0.5) * -12;
-      xTo(xPct);
-      yTo(yPct);
-    };
-
-    const onMouseLeave = () => {
-      xTo(0);
-      yTo(0);
-    };
-
-    el.addEventListener("mousemove", onMouseMove);
-    el.addEventListener("mouseleave", onMouseLeave);
-
-    return () => {
-      el.removeEventListener("mousemove", onMouseMove);
-      el.removeEventListener("mouseleave", onMouseLeave);
-    };
-  }, { scope: innerRef });
-
+function ProjectCard({ project, isMobile }: { project: typeof projects[0]; isMobile: boolean }) {
   return (
-    <div ref={cardRef} className={isMobile ? "" : "h-full [perspective:1000px]"}>
+    <div className={isMobile ? "" : "h-full [perspective:1000px]"}>
       <div
-        ref={innerRef}
-        className={`group relative h-full bg-[#0a0a0a] rounded-2xl border p-5 sm:p-6 md:p-8 transition-colors duration-500 flex flex-col justify-between overflow-hidden border-white/10 hover:border-white/20
+        className={`group relative h-full bg-[#0a0a0a] rounded-2xl border p-5 sm:p-6 md:p-8 transition-colors duration-500 flex flex-col justify-between overflow-hidden border-white/10 hover:border-white/20 ${isMobile ? "" : "tilt-card-inner"}
           ${project.featured ? 'min-h-[280px] sm:min-h-[350px] md:min-h-[400px]' : 'min-h-[250px] sm:min-h-[300px] md:min-h-[350px]'}`}
         style={isMobile ? {} : { transformStyle: "preserve-3d", willChange: "transform" }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-transparent to-purple-500/0 group-hover:from-indigo-500/10 group-hover:to-cyan-500/10 pointer-events-none transition-all duration-500" />
 
-        <div style={isMobile ? {} : { transform: "translateZ(50px)" }} className="relative z-10 flex flex-col h-full">
+        <div className="relative z-10 flex flex-col h-full z-layer">
           <div>
             {project.featured && (
               <span className="inline-block px-3 py-1 mb-4 rounded-full bg-indigo-500/20 text-indigo-300 text-[10px] md:text-xs font-semibold tracking-wider border border-indigo-500/30">

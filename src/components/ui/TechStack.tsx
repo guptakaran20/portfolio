@@ -1,12 +1,8 @@
-"use client";
-
 import {
   Code2, Zap, Atom, Server, Hexagon,
   Database, Layout, Terminal, Box } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { useGSAPScroll } from "@/lib/useGSAPScroll";
+import { TechStackAnimations, TechBadge, OrbitalSystem } from "./TechStackClient";
+import { cn } from "@/lib/utils";
 
 // Custom Icon Components for missing lucide-react icons
 const GithubIcon = ({ className }: { className?: string }) => (
@@ -146,48 +142,9 @@ const techData = [
 ];
 
 export function TechStack() {
-  const [isMobile, setIsMobile] = useState(false);
-  const leftRef = useGSAPScroll({ x: -50 });
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    // Floating animation for the whole container
-    gsap.to(leftRef.current, {
-      y: -10,
-      duration: 3,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut"
-    });
-
-    // Category header scan effect
-    techData.forEach((_, i) => {
-      gsap.to(`.category-header-${i}`, {
-        opacity: 1,
-        duration: 1,
-        delay: i * 0.2,
-        scrollTrigger: {
-          trigger: `.category-header-${i}`,
-          start: "top 90%"
-        }
-      });
-    });
-
-    gsap.fromTo(".tech-badge", 
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.5, stagger: 0.04, ease: "power2.out", scrollTrigger: { trigger: gridRef.current, start: "top 85%" } }
-    );
-  }, { scope: gridRef });
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
   return (
     <section id="skills" className="relative w-full min-h-screen py-16 sm:py-20 md:py-24 lg:py-32 bg-[#030303] flex flex-col justify-start">
+      <TechStackAnimations />
       <div className="absolute inset-0 bg-gradient-to-b from-[#030303] via-blue-950/5 to-[#030303] pointer-events-none" />
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
@@ -195,7 +152,7 @@ export function TechStack() {
       <div className="container mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-start gap-8 sm:gap-10 lg:gap-20">
 
-          <div ref={leftRef} className="flex-1 w-full space-y-6 sm:space-y-8 lg:space-y-10">
+          <div id="tech-left-column" className="flex-1 w-full space-y-6 sm:space-y-8 lg:space-y-10" style={{ willChange: "transform" }}>
             <div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 tracking-tight">
                 Technical Arsenal
@@ -205,16 +162,16 @@ export function TechStack() {
               </p>
             </div>
 
-            <div ref={gridRef} className="space-y-5 sm:space-y-6 lg:space-y-8">
+            <div id="tech-grid" className="space-y-5 sm:space-y-6 lg:space-y-8">
               {techData.map((category, idx) => (
                 <div key={category.category} className="space-y-4">
-                  <h3 className={`category-header-${idx} text-xs uppercase tracking-[0.2em] text-white/40 font-semibold opacity-0`}>
+                  <h3 className={`category-header-${idx} text-xs uppercase tracking-[0.2em] text-white/40 font-semibold opacity-0`} style={{ willChange: "opacity" }}>
                     {category.category}
                   </h3>
 
                   <div className="flex flex-wrap gap-2 sm:gap-3">
                     {category.items.map((tech) => (
-                      <div key={tech.name} className="tech-badge">
+                      <div key={tech.name} className="tech-badge" style={{ willChange: "transform, opacity" }}>
                         <TechBadge tech={tech} />
                       </div>
                     ))}
@@ -227,192 +184,13 @@ export function TechStack() {
             </div>
           </div>
 
-          {!isMobile && (
-            <div className="lg:w-[40%] sticky top-32 py-64 flex items-center justify-center">
-              <OrbitalSystem size={320} />
-            </div>
-          )}
+          <div className="hidden lg:flex lg:w-[40%] sticky top-32 py-64 items-center justify-center">
+            <OrbitalSystem size={320} />
+          </div>
 
-          {isMobile && (
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent my-8" />
-          )}
+          <div className="lg:hidden w-full h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent my-8" />
         </div>
       </div>
     </section>
   );
 }
-
-function TechBadge({ tech }: { tech: typeof techData[0]['items'][0] }) {
-  const badgeRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    if (!badgeRef.current || !contentRef.current) return;
-    
-    const badge = badgeRef.current;
-    const content = contentRef.current;
-    
-    // Icon pulse animation
-    gsap.to(badge.querySelector(".tech-icon"), {
-      scale: 1.1,
-      duration: 2,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      delay: Math.random() * 2
-    });
-
-    // Magnetic Hover Effect
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = badge.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      
-      gsap.to(content, {
-        x: x * 0.2,
-        y: y * 0.2,
-        duration: 0.4,
-        ease: "power2.out"
-      });
-      
-      gsap.to(badge.querySelector(".glow"), {
-        x: x * 0.3,
-        y: y * 0.3,
-        opacity: 1,
-        duration: 0.4
-      });
-    };
-
-    const onMouseLeave = () => {
-      gsap.to(content, {
-        x: 0,
-        y: 0,
-        duration: 0.6,
-        ease: "elastic.out(1, 0.3)"
-      });
-      
-      gsap.to(badge.querySelector(".glow"), {
-        x: 0,
-        y: 0,
-        opacity: 0,
-        duration: 0.6
-      });
-    };
-
-    badge.addEventListener("mousemove", onMouseMove);
-    badge.addEventListener("mouseleave", onMouseLeave);
-    
-    return () => {
-      badge.removeEventListener("mousemove", onMouseMove);
-      badge.removeEventListener("mouseleave", onMouseLeave);
-    };
-  }, { scope: badgeRef });
-
-  return (
-    <div ref={badgeRef} className="group relative">
-      <div 
-        ref={contentRef}
-        className="relative flex items-center gap-2.5 px-4 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-white/[0.15]"
-      >
-        <div className="glow absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-transparent opacity-0 pointer-events-none blur-xl" />
-        <span className="tech-icon relative z-10 transition-colors duration-300 group-hover:text-white">
-          {tech.icon}
-        </span>
-        <span className="relative z-10 text-sm font-medium text-white/60 group-hover:text-white transition-colors duration-300">
-          {tech.name}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function OrbitalSystem({ size }: { size: number }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    if (!containerRef.current) return;
-    
-    // Core pulse
-    gsap.to(".core-pulse", {
-      scale: 1.1,
-      opacity: 0.8,
-      duration: 2,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut"
-    });
-  }, { scope: containerRef });
-
-  return (
-    <div ref={containerRef} className="relative" style={{ width: size, height: size }}>
-      {/* Center Core */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-        <div className="core-pulse w-16 h-16 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shadow-[0_0_40px_rgba(34,211,238,0.2)]">
-          <div className="w-8 h-8 rounded-full bg-cyan-500/20 blur-md" />
-        </div>
-      </div>
-
-      {/* Orbits */}
-      <Orbit size={size * 0.6} duration={25} angle={0}>
-        <Atom className="w-5 h-5 text-cyan-400" />
-      </Orbit>
-      <Orbit size={size * 0.85} duration={35} angle={120} reverse>
-        <Hexagon className="w-5 h-5 text-purple-400" />
-      </Orbit>
-      <Orbit size={size} duration={45} angle={240}>
-        <Database className="w-5 h-5 text-blue-400" />
-      </Orbit>
-
-      {/* SVG Orbit Paths */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox={`0 0 ${size} ${size}`}>
-        <circle cx={size / 2} cy={size / 2} r={(size * 0.6) / 2} fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 8" />
-        <circle cx={size / 2} cy={size / 2} r={(size * 0.85) / 2} fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 8" />
-        <circle cx={size / 2} cy={size / 2} r={size / 2} fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 8" />
-      </svg>
-    </div>
-  );
-}
-
-function Orbit({ size, duration, children, angle, reverse = false }: { size: number, duration: number, children: React.ReactNode, angle: number, reverse?: boolean }) {
-  const orbitRef = useRef<HTMLDivElement>(null);
-  const iconRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    gsap.to(orbitRef.current, {
-      rotate: reverse ? -360 : 360,
-      duration: duration,
-      repeat: -1,
-      ease: "none"
-    });
-    gsap.to(iconRef.current, {
-      rotate: reverse ? 360 : -360,
-      duration: duration,
-      repeat: -1,
-      ease: "none"
-    });
-  }, { scope: orbitRef });
-
-  return (
-    <div
-      ref={orbitRef}
-      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-      style={{ width: size, height: size }}
-    >
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        style={{ transform: `rotate(${angle}deg)` }}
-      >
-        <div
-          ref={iconRef}
-          className="w-10 h-10 rounded-full bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm flex items-center justify-center relative group"
-        >
-          <div className="absolute inset-0 rounded-full bg-cyan-500/0 group-hover:bg-cyan-500/10 transition-colors blur-xl" />
-          <div className="relative z-10 transition-transform duration-300 group-hover:scale-110">
-            {children}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-

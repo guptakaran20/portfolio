@@ -1,13 +1,15 @@
+import dynamic from "next/dynamic";
 import { HeroGeometric } from "@/components/ui/shape-landing-hero";
-import { TechStack } from "@/components/ui/TechStack";
-import { FeaturedProjects } from "@/components/ui/FeaturedProjects";
-import About from "@/components/ui/About";
-import { Contact } from "@/components/ui/Contact";
-import { Footer } from "@/components/ui/Footer";
-import { BottomNavBar } from "@/components/ui/bottom-nav-bar";
-import GitHubActivity from "@/components/ui/GithubActivity"
-import Terminal from '@/components/ui/Terminal';
-import Marquee from "@/components/ui/Marquee";
+
+// Dynamically import components below the fold to reduce initial bundle size
+const TechStack = dynamic(() => import("@/components/ui/TechStack").then(m => m.TechStack), { ssr: true });
+const FeaturedProjects = dynamic(() => import("@/components/ui/FeaturedProjects").then(m => m.FeaturedProjects), { ssr: true });
+const About = dynamic(() => import("@/components/ui/About"), { ssr: true });
+const Contact = dynamic(() => import("@/components/ui/Contact"), { ssr: true });
+const Footer = dynamic(() => import("@/components/ui/Footer").then(m => m.Footer), { ssr: true });
+const BottomNavBar = dynamic(() => import("@/components/ui/bottom-nav-bar").then(m => m.BottomNavBar), { ssr: true });
+
+import { TerminalClient, GithubActivityClient } from "@/components/ui/DynamicComponents";
 
 export default function Home() {
   return (
@@ -20,12 +22,14 @@ export default function Home() {
         <TechStack />
       </div>
 
-      <FeaturedProjects />
+      <div id="projects" className="w-full">
+        <FeaturedProjects />
+      </div>
       
 
-      <Terminal />
+      <TerminalClient />
       <About />
-      <GitHubActivity darkMode={true} />
+      <GithubActivityClient darkMode={true} />
       <Contact />
       <Footer />
       <BottomNavBar stickyBottom={true} />
