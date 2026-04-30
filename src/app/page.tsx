@@ -10,6 +10,7 @@ const Footer = dynamic(() => import("@/components/ui/Footer").then(m => m.Footer
 const BottomNavBar = dynamic(() => import("@/components/ui/bottom-nav-bar").then(m => m.BottomNavBar), { ssr: true });
 
 import { TerminalClient, GithubActivityClient } from "@/components/ui/DynamicComponents";
+import ScrollRefresh from "@/components/ui/ScrollRefresh";
 
 export default function Home() {
   return (

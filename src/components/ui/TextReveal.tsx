@@ -32,16 +32,13 @@ export const TextReveal: React.FC<TextRevealProps> = ({ text, className = "" }) 
       scrollTrigger: {
         trigger: textRef.current,
         start: "top 90%",
-        toggleActions: once
-          ? "play none none none"
-          : "play none none reverse",
+        toggleActions: "play none none none",
+        once: true,
       },
     });
 
     return () => split.revert();
   }, { scope: textRef });
-
-  const Component = as;
 
   return (
     <div ref={containerRef} className={`py-20 ${className}`}>
