@@ -87,8 +87,8 @@ export function FeaturedProjectsClient() {
             gsap.set(zLayer, { z: 50 });
           }
 
-          const xTo = gsap.quickTo(el, "rotateY", { duration: 0.4, ease: "power2.out" });
-          const yTo = gsap.quickTo(el, "rotateX", { duration: 0.4, ease: "power2.out" });
+          const xTo = gsap.quickTo(el, "rotationY", { duration: 0.4, ease: "power2.out" });
+          const yTo = gsap.quickTo(el, "rotationX", { duration: 0.4, ease: "power2.out" });
 
           gsap.set(el, {
             transformPerspective: 1000,

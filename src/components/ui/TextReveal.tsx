@@ -33,7 +33,7 @@ export default function TextReveal({
     gsap.from(split.chars, {
       opacity: 0,
       y: 20,
-      rotateX: -90,
+      rotationX: -90,
       stagger: 0.02,
       duration: 1,
       ease: "power4.out",
