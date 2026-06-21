@@ -36,9 +36,9 @@ const About = () => {
                 <div className="relative pl-8">
                   <span className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-cyan-500 dark:bg-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.5)] dark:shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
                   <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Intern</h3>
-                  <p className="text-slate-500 dark:text-white/60 text-md mt-1 font-medium transition-colors">XCEED - NIT Jalandhar</p>
+                  <p className="text-slate-500 dark:text-white/60 text-base mt-1 font-medium transition-colors">XCEED - NIT Jalandhar</p>
                   <p className="text-slate-400 dark:text-white/40 text-sm mt-1 mb-4 transition-colors">June 2026 - Present</p>
-                  <p className="text-slate-600 dark:text-white/70 text-md leading-relaxed max-w-xl transition-colors">
+                  <p className="text-slate-600 dark:text-white/70 text-base leading-relaxed max-w-xl transition-colors">
                     Contributing to the backend development of an Intelligent Attendance Management System (iAMS).
                   </p>
                 </div>
@@ -57,16 +57,16 @@ const About = () => {
                 <div className="relative pl-8">
                   <span className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-purple-500 dark:bg-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.5)] dark:shadow-[0_0_10px_rgba(192,132,252,0.5)]" />
                   <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Dr B R Ambedkar National Institute of Technology, Jalandhar</h3>
-                  <p className="text-slate-500 dark:text-white/60 text-md mt-1 font-medium transition-colors">Bachelor of Technology</p>
+                  <p className="text-slate-500 dark:text-white/60 text-base mt-1 font-medium transition-colors">Bachelor of Technology</p>
                   <p className="text-slate-400 dark:text-white/40 text-sm mt-1 mb-2 transition-colors">2025 - 2029</p>
-                  <p className="text-slate-400 dark:text-white/40 text-md mt-1 mb-2 transition-colors">Instrumentation and Control Engineering</p>
+                  <p className="text-slate-400 dark:text-white/40 text-base mt-1 mb-2 transition-colors">Instrumentation and Control Engineering</p>
                 </div>
 
                 {/* Item 2 */}
                 <div className="relative pl-8">
                   <span className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-white/20 transition-colors" />
                   <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Dayanand Model Sr. Sec. School, Jalandhar</h3>
-                  <p className="text-slate-500 dark:text-white/60 text-md mt-1 font-medium transition-colors">High School (12th Grade) Non-Medical</p>
+                  <p className="text-slate-500 dark:text-white/60 text-base mt-1 font-medium transition-colors">High School (12th Grade) Non-Medical</p>
                   <p className="text-slate-400 dark:text-white/40 text-sm mt-1 mb-2 transition-colors">Graduated 2025</p>
                 </div>
               </div>
