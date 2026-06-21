@@ -244,7 +244,7 @@ function HeroGeometric({
     }, { scope: containerRef });
 
     return (
-        <div ref={containerRef} className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#030303]">
+        <div ref={containerRef} className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
             <div
                 ref={backgroundRef}
                 className="absolute inset-0 pointer-events-none will-change-transform"
@@ -314,14 +314,14 @@ function HeroGeometric({
                     </div> */}
 
                     <div>
-                        <h1 className="text-[clamp(2rem,7vw,6rem)] font-bold mb-4 md:mb-4 tracking-tight text-white leading-tight">
-                            <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">
+                        <h1 className="text-[clamp(2rem,7vw,6rem)] font-bold mb-4 md:mb-4 tracking-tight text-slate-900 dark:text-white leading-tight transition-colors">
+                            <span className="bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-500 dark:from-white dark:to-white/80 transition-colors">
                                 {title1}
                             </span>
                             <br />
                             <span
                                 className={cn(
-                                    "bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300 "
+                                    "bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 dark:from-indigo-300 dark:via-white/90 dark:to-rose-300 transition-colors"
                                 )}
                             >
                                 {title2}
@@ -330,20 +330,20 @@ function HeroGeometric({
                     </div>
 
                     <div>
-                        <p className="text-sm sm:text-base md:text-lg text-white/40 mb-6 leading-relaxed font-light tracking-wide max-w-2xl mx-auto px-4">
+                        <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-white/40 mb-6 leading-relaxed font-light tracking-wide max-w-2xl mx-auto px-4 transition-colors">
                             {description}
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-10 text-white/50 text-xs sm:text-sm tracking-wide font-light">
+                    <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-10 text-slate-500 dark:text-white/50 text-xs sm:text-sm tracking-wide font-light transition-colors">
                         <div className="flex items-center gap-2">
-                            <span className="text-white/80 font-medium">400+</span> LeetCode Problems Solved
+                            <span className="text-slate-800 dark:text-white/80 font-medium">400+</span> LeetCode Problems Solved
                         </div>
-                        <div className="hidden sm:block w-1 h-1 rounded-full bg-white/20" />
+                        <div className="hidden sm:block w-1 h-1 rounded-full bg-slate-300 dark:bg-white/20" />
                         <div className="flex items-center gap-2">
                             Full Stack Developer
                         </div>
-                        <div className="hidden sm:block w-1 h-1 rounded-full bg-white/20" />
+                        <div className="hidden sm:block w-1 h-1 rounded-full bg-slate-300 dark:bg-white/20" />
                         <div className="flex items-center gap-2">
                             Devops
                         </div>
@@ -353,14 +353,14 @@ function HeroGeometric({
                         <a
                             href="/resume.pdf"
                             download
-                            className="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-white/90 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)] group hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]"
+                            className="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-full bg-slate-900 text-white dark:bg-white dark:text-black font-medium hover:bg-slate-800 dark:hover:bg-white/90 transition-all shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(255,255,255,0.3)] group hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 dark:focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                         >
                             <Download className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
                             Download Resume
                         </a>
                         <a
                             href="#projects"
-                            className="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-full bg-transparent border border-white/10 text-white font-medium hover:bg-white/5 transition-all group hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]"
+                            className="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-full bg-transparent border border-slate-300 dark:border-white/10 text-slate-800 dark:text-white font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-all group hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 dark:focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                         >
                             View Projects
                         </a>
@@ -368,7 +368,7 @@ function HeroGeometric({
                 </div>
             </div>
 
-            <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-50 dark:from-[#030303] via-transparent to-transparent pointer-events-none transition-colors duration-300" />
         </div>
     );
 }

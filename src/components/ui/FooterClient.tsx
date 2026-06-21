@@ -40,10 +40,10 @@ export function TimeSpent() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center order-1 md:order-2">
-      <p className="text-gray-500 text-sm font-medium">Time Spent:</p>
-      <p className="text-emerald-500 text-xl font-bold -mt-1">
-        {timeSpent} <span className="text-sm font-normal text-emerald-500/80">sec</span>
+    <div className="flex flex-col items-center md:items-start md:text-left text-center">
+      <p className="text-slate-900 dark:text-white text-base">Time Spent:</p>
+      <p className="text-emerald-500 text-lg font-semibold -mt-0.5">
+        {timeSpent} <span className="text-base font-normal text-emerald-500">sec</span>
       </p>
     </div>
   );

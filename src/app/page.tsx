@@ -11,11 +11,13 @@ const BottomNavBar = dynamic(() => import("@/components/ui/bottom-nav-bar").then
 
 import { TerminalClient, GithubActivityClient } from "@/components/ui/DynamicComponents";
 import ScrollRefresh from "@/components/ui/ScrollRefresh";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-[#030303] selection:bg-cyan-500/30 selection:text-cyan-200">
+    <main className="relative min-h-screen bg-gray-50 dark:bg-[#030303] text-slate-900 dark:text-white selection:bg-cyan-500/30 selection:text-cyan-900 dark:selection:text-cyan-200 transition-colors duration-300">
       <ScrollRefresh />
+      <ThemeToggle />
       
       {/* Above the fold */}
       <div id="home">

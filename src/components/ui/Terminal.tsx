@@ -127,33 +127,33 @@ export default function Terminal() {
   };
 
   return (
-    <section id="terminal" className="relative bg-[#030303] py-16 sm:py-24 md:py-32 z-30">
+    <section id="terminal" className="relative bg-gray-50 dark:bg-transparent py-16 sm:py-24 md:py-32 z-30 transition-colors duration-300">
       <div ref={sectionRef} className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Section heading */}
         <div ref={headingRef} className="text-center mb-8 sm:mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-white">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-slate-900 dark:text-white transition-colors">
             Developer <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-cyan-500">Terminal</span>
           </h2>
-          <p className="text-gray-400 text-base max-w-lg mx-auto">
+          <p className="text-slate-600 dark:text-gray-400 text-base max-w-lg mx-auto transition-colors">
             Get to know me through the command line.
           </p>
-          <div className="w-16 h-1 bg-gradient-to-r from-primary to-accent rounded-full mx-auto mt-4" />
+          <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full mx-auto mt-4" />
         </div>
 
         {/* Terminal window */}
         <div
           ref={terminalRef}
-          className="rounded-2xl overflow-hidden border border-white/[0.06] shadow-2xl shadow-indigo-500/5 will-change-transform"
+          className="rounded-2xl overflow-hidden border border-slate-200 dark:border-white/[0.06] shadow-2xl shadow-indigo-500/10 dark:shadow-indigo-500/5 bg-white dark:bg-[#080808] transition-colors duration-300 will-change-transform"
           style={{ opacity: 0 }}
         >
           {/* Title bar */}
-          <div className="flex items-center gap-2 px-4 py-3 bg-white/[0.04] border-b border-white/[0.06]">
+          <div className="flex items-center gap-2 px-4 py-3 bg-slate-100 dark:bg-white/[0.04] border-b border-slate-200 dark:border-white/[0.06] transition-colors">
             <div className="flex gap-2">
               <div className="w-3 h-3 rounded-full bg-red-500/80" />
               <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
               <div className="w-3 h-3 rounded-full bg-green-500/80" />
             </div>
-            <span className="flex-1 text-center text-xs text-gray-500 font-mono">
+            <span className="flex-1 text-center text-xs text-slate-500 dark:text-gray-500 font-mono transition-colors">
               karan@portfolio ~ zsh
             </span>
           </div>
@@ -167,34 +167,34 @@ export default function Terminal() {
             {history.map((entry, i) => (
               <div key={i} className="mb-2">
                 {entry.type === 'system' && (
-                  <p className="text-gray-500 text-xs italic">{entry.text}</p>
+                  <p className="text-slate-500 dark:text-gray-500 text-xs italic">{entry.text}</p>
                 )}
                 {entry.type === 'input' && (
                   <p>
-                    <span className="text-emerald-400">➜</span>{' '}
-                    <span className="text-accent">~</span>{' '}
-                    <span className="text-text-primary">{entry.text}</span>
+                    <span className="text-emerald-500 dark:text-emerald-400">➜</span>{' '}
+                    <span className="text-cyan-600 dark:text-accent">~</span>{' '}
+                    <span className="text-slate-900 dark:text-gray-100">{entry.text}</span>
                   </p>
                 )}
                 {entry.type === 'output' && (
-                  <p className="text-gray-400 pl-4 whitespace-pre-wrap">{entry.text}</p>
+                  <p className="text-slate-600 dark:text-gray-400 pl-4 whitespace-pre-wrap">{entry.text}</p>
                 )}
                 {entry.type === 'error' && (
-                  <p className="text-red-400/80 pl-4">{entry.text}</p>
+                  <p className="text-red-500 dark:text-red-400/80 pl-4">{entry.text}</p>
                 )}
               </div>
             ))}
 
             {/* Input line */}
             <form onSubmit={handleCommand} className="flex items-center gap-2">
-              <span className="text-emerald-400">➜</span>
-              <span className="text-accent">~</span>
+              <span className="text-emerald-500 dark:text-emerald-400">➜</span>
+              <span className="text-cyan-600 dark:text-accent">~</span>
               <input
                 ref={inputRef}
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="flex-1 bg-transparent border-none outline-none text-text-primary font-mono text-sm caret-primary"
+                className="flex-1 bg-transparent border-none outline-none text-slate-900 dark:text-gray-100 font-mono text-sm caret-cyan-500"
                 spellCheck={false}
                 autoComplete="off"
               />

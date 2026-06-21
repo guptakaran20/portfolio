@@ -110,14 +110,14 @@ export function TechBadge({ tech }: { tech: { name: string; icon: React.ReactNod
     <div ref={badgeRef} className="group relative">
       <div 
         ref={contentRef}
-        className="relative flex items-center gap-2.5 px-4 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-white/[0.15]"
+        className="relative flex items-center gap-2.5 px-4 py-2 rounded-lg bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] backdrop-blur-md overflow-hidden transition-all duration-300 group-hover:border-slate-300 dark:group-hover:border-white/[0.15] shadow-sm dark:shadow-none"
         style={{ willChange: "transform" }}
       >
-        <div className="glow absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-transparent opacity-0 pointer-events-none blur-xl" style={{ willChange: "transform, opacity" }} />
-        <span className="tech-icon relative z-10 transition-colors duration-300 group-hover:text-white" style={{ willChange: "transform" }}>
+        <div className="glow absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 dark:from-cyan-500/20 dark:via-purple-500/20 to-transparent opacity-0 pointer-events-none blur-xl" style={{ willChange: "transform, opacity" }} />
+        <span className="tech-icon relative z-10 transition-colors duration-300 group-hover:text-slate-900 dark:group-hover:text-white" style={{ willChange: "transform" }}>
           {tech.icon}
         </span>
-        <span className="relative z-10 text-sm font-medium text-white/60 group-hover:text-white transition-colors duration-300">
+        <span className="relative z-10 text-sm font-medium text-slate-600 dark:text-white/60 group-hover:text-slate-900 dark:group-hover:text-white transition-colors duration-300">
           {tech.name}
         </span>
       </div>
@@ -146,8 +146,8 @@ export function OrbitalSystem({ size }: { size: number }) {
     <div ref={containerRef} className="relative" style={{ width: size, height: size }}>
       {/* Center Core */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-        <div className="core-pulse w-16 h-16 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shadow-[0_0_40px_rgba(34,211,238,0.2)]" style={{ willChange: "transform, opacity" }}>
-          <div className="w-8 h-8 rounded-full bg-cyan-500/20 blur-md" />
+        <div className="core-pulse w-16 h-16 rounded-full bg-cyan-500/30 dark:bg-cyan-500/10 border border-cyan-500/40 dark:border-cyan-500/20 flex items-center justify-center shadow-[0_0_40px_rgba(34,211,238,0.4)] dark:shadow-[0_0_40px_rgba(34,211,238,0.2)] transition-colors" style={{ willChange: "transform, opacity" }}>
+          <div className="w-8 h-8 rounded-full bg-cyan-500/40 dark:bg-cyan-500/20 blur-md transition-colors" />
         </div>
       </div>
 
@@ -166,11 +166,11 @@ export function OrbitalSystem({ size }: { size: number }) {
       </Orbit>
 
       {/* SVG Orbit Paths */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox={`0 0 ${size} ${size}`}>
-        <circle cx={size / 2} cy={size / 2} r={(size * 0.45) / 2} fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 8" />
-        <circle cx={size / 2} cy={size / 2} r={(size * 0.65) / 2} fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 8" />
-        <circle cx={size / 2} cy={size / 2} r={(size * 0.85) / 2} fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 8" />
-        <circle cx={size / 2} cy={size / 2} r={size / 2} fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 8" />
+      <svg className="absolute inset-0 w-full h-full pointer-events-none text-slate-400 dark:text-white/20 transition-colors" viewBox={`0 0 ${size} ${size}`}>
+        <circle cx={size / 2} cy={size / 2} r={(size * 0.45) / 2} fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="4 8" />
+        <circle cx={size / 2} cy={size / 2} r={(size * 0.65) / 2} fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="4 8" />
+        <circle cx={size / 2} cy={size / 2} r={(size * 0.85) / 2} fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="4 8" />
+        <circle cx={size / 2} cy={size / 2} r={size / 2} fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="4 8" />
       </svg>
     </div>
   );
@@ -207,7 +207,7 @@ export function Orbit({ size, duration, children, angle, reverse = false }: { si
       >
         <div
           ref={iconRef}
-          className="w-10 h-10 rounded-full bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm flex items-center justify-center relative group"
+          className="w-10 h-10 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] backdrop-blur-sm flex items-center justify-center relative group shadow-md dark:shadow-none transition-colors"
           style={{ willChange: "transform" }}
         >
           <div className="absolute inset-0 rounded-full bg-cyan-500/0 group-hover:bg-cyan-500/10 transition-colors blur-xl" />

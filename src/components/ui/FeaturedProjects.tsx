@@ -37,7 +37,7 @@ export function FeaturedProjects() {
 
       {/* Mobile: vertical stacked layout */}
       <section
-        className="md:hidden relative w-full bg-[#030303] z-10 pt-16 pb-32 px-4"
+        className="md:hidden relative w-full bg-gray-50 dark:bg-transparent transition-colors duration-300 z-10 pt-16 pb-32 px-4"
         id="projects-mobile"
       >
         {/* Background Blobs */}
@@ -46,10 +46,10 @@ export function FeaturedProjects() {
 
         <div className="relative z-10 max-w-2xl mx-auto">
           <div className="mb-10">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 uppercase tracking-tighter leading-none">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4 uppercase tracking-tighter leading-none transition-colors">
               Featured Projects
             </h2>
-            <p className="text-gray-400 text-base max-w-lg mb-6">
+            <p className="text-slate-600 dark:text-gray-400 text-base max-w-lg mb-6 transition-colors">
               A selection of my most impactful work, blending technical excellence with cinematic design.
             </p>
             <div className="h-1 w-24 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full" />
@@ -67,11 +67,11 @@ export function FeaturedProjects() {
 
       {/* Desktop: horizontal scroll layout */}
       <section 
-        className="hidden md:block relative w-full bg-[#030303] z-10 desktop-container" 
+        className="hidden md:block relative w-full bg-gray-50 dark:bg-transparent transition-colors duration-300 z-10 desktop-container" 
         id="projects-desktop"
       >
         <div 
-          className="flex flex-nowrap h-screen items-center relative bg-[#030303] py-20 desktop-section"
+          className="flex flex-nowrap h-screen items-center relative py-20 desktop-section"
           style={{ width: "max-content", willChange: "transform" }}
         >
           {/* Background Blobs */}
@@ -81,10 +81,10 @@ export function FeaturedProjects() {
           {/* Intro Screen */}
           <div className="w-[100vw] flex flex-col justify-center shrink-0 pr-20 md:pr-40 relative z-10">
             <div className="max-w-2xl px-10 sm:px-20 md:px-32">
-              <h2 className="text-4xl sm:text-6xl md:text-8xl font-bold text-white mb-6 uppercase tracking-tighter leading-none">
+              <h2 className="text-4xl sm:text-6xl md:text-8xl font-bold text-slate-900 dark:text-white mb-6 uppercase tracking-tighter leading-none transition-colors">
                 Featured Projects
               </h2>
-              <p className="text-gray-400 text-lg md:text-xl max-w-lg mb-8">
+              <p className="text-slate-600 dark:text-gray-400 text-lg md:text-xl max-w-lg mb-8 transition-colors">
                 A selection of my most impactful work, blending technical excellence with cinematic design.
               </p>
               <div className="h-1 w-24 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full" />
@@ -112,7 +112,7 @@ function ProjectCard({ project, isMobile }: { project: typeof projects[0]; isMob
   return (
     <div className={isMobile ? "" : "h-full [perspective:1000px]"}>
       <div
-        className={`group relative h-full bg-[#0a0a0a] rounded-2xl border p-5 sm:p-6 md:p-8 transition-colors duration-500 flex flex-col justify-between overflow-hidden border-white/10 hover:border-white/20 ${isMobile ? "" : "tilt-card-inner"}
+        className={`group relative h-full bg-white dark:bg-[#0a0a0a] rounded-2xl border p-5 sm:p-6 md:p-8 transition-colors duration-500 flex flex-col justify-between overflow-hidden border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 shadow-md dark:shadow-none ${isMobile ? "" : "tilt-card-inner"}
           ${project.featured ? 'min-h-[280px] sm:min-h-[350px] md:min-h-[400px]' : 'min-h-[250px] sm:min-h-[300px] md:min-h-[350px]'}`}
         style={isMobile ? {} : { transformStyle: "preserve-3d" }}
       >
@@ -121,14 +121,14 @@ function ProjectCard({ project, isMobile }: { project: typeof projects[0]; isMob
         <div className="relative z-10 flex flex-col h-full z-layer">
           <div>
             {project.featured && (
-              <span className="inline-block px-3 py-1 mb-4 rounded-full bg-indigo-500/20 text-indigo-300 text-[10px] md:text-xs font-semibold tracking-wider border border-indigo-500/30">
+              <span className="inline-block px-3 py-1 mb-4 rounded-full bg-indigo-500/10 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-300 text-[10px] md:text-xs font-semibold tracking-wider border border-indigo-500/20 dark:border-indigo-500/30">
                 PRIMARY PROJECT
               </span>
             )}
-            <h3 className={`${project.featured ? 'text-xl sm:text-2xl md:text-4xl' : 'text-lg sm:text-xl md:text-2xl'} font-bold text-white mb-3 sm:mb-4`}>
+            <h3 className={`${project.featured ? 'text-xl sm:text-2xl md:text-4xl' : 'text-lg sm:text-xl md:text-2xl'} font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 transition-colors`}>
               {project.title}
             </h3>
-            <p className="text-xs sm:text-sm md:text-base text-gray-400 leading-relaxed mb-6 sm:mb-8">
+            <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-gray-400 leading-relaxed mb-6 sm:mb-8 transition-colors">
               {project.description}
             </p>
           </div>
@@ -136,17 +136,17 @@ function ProjectCard({ project, isMobile }: { project: typeof projects[0]; isMob
           <div className="mt-auto">
             <div className="flex flex-wrap gap-2 mb-6">
               {project.tech.map((t) => (
-                <span key={t} className="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 text-xs sm:text-sm rounded-md">
+                <span key={t} className="px-3 py-1 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-gray-300 text-xs sm:text-sm rounded-md transition-colors">
                   {t}
                 </span>
               ))}
             </div>
 
             <div className="flex items-center gap-3 sm:gap-4">
-              <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "default", className: "bg-white text-black hover:bg-gray-200 text-sm" })}>
+              <a href={project.demoLink} target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "default", className: "bg-slate-900 text-white dark:bg-white dark:text-black hover:bg-slate-800 dark:hover:bg-gray-200 text-sm transition-colors" })}>
                 Live Demo <Link className="w-4 h-4 ml-2" />
               </a>
-              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "outline", className: "border-white/20 hover:bg-white/10 text-white text-sm" })}>
+              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className={buttonVariants({ variant: "outline", className: "border-slate-300 dark:border-white/20 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-900 dark:text-white text-sm transition-colors" })}>
                 GitHub <Terminal className="w-4 h-4 ml-2" />
               </a>
             </div>

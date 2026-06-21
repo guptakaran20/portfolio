@@ -132,52 +132,52 @@ export function ContactFormClient() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-[#0a0a0a] p-5 sm:p-6 md:p-8 rounded-2xl border border-white/10 flex flex-col gap-4 sm:gap-6 relative">
+    <form onSubmit={handleSubmit} className="bg-white dark:bg-[#0a0a0a] p-5 sm:p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-white/10 flex flex-col gap-4 sm:gap-6 relative shadow-[0_0_20px_rgba(0,0,0,0.05)] dark:shadow-none transition-colors duration-300">
       {isSuccess && (
-        <div className="success-message absolute inset-0 bg-[#0a0a0a]/90 backdrop-blur-sm z-50 flex flex-center rounded-2xl flex-col items-center justify-center p-8 text-center">
+        <div className="success-message absolute inset-0 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-sm z-50 flex flex-center rounded-2xl flex-col items-center justify-center p-8 text-center transition-colors">
           <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-4">
             <Send className="w-8 h-8 text-green-500" />
           </div>
-          <h3 className="text-2xl font-bold text-white mb-2">Message Received!</h3>
-          <p className="text-gray-400">I&apos;ll get back to you shortly.</p>
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 transition-colors">Message Received!</h3>
+          <p className="text-slate-600 dark:text-gray-400 transition-colors">I&apos;ll get back to you shortly.</p>
         </div>
       )}
       
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">Name</label>
+        <label htmlFor="name" className="block text-sm font-medium text-slate-600 dark:text-gray-400 mb-2 transition-colors">Name</label>
         <Input 
           id="name" 
           name="name" 
           required 
           placeholder="Karan Gupta" 
-          className="bg-black/50 border-white/10 focus-visible:ring-cyan-500 text-white h-12" 
+          className="bg-slate-50 dark:bg-black/50 border-slate-200 dark:border-white/10 focus-visible:ring-cyan-500 text-slate-900 dark:text-white h-12 transition-colors" 
         />
       </div>
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">Email</label>
+        <label htmlFor="email" className="block text-sm font-medium text-slate-600 dark:text-gray-400 mb-2 transition-colors">Email</label>
         <Input 
           id="email" 
           name="email" 
           required 
           type="email" 
           placeholder="guptakaran0720@gmail.com" 
-          className="bg-black/50 border-white/10 focus-visible:ring-cyan-500 text-white h-12" 
+          className="bg-slate-50 dark:bg-black/50 border-slate-200 dark:border-white/10 focus-visible:ring-cyan-500 text-slate-900 dark:text-white h-12 transition-colors" 
         />
       </div>
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">Message</label>
+        <label htmlFor="message" className="block text-sm font-medium text-slate-600 dark:text-gray-400 mb-2 transition-colors">Message</label>
         <Textarea 
           id="message" 
           name="message" 
           required 
           placeholder="Tell me about your project..." 
-          className="bg-black/50 border-white/10 focus-visible:ring-cyan-500 text-white min-h-[150px] resize-none" 
+          className="bg-slate-50 dark:bg-black/50 border-slate-200 dark:border-white/10 focus-visible:ring-cyan-500 text-slate-900 dark:text-white min-h-[150px] resize-none transition-colors" 
         />
       </div>
       <Button 
         type="submit" 
         disabled={isSubmitting || isSuccess}
-        className={`h-12 w-full transition-all duration-300 bg-white text-black hover:bg-gray-200`}
+        className={`h-12 w-full transition-all duration-300 bg-slate-900 text-white dark:bg-white dark:text-black hover:bg-slate-800 dark:hover:bg-gray-200`}
       >
         {isSubmitting ? "Sending..." : (
           <>

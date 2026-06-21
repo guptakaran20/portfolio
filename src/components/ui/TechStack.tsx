@@ -102,10 +102,10 @@ const techData = [
   {
     category: "Frontend",
     items: [
-      { name: "React", icon: <Atom className="w-4 h-4 text-cyan-400" /> },
-      { name: "Next.js", icon: <Zap className="w-4 h-4 text-white" /> },
-      { name: "Tailwind CSS", icon: <Layout className="w-4 h-4 text-cyan-300" /> },
-      { name: "HTML/CSS", icon: <FileCodeIcon className="w-4 h-4 text-orange-400" /> },
+      { name: "React", icon: <Atom className="w-4 h-4 text-cyan-500 dark:text-cyan-400" /> },
+      { name: "Next.js", icon: <Zap className="w-4 h-4 text-slate-900 dark:text-white" /> },
+      { name: "Tailwind CSS", icon: <Layout className="w-4 h-4 text-cyan-500 dark:text-cyan-300" /> },
+      { name: "HTML/CSS", icon: <FileCodeIcon className="w-4 h-4 text-orange-500 dark:text-orange-400" /> },
     ]
   },
   {
@@ -129,7 +129,7 @@ const techData = [
   {
     category: "Version Control",
     items: [
-      { name: "Git/GitHub", icon: <GithubIcon className="w-4 h-4 text-white" /> },
+      { name: "Git/GitHub", icon: <GithubIcon className="w-4 h-4 text-slate-900 dark:text-white" /> },
     ]
   },
   {
@@ -145,21 +145,21 @@ const techData = [
 
 export function TechStack() {
   return (
-    <section id="skills" className="relative w-full min-h-screen py-16 sm:py-20 md:py-24 lg:py-32 bg-[#030303] flex flex-col justify-start">
+    <section id="skills" className="relative w-full min-h-screen py-16 sm:py-20 md:py-24 lg:py-32 bg-gray-50 dark:bg-transparent flex flex-col justify-start transition-colors duration-300">
       <TechStackAnimations />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#030303] via-blue-950/5 to-[#030303] pointer-events-none" />
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent dark:from-[#030303] via-transparent dark:via-blue-950/5 to-transparent dark:to-[#030303] pointer-events-none transition-colors" />
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-500/10 dark:bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none transition-colors" />
+      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 dark:bg-purple-500/5 rounded-full blur-[120px] pointer-events-none transition-colors" />
 
       <div className="container mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-start gap-8 sm:gap-10 lg:gap-20">
 
           <div id="tech-left-column" className="flex-1 w-full space-y-6 sm:space-y-8 lg:space-y-10" style={{ willChange: "transform" }}>
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-3 md:mb-4 tracking-tight transition-colors">
                 Technical Arsenal
               </h2>
-              <p className="text-gray-400 text-sm sm:text-base lg:text-lg max-w-xl">
+              <p className="text-slate-600 dark:text-gray-400 text-sm sm:text-base lg:text-lg max-w-xl transition-colors">
                 A curated selection of tools and technologies I use to bring modern digital experiences to life.
               </p>
             </div>
@@ -167,7 +167,7 @@ export function TechStack() {
             <div id="tech-grid" className="space-y-5 sm:space-y-6 lg:space-y-8">
               {techData.map((category, idx) => (
                 <div key={category.category} className="space-y-4">
-                  <h3 className={`category-header-${idx} text-xs uppercase tracking-[0.2em] text-white/40 font-semibold opacity-0`} style={{ willChange: "opacity" }}>
+                  <h3 className={`category-header-${idx} text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-white/40 font-semibold opacity-0 transition-colors`} style={{ willChange: "opacity" }}>
                     {category.category}
                   </h3>
 
@@ -179,7 +179,7 @@ export function TechStack() {
                     ))}
                   </div>
                   {idx !== techData.length - 1 && (
-                    <div className="w-full h-px bg-gradient-to-r from-white/5 via-white/10 to-transparent mt-4 sm:mt-6" />
+                    <div className="w-full h-px bg-gradient-to-r from-slate-200 via-slate-300 dark:from-white/5 dark:via-white/10 to-transparent mt-4 sm:mt-6 transition-colors" />
                   )}
                 </div>
               ))}

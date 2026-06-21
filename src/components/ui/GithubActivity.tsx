@@ -4,13 +4,17 @@ import { useRef, useState, useEffect, useCallback } from 'react';
 import {GitHubCalendar} from 'react-github-calendar';
 import { Code2 } from 'lucide-react';
 import { gsap, useGSAP } from '@/lib/gsap';
+import { useTheme } from 'next-themes';
 
 const customTheme = {
   light: ['#ebedf0', '#c6d3f7', '#9db5f0', '#6366f1', '#4f46e5'],
   dark: ['#161b22', '#1e3a5f', '#3b5998', '#6366f1', '#818cf8'],
 };
 
-export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
+export default function GitHubActivity({ darkMode: initialDarkMode }: { darkMode?: boolean }) {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark' || (theme === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  
   const [mounted, setMounted] = useState(false);
   const [calendarScale, setCalendarScale] = useState(1);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -100,14 +104,14 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
   }
 
   return (
-    <section className="relative py-16 sm:py-24 md:py-32">
+    <section className="relative py-16 sm:py-24 md:py-32 bg-gray-50 dark:bg-transparent transition-colors duration-300">
       <div ref={sectionRef} className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Section heading */}
         <div ref={headingRef} className="text-center mb-8 sm:mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-white">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-slate-900 dark:text-white transition-colors">
             GitHub <span className="gradient-text">Activity</span>
           </h2>
-          <p className="text-gray-400 text-base max-w-lg mx-auto">
+          <p className="text-slate-600 dark:text-gray-400 text-base max-w-lg mx-auto transition-colors">
             My contribution graph from GitHub.
           </p>
           <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mx-auto mt-4" />
@@ -116,15 +120,15 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
         {/* Calendar */}
         <div
           ref={calendarCardRef}
-          className="flex justify-center p-2 sm:p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:shadow-lg hover:shadow-indigo-500/5 transition-shadow duration-500"
+          className="flex justify-center p-2 sm:p-6 md:p-8 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-500 shadow-sm dark:shadow-none"
         >
           <div
             ref={containerRef}
-            className="bg-[#0a0a0a] p-2 sm:p-6 md:p-8 rounded-2xl border border-white/10 shadow-2xl overflow-hidden w-full"
+            className="bg-gray-50 dark:bg-[#0a0a0a] p-2 sm:p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-white/10 shadow-xl overflow-hidden w-full transition-colors"
           >
             <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-8">
               <Code2 className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-400" />
-              <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-white">Contribution Graph</h3>
+              <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-slate-900 dark:text-white transition-colors">Contribution Graph</h3>
             </div>
             <div
               className="w-full overflow-hidden"
@@ -143,7 +147,7 @@ export default function GitHubActivity({ darkMode }: { darkMode: boolean }) {
               >
                 <GitHubCalendar
                   username="guptakaran20"
-                  colorScheme={darkMode ? 'dark' : 'light'}
+                  colorScheme={isDark ? 'dark' : 'light'}
                   theme={customTheme}
                   fontSize={14}
                   blockSize={12}
