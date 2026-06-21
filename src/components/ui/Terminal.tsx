@@ -8,29 +8,28 @@ const commands: Record<string, string> = {
   hello: 'Hello! I\'m Karan Gupta — building modern full-stack apps. Try "projects" or "skills".',
   hey: 'Hey there! 🚀 Welcome to my dev terminal. Type "help" to see what I can do.',
   whoami: 'Karan Gupta — Full-Stack Developer specializing in modern web apps',
-  about: 'I build scalable full-stack applications with modern tools like Next.js, Supabase, and Node.js. Passionate about clean UI, performance, and real-world problem solving.',
-  skills: 'Next.js, React, TypeScript, Node.js, Express, Tailwind CSS, PostgreSQL, Supabase, Appwrite, Prisma, Docker',
-  techstack: 'Frontend: React, Next.js, Tailwind\nBackend: Node.js, Express, Supabase\nDatabase: PostgreSQL\nTools: Docker, Git, Vercel',
+  about: 'I build scalable full-stack applications with modern tools like Next.js. Passionate about clean UI, performance, and real-world problem solving.',
+  skills: 'Next.js, React, TypeScript, Node.js, Express, Tailwind CSS, PostgreSQL, Appwrite, Prisma, Docker, MongoDB,Redis',
+  techstack: 'Frontend: React, Next.js, Tailwind\nBackend: Node.js, Express\nDatabase: PostgreSQL,MongoDB,Redis\nTools: Docker, Git, Vercel,Postman',
   projects: 'SponsorGrid (SaaS Platform) • StrangerBlogs (Blogging Platform) • Arovia Vibes (Frontend UI Showcase)',
   sponsorgrid: 'SaaS platform for managing sponsorships — built with Next.js, Prisma, PostgreSQL, Cloudinary',
   aroviavibes: 'Modern UI showcase with animations — built using Next.js, Tailwind, Framer Motion',
   strangerblogs: 'Blog platform with Appwrite backend — React, Tailwind, Appwrite',
-  experience: 'Built multiple full-stack applications with authentication, APIs, and database integration',
+  experience: 'Built multiple full-stack applications with authentication, APIs, and database integration ,Currently working as Intern in XCEED-NITJ contibruting in Intelligence Attendance Managment System',
   achievements: 'Created scalable SaaS apps, implemented authentication systems, worked with modern full-stack architectures',
-  currently_learning: 'Advanced Backend Systems • System Design • Scaling applications',
+  currently_learning: 'Advanced Backend Systems • System Design • Scaling applications, currently working as Intern in XCEED-NITJ contibruting in Intelligence Attendance Managment System',
   tools: 'VS Code, Git, Docker, Vercel, Postman',
   leetcode: 'Solved more than 250+ Questions on leetcode Check here - https://leetcode.com/guptakaran0720/',
   github: 'github.com/guptakaran20',
   resume: 'Check at home section',
   contact: 'Email: guptakaran0720@gmail.com',
   socials: 'GitHub: guptakaran20 | LinkedIn: guptakaran0720',
-  funfact: 'I enjoy building aesthetic UIs with smooth animations and solving complex logic problems',
   clear: 'Clearing terminal...',
   help: `Available commands:
 whoami, about, skills, techstack, projects,
 project_sponsorgrid, project_arovia, project_strangerblogs,
 experience, achievements, currently_learning,
-tools, github, resume, contact, socials, funfact, clear`
+tools, github, resume, contact, socials, clear`
 };
 
 export default function Terminal() {

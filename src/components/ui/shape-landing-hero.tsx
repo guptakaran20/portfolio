@@ -189,7 +189,7 @@ function HeroGeometric({
     badge = "Full Stack Developer",
     title1 = "Hi, I'm Karan",
     title2 = "I Build Modern Web Experiences",
-    description = "Crafting high-performance applications with a focus on cinematic UI, robust architecture, and seamless user experiences.",
+    description = "Second-Year B.Tech Student at NIT Jalandhar • Full Stack Developer specializing in Next.js, Node.js, MongoDB, Redis, and modern web applications.",
 }: {
     badge?: string;
     title1?: string;
@@ -303,18 +303,18 @@ function HeroGeometric({
 
             <div
                 ref={contentRef}
-                className="relative z-10 w-full px-4 sm:px-6 md:px-8"
+                className="relative z-10 w-full px-4 sm:px-6 md:px-8 pb-16 sm:pb-20"
             >
                 <div className="max-w-3xl mx-auto text-center">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12">
+                    {/* <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12">
                         <Circle className="h-2 w-2 fill-rose-500/80" />
                         <span className="text-sm text-white/60 tracking-wide uppercase">
-                            <TypingText texts={["Full Stack Developer", "UI/UX Enthusiast", "Problem Solver"]} />
+                            <TypingText texts={["Full Stack Developer", "Problem Solver"]} />
                         </span>
-                    </div>
+                    </div> */}
 
                     <div>
-                        <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-bold mb-6 md:mb-8 tracking-tight text-white leading-tight">
+                        <h1 className="text-[clamp(2rem,7vw,6rem)] font-bold mb-4 md:mb-4 tracking-tight text-white leading-tight">
                             <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">
                                 {title1}
                             </span>
@@ -330,23 +330,37 @@ function HeroGeometric({
                     </div>
 
                     <div>
-                        <p className="text-xs sm:text-base md:text-lg lg:text-xl text-white/40 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-2 sm:px-4">
+                        <p className="text-sm sm:text-base md:text-lg text-white/40 mb-6 leading-relaxed font-light tracking-wide max-w-2xl mx-auto px-4">
                             {description}
                         </p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-10 text-white/50 text-xs sm:text-sm tracking-wide font-light">
+                        <div className="flex items-center gap-2">
+                            <span className="text-white/80 font-medium">400+</span> LeetCode Problems Solved
+                        </div>
+                        <div className="hidden sm:block w-1 h-1 rounded-full bg-white/20" />
+                        <div className="flex items-center gap-2">
+                            Full Stack Developer
+                        </div>
+                        <div className="hidden sm:block w-1 h-1 rounded-full bg-white/20" />
+                        <div className="flex items-center gap-2">
+                            Devops
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full px-4 sm:px-0">
                         <a
                             href="/resume.pdf"
                             download
-                            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-white/90 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)] group hover:scale-105"
+                            className="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-white/90 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)] group hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]"
                         >
                             <Download className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
                             Download Resume
                         </a>
                         <a
                             href="#projects"
-                            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-transparent border border-white/10 text-white font-medium hover:bg-white/5 transition-all group hover:scale-105"
+                            className="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-full bg-transparent border border-white/10 text-white font-medium hover:bg-white/5 transition-all group hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]"
                         >
                             View Projects
                         </a>

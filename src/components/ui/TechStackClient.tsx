@@ -4,7 +4,7 @@ import { useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useGSAPScroll } from "@/lib/useGSAPScroll";
-import { Atom, Hexagon, Database } from "lucide-react";
+import { Atom, Hexagon, Database, Box } from "lucide-react";
 
 export function TechStackAnimations() {
   useGSAP(() => {
@@ -152,19 +152,23 @@ export function OrbitalSystem({ size }: { size: number }) {
       </div>
 
       {/* Orbits */}
-      <Orbit size={size * 0.6} duration={25} angle={0}>
+      <Orbit size={size * 0.45} duration={20} angle={0}>
         <Atom className="w-5 h-5 text-cyan-400" />
       </Orbit>
-      <Orbit size={size * 0.85} duration={35} angle={120} reverse>
+      <Orbit size={size * 0.65} duration={30} angle={90} reverse>
         <Hexagon className="w-5 h-5 text-purple-400" />
       </Orbit>
-      <Orbit size={size} duration={45} angle={240}>
+      <Orbit size={size * 0.85} duration={40} angle={180}>
         <Database className="w-5 h-5 text-blue-400" />
+      </Orbit>
+      <Orbit size={size} duration={50} angle={270} reverse>
+        <Box className="w-5 h-5 text-blue-500" />
       </Orbit>
 
       {/* SVG Orbit Paths */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox={`0 0 ${size} ${size}`}>
-        <circle cx={size / 2} cy={size / 2} r={(size * 0.6) / 2} fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 8" />
+        <circle cx={size / 2} cy={size / 2} r={(size * 0.45) / 2} fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 8" />
+        <circle cx={size / 2} cy={size / 2} r={(size * 0.65) / 2} fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 8" />
         <circle cx={size / 2} cy={size / 2} r={(size * 0.85) / 2} fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 8" />
         <circle cx={size / 2} cy={size / 2} r={size / 2} fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 8" />
       </svg>
