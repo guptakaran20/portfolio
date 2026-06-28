@@ -5,12 +5,20 @@ import { FeaturedProjectsClient } from "./FeaturedProjectsClient";
 
 const projects = [
   {
+    title: "CodeArena",
+    description: "Real-time Coding Battle Platform for Interview Preparation. CodeArena is a modern coding interview practice platform where developers can challenge each other in real-time coding battles.",
+    tech: ["TypeScript", "Next.js", "Node.js", "Express", "MongoDB", "Redis", "Socket.io", "Docker", "Nginix" , "AWS"],
+    demoLink: "https://codearenabattle.vercel.app/",
+    githubLink: "https://github.com/guptakaran20/CodeBattle",
+    featured: true,
+  },
+  {
     title: "SponsorGrid",
     description: "Sponsorship management platform for college clubs. A complete SaaS solution to track leads, manage partnerships, and streamline funding efforts with an intuitive dashboard.",
     tech: ["Next.js", "Typescript", "Prisma", "Cloudinary","PostgreSQL"],
     demoLink: "https://trysponsorgrid.vercel.app/",
     githubLink: "https://github.com/guptakaran20/Sponsorship",
-    featured: true,
+    featured: false,
   },
   {
     title: "StrangerBlogs",

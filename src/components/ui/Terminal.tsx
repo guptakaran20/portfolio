@@ -11,7 +11,9 @@ const commands: Record<string, string> = {
   about: 'I build scalable full-stack applications with modern tools like Next.js. Passionate about clean UI, performance, and real-world problem solving.',
   skills: 'Next.js, React, TypeScript, Node.js, Express, Tailwind CSS, PostgreSQL, Appwrite, Prisma, Docker, MongoDB,Redis',
   techstack: 'Frontend: React, Next.js, Tailwind\nBackend: Node.js, Express\nDatabase: PostgreSQL,MongoDB,Redis\nTools: Docker, Git, Vercel,Postman',
-  projects: 'SponsorGrid (SaaS Platform) • StrangerBlogs (Blogging Platform) • Arovia Vibes (Frontend UI Showcase)',
+  projects: 'CodeArena (Coding Battle Platform) • SponsorGrid (SaaS Platform) • StrangerBlogs (Blogging Platform) • Arovia Vibes (Frontend UI Showcase)',
+  codearena: 'Real-time Coding Battle Platform for Interview Preparation — built with Next.js, Node.js, Socket.io, Docker',
+  project_codearena: 'Real-time Coding Battle Platform for Interview Preparation — built with Next.js, Node.js, Socket.io, Docker',
   sponsorgrid: 'SaaS platform for managing sponsorships — built with Next.js, Prisma, PostgreSQL, Cloudinary',
   aroviavibes: 'Modern UI showcase with animations — built using Next.js, Tailwind, Framer Motion',
   strangerblogs: 'Blog platform with Appwrite backend — React, Tailwind, Appwrite',
@@ -27,7 +29,7 @@ const commands: Record<string, string> = {
   clear: 'Clearing terminal...',
   help: `Available commands:
 whoami, about, skills, techstack, projects,
-project_sponsorgrid, project_arovia, project_strangerblogs,
+project_codearena, project_sponsorgrid, project_arovia, project_strangerblogs,
 experience, achievements, currently_learning,
 tools, github, resume, contact, socials, clear`
 };
