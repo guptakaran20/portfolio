@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://guptakaran0720.vercel.app/sitemaps/sitemap.xml",
+    sitemap: "https://guptakaran0720.vercel.app/sitemap.xml",
   };
 }
