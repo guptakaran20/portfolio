@@ -21,6 +21,14 @@ const projects = [
     featured: false,
   },
   {
+    title: "ImportlyAI",
+    description: "AI-Powered CSV Import Platform. Automatically maps arbitrary CSV files into a standardized CRM schema using Gemini with a multi-stage extraction pipeline for schema inference, validation, and intelligent field mapping.",
+    tech: ["Next.js", "TypeScript", "Node.js", "Express.js", "Gemini API", "PapaParse"],
+    demoLink: "https://importlyai.vercel.app",
+    githubLink: "https://github.com/guptakaran20/ImportlyAI",
+    featured: false,
+  },
+  {
     title: "StrangerBlogs",
     description: "Modern blogging platform focused on content experience. Features ultra-fast rendering, personalized reading modes, and a seamless authoring flow.",
     tech: ["React", "Javascript", "Appwrite", "Tailwind CSS"],

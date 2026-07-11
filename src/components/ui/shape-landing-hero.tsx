@@ -188,8 +188,8 @@ function LightStreaks() {
 function HeroGeometric({
     badge = "Full Stack Developer",
     title1 = "Hi, I'm Karan",
-    title2 = "I Build Modern Web Experiences",
-    description = "Second-Year B.Tech Student at NIT Jalandhar • Full Stack Developer specializing in Next.js, Node.js, MongoDB, Redis, and modern web applications.",
+    title2 = "I Build Real-Time Systems & AI-Powered Web Apps",
+    description = "Second-Year B.Tech Student at NIT Jalandhar • Full Stack Developer specializing in Next.js, Node.js, FastAPI, MongoDB, Redis, and modern web applications.",
 }: {
     badge?: string;
     title1?: string;
@@ -314,7 +314,7 @@ function HeroGeometric({
                     </div> */}
 
                     <div>
-                        <h1 className="text-[clamp(2rem,7vw,6rem)] font-bold mb-4 md:mb-4 tracking-tight text-slate-900 dark:text-white leading-tight transition-colors">
+                        <h1 className="text-[clamp(1.5rem,5vw,4.5rem)] font-bold mb-4 md:mb-4 tracking-tight text-slate-900 dark:text-white leading-tight transition-colors">
                             <span className="bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-500 dark:from-white dark:to-white/80 transition-colors">
                                 {title1}
                             </span>

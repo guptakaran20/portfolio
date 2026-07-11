@@ -13,7 +13,7 @@ const About = () => {
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900 dark:text-white">About Me</h2>
               <div className="w-12 h-1 bg-cyan-500 rounded-full mb-6" />
               <p className="text-slate-600 dark:text-white/70 text-base md:text-lg leading-relaxed mb-6 transition-colors">
-                I'm a second-year B.Tech student at NIT Jalandhar and a passionate Full-Stack Web Developer. I specialize in building modern web applications using Next.js, React, Node.js, MongoDB, Redis, and TypeScript. With a strong interest in problem-solving and software engineering, I enjoy creating scalable, high-performance applications that deliver exceptional user experiences.
+                I'm a second-year B.Tech student at NIT Jalandhar and a passionate Full-Stack Web Developer. I specialize in building modern web applications using Next.js, React, Node.js, Express, FastAPI, MongoDB, Redis, and TypeScript. With a strong interest in problem-solving and software engineering, I enjoy creating scalable, high-performance applications that deliver exceptional user experiences.
               </p>
               <p className="text-slate-600 dark:text-white/70 text-base md:text-lg leading-relaxed transition-colors">
                 Currently, I'm focused on strengthening my expertise in full-stack development, Data Structures & Algorithms, and system design while building projects that solve real-world challenges and help me grow as an engineer.

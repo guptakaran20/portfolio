@@ -113,6 +113,7 @@ const techData = [
     items: [
       { name: "Node.js", icon: <Hexagon className="w-4 h-4 text-green-500" /> },
       { name: "Express", icon: <Server className="w-4 h-4 text-gray-400" /> },
+      { name: "FastAPI", icon: <Zap className="w-4 h-4 text-teal-400" /> },
       { name: "REST API", icon: <Zap className="w-4 h-4 text-purple-400" /> },
       { name: "WebSockets", icon: <Network className="w-4 h-4 text-cyan-400" /> },
     ]
@@ -160,7 +161,7 @@ export function TechStack() {
                 Technical Arsenal
               </h2>
               <p className="text-slate-600 dark:text-gray-400 text-sm sm:text-base lg:text-lg max-w-xl transition-colors">
-                A curated selection of tools and technologies I use to bring modern digital experiences to life.
+                A curated selection of tools and technologies I use to build Real-Time Systems & Web Apps.
               </p>
             </div>
 

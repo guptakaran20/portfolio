@@ -5,13 +5,15 @@ import { gsap, useGSAP, ScrollTrigger } from '@/lib/gsap';
 
 const commands: Record<string, string> = {
   hi: 'Hey 👋 Karan here — Full-Stack Developer & BTech ICE student at NIT Jalandhar. Type "help" to explore.',
-  hello: 'Hello! I\'m Karan Gupta — building modern full-stack apps. Try "projects" or "skills".',
+  hello: 'Hello! I\'m Karan Gupta — building Real-Time Systems & AI-Powered Web Apps. Try "projects" or "skills".',
   hey: 'Hey there! 🚀 Welcome to my dev terminal. Type "help" to see what I can do.',
   whoami: 'Karan Gupta — Full-Stack Developer specializing in modern web apps',
   about: 'I build scalable full-stack applications with modern tools like Next.js. Passionate about clean UI, performance, and real-world problem solving.',
-  skills: 'Next.js, React, TypeScript, Node.js, Express, Tailwind CSS, PostgreSQL, Appwrite, Prisma, Docker, MongoDB,Redis',
-  techstack: 'Frontend: React, Next.js, Tailwind\nBackend: Node.js, Express\nDatabase: PostgreSQL,MongoDB,Redis\nTools: Docker, Git, Vercel,Postman',
-  projects: 'CodeArena (Coding Battle Platform) • SponsorGrid (SaaS Platform) • StrangerBlogs (Blogging Platform) • Arovia Vibes (Frontend UI Showcase)',
+  skills: 'Next.js, React, TypeScript, Node.js, Express, FastAPI, Tailwind CSS, PostgreSQL, Appwrite, Prisma, Docker, MongoDB,Redis',
+  techstack: 'Frontend: React, Next.js, Tailwind\nBackend: Node.js, Express, FastAPI\nDatabase: PostgreSQL,MongoDB,Redis\nTools: Docker, Git, Vercel,Postman',
+  projects: 'CodeArena (Coding Battle Platform) • SponsorGrid (SaaS Platform) • ImportlyAI (CSV Import Platform) • StrangerBlogs (Blogging Platform) • Arovia Vibes (UI Showcase)',
+  importlyai: 'AI-Powered CSV Import Platform — built with Next.js, Node.js, Gemini API, PapaParse',
+  project_importlyai: 'AI-Powered CSV Import Platform — built with Next.js, Node.js, Gemini API, PapaParse',
   codearena: 'Real-time Coding Battle Platform for Interview Preparation — built with Next.js, Node.js, Socket.io, Docker',
   project_codearena: 'Real-time Coding Battle Platform for Interview Preparation — built with Next.js, Node.js, Socket.io, Docker',
   sponsorgrid: 'SaaS platform for managing sponsorships — built with Next.js, Prisma, PostgreSQL, Cloudinary',
@@ -29,7 +31,7 @@ const commands: Record<string, string> = {
   clear: 'Clearing terminal...',
   help: `Available commands:
 whoami, about, skills, techstack, projects,
-project_codearena, project_sponsorgrid, project_arovia, project_strangerblogs,
+project_importlyai, project_codearena, project_sponsorgrid, project_arovia, project_strangerblogs,
 experience, achievements, currently_learning,
 tools, github, resume, contact, socials, clear`
 };
