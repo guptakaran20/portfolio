@@ -114,6 +114,7 @@ const techData = [
       { name: "Node.js", icon: <Hexagon className="w-4 h-4 text-green-500" /> },
       { name: "Express", icon: <Server className="w-4 h-4 text-gray-400" /> },
       { name: "FastAPI", icon: <Zap className="w-4 h-4 text-teal-400" /> },
+      { name: "gRPC", icon: <Network className="w-4 h-4 text-emerald-400" /> },
       { name: "REST API", icon: <Zap className="w-4 h-4 text-purple-400" /> },
       { name: "WebSockets", icon: <Network className="w-4 h-4 text-cyan-400" /> },
     ]
@@ -122,9 +123,10 @@ const techData = [
     category: "Databases & Cache",
     items: [
       { name: "PostgreSQL", icon: <Database className="w-4 h-4 text-blue-500" /> },
+      { name: "SQLAlchemy", icon: <Database className="w-4 h-4 text-red-400" /> },
       { name: "MongoDB", icon: <Database className="w-4 h-4 text-green-400" /> },
-      { name: "MySQL", icon: <Database className="w-4 h-4 text-red-500" /> },
       { name: "Redis", icon: <Database className="w-4 h-4 text-red-600" /> },
+      { name: "MySQL", icon: <Database className="w-4 h-4 text-red-500" /> },
     ]
   },
   {

@@ -15,13 +15,30 @@ export default function CustomCursor() {
       // Initialize cursor positions off-screen
       gsap.set(cursorRef.current, { x: -100, y: -100 });
 
+      const hideCursor = () => {
+        if (cursorRef.current) {
+          gsap.set(cursorRef.current, { opacity: 0 });
+        }
+      };
+
+      const showCursor = () => {
+        if (cursorRef.current) {
+          gsap.to(cursorRef.current, { opacity: 1, duration: 0.15 });
+        }
+      };
+
       const onMouseMove = (e: MouseEvent) => {
-        // No delay, direct follow for arrow cursor to feel responsive
-        gsap.to(cursorRef.current, {
-          x: e.clientX,
-          y: e.clientY,
-          duration: 0,
-        });
+        if (cursorRef.current) {
+          // Reveal cursor when mouse moves after blur or screenshot shortcut
+          if (gsap.getProperty(cursorRef.current, "opacity") === 0) {
+            showCursor();
+          }
+          gsap.to(cursorRef.current, {
+            x: e.clientX,
+            y: e.clientY,
+            duration: 0,
+          });
+        }
       };
 
       const handleMouseEnter = () => {
@@ -33,16 +50,43 @@ export default function CustomCursor() {
       };
 
       const handleWindowMouseLeave = () => {
-        gsap.to(cursorRef.current, { opacity: 0, duration: 0.2 });
+        hideCursor();
       };
 
       const handleWindowMouseEnter = () => {
-        gsap.to(cursorRef.current, { opacity: 1, duration: 0.2 });
+        showCursor();
+      };
+
+      const handleBlur = () => {
+        hideCursor();
+      };
+
+      const handleVisibilityChange = () => {
+        if (document.hidden) {
+          hideCursor();
+        }
+      };
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        // Hide custom cursor immediately on screenshot hotkeys (Win+Shift+S, PrintScreen, Cmd+Shift+3/4)
+        if (
+          e.key === "PrintScreen" ||
+          e.key === "Meta" ||
+          e.key === "OS" ||
+          (e.metaKey && e.shiftKey) ||
+          (e.ctrlKey && e.shiftKey) ||
+          e.key === "F12"
+        ) {
+          hideCursor();
+        }
       };
 
       window.addEventListener("mousemove", onMouseMove);
+      window.addEventListener("blur", handleBlur);
+      window.addEventListener("keydown", handleKeyDown);
       document.addEventListener("mouseleave", handleWindowMouseLeave);
       document.addEventListener("mouseenter", handleWindowMouseEnter);
+      document.addEventListener("visibilitychange", handleVisibilityChange);
 
       // Bind hover events to interactive elements dynamically
       const observer = new MutationObserver(() => {
@@ -66,8 +110,11 @@ export default function CustomCursor() {
 
       return () => {
         window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("blur", handleBlur);
+        window.removeEventListener("keydown", handleKeyDown);
         document.removeEventListener("mouseleave", handleWindowMouseLeave);
         document.removeEventListener("mouseenter", handleWindowMouseEnter);
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
         observer.disconnect();
       };
     }
@@ -79,10 +126,13 @@ export default function CustomCursor() {
     <>
       <style dangerouslySetInnerHTML={{__html: `
         body, a, button, [role="button"], input, textarea, select { cursor: none !important; }
+        @media print {
+          .custom-cursor-container { display: none !important; }
+        }
       `}} />
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 pointer-events-none z-[9999] text-white"
+        className="custom-cursor-container fixed top-0 left-0 pointer-events-none z-[9999] text-white"
         style={{ transformOrigin: "0 0" }} // Scale from the tip of the cursor
       >
         <svg 

@@ -5,12 +5,20 @@ import { FeaturedProjectsClient } from "./FeaturedProjectsClient";
 
 const projects = [
   {
+    title: "EventFlow",
+    description: "Distributed workflow orchestration engine designed to execute, monitor, and scale graph-based task pipelines across worker clusters. Features deterministic execution, Redis Streams message queueing, PostgreSQL state management, gRPC/REST dual transport, and an editorial Next.js dashboard.",
+    tech: ["Python", "FastAPI", "Redis Streams", "PostgreSQL", "SQLAlchemy", "gRPC", "Next.js", "Docker"],
+    demoLink: "https://goeventflow.vercel.app/",
+    githubLink: "https://github.com/guptakaran20/EventFlow",
+    featured: true,
+  },
+  {
     title: "CodeArena",
     description: "Real-time Coding Battle Platform for Interview Preparation. CodeArena is a modern coding interview practice platform where developers can challenge each other in real-time coding battles.",
     tech: ["TypeScript", "Next.js", "Node.js", "Express", "MongoDB", "Redis", "Socket.io", "Docker", "Nginix" , "AWS"],
     demoLink: "https://codearenabattle.vercel.app/",
     githubLink: "https://github.com/guptakaran20/CodeBattle",
-    featured: true,
+    featured: false,
   },
   {
     title: "SponsorGrid",

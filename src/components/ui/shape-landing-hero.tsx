@@ -188,7 +188,7 @@ function LightStreaks() {
 function HeroGeometric({
     badge = "Full Stack Developer",
     title1 = "Hi, I'm Karan",
-    title2 = "I Build Real-Time Systems & AI-Powered Web Apps",
+    title2 = "I Build Real-Time Distributed Systems & AI-Powered Web Apps",
     description = "Second-Year B.Tech Student at NIT Jalandhar • Full Stack Developer specializing in Next.js, Node.js, FastAPI, MongoDB, Redis, and modern web applications.",
 }: {
     badge?: string;
@@ -335,17 +335,17 @@ function HeroGeometric({
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-10 text-slate-500 dark:text-white/50 text-xs sm:text-sm tracking-wide font-light transition-colors">
-                        <div className="flex items-center gap-2">
-                            <span className="text-slate-800 dark:text-white/80 font-medium">400+</span> LeetCode Problems Solved
+                    <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 mb-10 text-slate-500 dark:text-white/50 text-xs sm:text-sm tracking-wide font-light transition-colors">
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-slate-800 dark:text-white/80 font-medium">500+</span> LeetCode Problems Solved
                         </div>
                         <div className="hidden sm:block w-1 h-1 rounded-full bg-slate-300 dark:bg-white/20" />
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5">
                             Full Stack Developer
                         </div>
                         <div className="hidden sm:block w-1 h-1 rounded-full bg-slate-300 dark:bg-white/20" />
-                        <div className="flex items-center gap-2">
-                            Devops
+                        <div className="flex items-center gap-1.5">
+                            DevOps
                         </div>
                     </div>
 
