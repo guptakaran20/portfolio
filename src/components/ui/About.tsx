@@ -39,7 +39,7 @@ const About = () => {
                   <p className="text-slate-500 dark:text-white/60 text-base mt-1 font-medium transition-colors">XCEED - NIT Jalandhar</p>
                   <p className="text-slate-400 dark:text-white/40 text-sm mt-1 mb-4 transition-colors">June 2026 - Present</p>
                   <p className="text-slate-600 dark:text-white/70 text-base leading-relaxed max-w-xl transition-colors">
-                    Contributing to the backend development of an Intelligent Attendance Management System (iAMS).
+                    Contributing to the backend development of an Intelligent Learning Engagement and Entity Detection (ILEED).
                   </p>
                 </div>
               </div>
