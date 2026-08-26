@@ -35,12 +35,15 @@ const About = () => {
                 {/* Item 1 */}
                 <div className="relative pl-8">
                   <span className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-cyan-500 dark:bg-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.5)] dark:shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
-                  <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Intern</h3>
+                  <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Full-Stack Developer</h3>
                   <p className="text-slate-500 dark:text-white/60 text-base mt-1 font-medium transition-colors">XCEED - NIT Jalandhar</p>
                   <p className="text-slate-400 dark:text-white/40 text-sm mt-1 mb-4 transition-colors">June 2026 - Present</p>
-                  <p className="text-slate-600 dark:text-white/70 text-base leading-relaxed max-w-xl transition-colors">
-                    Contributing to the backend development of an Intelligent Learning Engagement and Entity Detection (ILEED).
-                  </p>
+                  <ul className="text-slate-600 dark:text-white/70 text-base leading-relaxed max-w-2xl transition-colors list-disc pl-5 space-y-2">
+                    <li>Architected core backend services for an intelligent attendance platform integrating FAISS-based face recognition for automated ground-truth tracking.</li>
+                    <li>Engineered a robust ERP photo management module supporting batch ZIP ingestion and automated face-embedding synchronization via FastAPI webhooks.</li>
+                    <li>Architected a real-time system health dashboard utilizing Server-Sent Events (SSE) and smart fallback mechanisms for high availability.</li>
+                    <li>Built a cross-platform Capacitor mobile app with Firebase Cloud Messaging and custom deep-linking logic for real-time attendance alerts.</li>
+                  </ul>
                 </div>
               </div>
             </div>

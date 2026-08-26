@@ -24,7 +24,7 @@ const commands: Record<string, string> = {
   project_arovia: 'Modern UI showcase with animations — built using Next.js, Tailwind, Framer Motion',
   strangerblogs: 'Blog platform with Appwrite backend — React, Tailwind, Appwrite',
   project_strangerblogs: 'Blog platform with Appwrite backend — React, Tailwind, Appwrite',
-  experience: 'Built multiple full-stack applications with authentication, APIs, and database integration. Currently working as Intern in XCEED-NITJ contributing to Intelligent Attendance Management System',
+  experience: 'Full-Stack Developer Intern at XCEED-NITJ. Architected intelligent attendance backend with FAISS, engineered ERP photo management with FastAPI webhooks, designed real-time SSE health monitoring dashboards, and built a cross-platform Capacitor mobile app with deep-linking logic.',
   achievements: 'Created scalable SaaS apps, built distributed workflow engine, implemented authentication systems, worked with modern full-stack architectures',
   currently_learning: 'Advanced Distributed Systems • System Design • High-throughput Queues & gRPC microservices',
   tools: 'VS Code, Git, Docker, Vercel, Postman',
