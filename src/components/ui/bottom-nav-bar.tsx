@@ -6,6 +6,7 @@ import {
   Home,
   Code2,
   Briefcase,
+  FolderGit2,
   User,
   Mail,
   Terminal,
@@ -15,8 +16,9 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "Home", icon: Home, href: "#home" },
+  { label: "Experience", icon: Briefcase, href: "#experience" },
+  { label: "Projects", icon: FolderGit2, href: "#projects" },
   { label: "Skills", icon: Code2, href: "#skills" },
-  { label: "Projects", icon: Briefcase, href: "#projects" },
   { label: "Terminal", icon: Terminal, href: "#terminal" },
   { label: "About", icon: User, href: "#about" },
   { label: "Contact", icon: Mail, href: "#contact" },
@@ -103,11 +105,12 @@ export function BottomNavBar({
               "flex items-center gap-0 px-2.5 md:px-3 py-1.5 md:py-2 rounded-full transition-all duration-300 relative h-9 md:h-10 min-w-[36px] md:min-w-[44px]",
               isActive
                 ? "bg-white/10 text-white gap-1 md:gap-2 ring-1 ring-white/20"
-                : "bg-transparent text-gray-500 hover:text-gray-300 hover:bg-white/5",
-              "focus:outline-none focus-visible:ring-0",
+                : "bg-transparent text-gray-400 hover:text-gray-200 hover:bg-white/5",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400",
             )}
             onClick={() => handleNavClick(idx, item.href)}
             aria-label={item.label}
+            aria-current={isActive ? "location" : undefined}
             type="button"
           >
             <Icon
