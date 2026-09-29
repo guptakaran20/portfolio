@@ -4,41 +4,52 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { gsap, useGSAP, ScrollTrigger } from '@/lib/gsap';
 
 const commands: Record<string, string> = {
-  hi: 'Hey 👋 Karan here — Full-Stack Developer & BTech ICE student at NIT Jalandhar. Type "help" to explore.',
-  hello: 'Hello! I\'m Karan Gupta — building Real-Time Systems & AI-Powered Web Apps. Try "projects" or "skills".',
+  hi: 'Hey 👋 Karan here — Full Stack Developer at XCEED and B.Tech ICE student at NIT Jalandhar. Type "help" to explore.',
+  hello: 'Hello! I\'m Karan Gupta — I build real-time systems and AI-powered web and mobile apps. Try "experience" or "projects".',
   hey: 'Hey there! 🚀 Welcome to my dev terminal. Type "help" to see what I can do.',
-  whoami: 'Karan Gupta — Full-Stack Developer specializing in modern web apps and distributed systems',
-  about: 'I build scalable full-stack applications & distributed backend engines with Python, FastAPI, Next.js, and Redis Streams. Passionate about system design, clean UI, and real-world problem solving.',
-  skills: 'Python, FastAPI, Next.js, React, TypeScript, Node.js, Express, gRPC, SQLAlchemy, PostgreSQL, Redis Streams, Docker, MongoDB, Prisma, Tailwind CSS',
-  techstack: 'Frontend: React, Next.js, Tailwind CSS\nBackend: Python (FastAPI), Node.js, Express, gRPC\nDatabase & Cache: PostgreSQL, Redis Streams, SQLAlchemy, MongoDB, Prisma\nTools: Docker, Git, Vercel, Postman',
-  projects: 'EventFlow (Distributed Workflow Engine) • CodeArena (Coding Battle Platform) • SponsorGrid (SaaS Platform) • ImportlyAI (CSV Import Platform) • StrangerBlogs (Blogging Platform) • Arovia Vibes (UI Showcase)',
-  eventflow: 'Distributed workflow orchestration engine — built with Python, FastAPI, Redis Streams, PostgreSQL, SQLAlchemy, gRPC, Next.js, Docker',
-  project_eventflow: 'Distributed workflow orchestration engine — built with Python, FastAPI, Redis Streams, PostgreSQL, SQLAlchemy, gRPC, Next.js, Docker',
-  importlyai: 'AI-Powered CSV Import Platform — built with Next.js, Node.js, Gemini API, PapaParse',
-  project_importlyai: 'AI-Powered CSV Import Platform — built with Next.js, Node.js, Gemini API, PapaParse',
-  codearena: 'Real-time Coding Battle Platform for Interview Preparation — built with Next.js, Node.js, Socket.io, Docker',
-  project_codearena: 'Real-time Coding Battle Platform for Interview Preparation — built with Next.js, Node.js, Socket.io, Docker',
-  sponsorgrid: 'SaaS platform for managing sponsorships — built with Next.js, Prisma, PostgreSQL, Cloudinary',
-  project_sponsorgrid: 'SaaS platform for managing sponsorships — built with Next.js, Prisma, PostgreSQL, Cloudinary',
-  aroviavibes: 'Modern UI showcase with animations — built using Next.js, Tailwind, Framer Motion',
-  project_arovia: 'Modern UI showcase with animations — built using Next.js, Tailwind, Framer Motion',
-  strangerblogs: 'Blog platform with Appwrite backend — React, Tailwind, Appwrite',
-  project_strangerblogs: 'Blog platform with Appwrite backend — React, Tailwind, Appwrite',
-  experience: 'Full-Stack Developer Intern at XCEED-NITJ. Architected intelligent attendance backend with FAISS, engineered ERP photo management with FastAPI webhooks, designed real-time SSE health monitoring dashboards, and built a cross-platform Capacitor mobile app with deep-linking logic.',
-  achievements: 'Created scalable SaaS apps, built distributed workflow engine, implemented authentication systems, worked with modern full-stack architectures',
-  currently_learning: 'Advanced Distributed Systems • System Design • High-throughput Queues & gRPC microservices',
-  tools: 'VS Code, Git, Docker, Vercel, Postman',
-  leetcode: 'Solved 500+ Questions on LeetCode. Check here - https://leetcode.com/guptakaran0720/',
+  whoami: 'Karan Gupta — Full Stack Developer at XCEED, NIT Jalandhar. 145 PRs, 560+ commits, 1,000+ students served.',
+  about: 'I build full-stack apps and distributed backends with Node.js, FastAPI, Next.js, Python and Redis. I enjoy system design, real-time data and keeping production fast and reliable.',
+  experience: `Full Stack Developer @ XCEED, NIT Jalandhar (Jun 2026 – Present)
+• ILEED: AI attendance platform for 1,000+ students across 30+ cameras — FAISS face recognition on live RTSP streams, ERP embedding automation, one-click deploys with auto-rollback.
+• XCEED Learning App: Android & iOS on Capacitor — biometric sign-in, push notifications, delta OTA updates (21.6 MB → 0.41 MB).
+• 145 PRs authored, 135 merged, 560+ commits.`,
+  opensource: `• GSSoC'26 — merged advanced-level PR hardening auth validation in a MERN leave-management system
+• Aarogya Club, NITJ — 9 merged PRs building a real-time quiz platform (WebSockets, QR tokens, anti-cheat)`,
+  achievements: `• LeetCode Knight — 1870 rating, top 5.7% globally, 613 problems solved (88 Hard)
+• 1,400+ GitHub contributions in the past year
+• GSSoC'26 contributor`,
+  skills: 'TypeScript, JavaScript, Python, C++, SQL, React, Next.js, Node.js, Express, FastAPI, gRPC, WebSockets, PostgreSQL, MongoDB, Redis, FAISS, Capacitor, Docker, AWS, GitHub Actions',
+  techstack: `Frontend: React, Next.js, Tailwind CSS, TanStack Query
+Backend: Node.js, Express, FastAPI (Python), gRPC, Socket.IO
+Data: PostgreSQL, MongoDB, Redis Streams, Prisma, SQLAlchemy
+AI & ML: FAISS, ONNX Runtime, Gemini API
+Mobile: Capacitor, Firebase Cloud Messaging
+DevOps: Docker, AWS EC2, Nginx, GitHub Actions, PM2, Prometheus, Grafana`,
+  projects: 'EventFlow (workflow engine) • CodeArena (coding battles) • ImportlyAI (AI CSV import) • SponsorGrid (SaaS) • Arovia Vibes (eCommerce) • StrangerBlogs (blogging). Try "eventflow" or "codearena".',
+  eventflow: 'Distributed workflow orchestration engine — DAG pipelines on Redis Streams workers with retries, a dead-letter queue and stuck-job recovery. Python, FastAPI, PostgreSQL, gRPC, Next.js, Docker.',
+  project_eventflow: 'Distributed workflow orchestration engine — DAG pipelines on Redis Streams workers with retries, a dead-letter queue and stuck-job recovery. Python, FastAPI, PostgreSQL, gRPC, Next.js, Docker.',
+  codearena: 'Real-time coding battles with Redis matchmaking, tournaments and live leaderboards — Next.js, Node.js, Socket.IO, Piston, AWS EC2.',
+  project_codearena: 'Real-time coding battles with Redis matchmaking, tournaments and live leaderboards — Next.js, Node.js, Socket.IO, Piston, AWS EC2.',
+  importlyai: 'AI-powered CSV import — a multi-stage Gemini pipeline mapping any CSV to a CRM schema, with 180+ benchmark tests. Next.js, Node.js, PapaParse.',
+  project_importlyai: 'AI-powered CSV import — a multi-stage Gemini pipeline mapping any CSV to a CRM schema, with 180+ benchmark tests. Next.js, Node.js, PapaParse.',
+  sponsorgrid: 'SaaS for club sponsorships — Next.js, Prisma, PostgreSQL, Zod, Cloudinary, Google OAuth.',
+  project_sponsorgrid: 'SaaS for club sponsorships — Next.js, Prisma, PostgreSQL, Zod, Cloudinary, Google OAuth.',
+  aroviavibes: 'eCommerce storefront with an admin panel and analytics — Next.js, Supabase, Tailwind, Framer Motion.',
+  project_arovia: 'eCommerce storefront with an admin panel and analytics — Next.js, Supabase, Tailwind, Framer Motion.',
+  strangerblogs: 'Blog platform with an Appwrite backend — React, Tailwind, Appwrite.',
+  project_strangerblogs: 'Blog platform with an Appwrite backend — React, Tailwind, Appwrite.',
+  currently_learning: 'Kubernetes • Microservices • System design at scale • AI agents and LLM integrations',
+  tools: 'VS Code, Git, Docker, Postman, GitHub Actions, Vercel',
+  leetcode: 'LeetCode Knight — 1870 rating (top 5.7%), 613 problems solved. https://leetcode.com/u/guptakaran0720/',
   github: 'github.com/guptakaran20',
-  resume: 'Check at home section',
+  resume: 'Use the "Download Resume" button at the top, or open /resume.pdf',
   contact: 'Email: guptakaran0720@gmail.com',
-  socials: 'GitHub: guptakaran20 | LinkedIn: guptakaran0720',
+  socials: 'GitHub: guptakaran20 | LinkedIn: guptakaran0720 | LeetCode: guptakaran0720',
   clear: 'Clearing terminal...',
   help: `Available commands:
-whoami, about, skills, techstack, projects, eventflow,
-project_eventflow, project_codearena, project_importlyai, project_sponsorgrid, project_arovia, project_strangerblogs,
-experience, achievements, currently_learning,
-tools, github, resume, contact, socials, clear`
+whoami, about, experience, opensource, achievements,
+skills, techstack, projects, eventflow, codearena, importlyai, sponsorgrid, aroviavibes, strangerblogs,
+currently_learning, tools, leetcode, github, resume, contact, socials, clear`
 };
 
 export default function Terminal() {
@@ -136,7 +147,7 @@ export default function Terminal() {
   };
 
   return (
-    <section id="terminal" className="relative bg-gray-50 dark:bg-transparent py-16 sm:py-24 md:py-32 z-30 transition-colors duration-300">
+    <section id="terminal" className="relative bg-gray-50 dark:bg-transparent py-16 md:py-20 z-30 transition-colors duration-300">
       <div ref={sectionRef} className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Section heading */}
         <div ref={headingRef} className="text-center mb-8 sm:mb-12">
@@ -162,7 +173,7 @@ export default function Terminal() {
               <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
               <div className="w-3 h-3 rounded-full bg-green-500/80" />
             </div>
-            <span className="flex-1 text-center text-xs text-slate-500 dark:text-gray-500 font-mono transition-colors">
+            <span className="flex-1 text-center text-xs text-slate-600 dark:text-gray-400 font-mono transition-colors">
               karan@portfolio ~ zsh
             </span>
           </div>
@@ -176,7 +187,7 @@ export default function Terminal() {
             {history.map((entry, i) => (
               <div key={i} className="mb-2">
                 {entry.type === 'system' && (
-                  <p className="text-slate-500 dark:text-gray-500 text-xs italic">{entry.text}</p>
+                  <p className="text-slate-500 dark:text-gray-400 text-xs italic">{entry.text}</p>
                 )}
                 {entry.type === 'input' && (
                   <p>
@@ -203,6 +214,7 @@ export default function Terminal() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                aria-label="Terminal command"
                 className="flex-1 bg-transparent border-none outline-none text-slate-900 dark:text-gray-100 font-mono text-sm caret-cyan-500"
                 spellCheck={false}
                 autoComplete="off"

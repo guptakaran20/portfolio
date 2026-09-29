@@ -149,7 +149,8 @@ export function ContactFormClient() {
           id="name" 
           name="name" 
           required 
-          placeholder="Karan Gupta" 
+          placeholder="Your name"
+          autoComplete="name" 
           className="bg-slate-50 dark:bg-black/50 border-slate-200 dark:border-white/10 focus-visible:ring-cyan-500 text-slate-900 dark:text-white h-12 transition-colors" 
         />
       </div>
@@ -160,7 +161,8 @@ export function ContactFormClient() {
           name="email" 
           required 
           type="email" 
-          placeholder="guptakaran0720@gmail.com" 
+          placeholder="you@company.com"
+          autoComplete="email" 
           className="bg-slate-50 dark:bg-black/50 border-slate-200 dark:border-white/10 focus-visible:ring-cyan-500 text-slate-900 dark:text-white h-12 transition-colors" 
         />
       </div>
@@ -170,7 +172,7 @@ export function ContactFormClient() {
           id="message" 
           name="message" 
           required 
-          placeholder="Tell me about your project..." 
+          placeholder="Tell me about the role, project or idea..." 
           className="bg-slate-50 dark:bg-black/50 border-slate-200 dark:border-white/10 focus-visible:ring-cyan-500 text-slate-900 dark:text-white min-h-[150px] resize-none transition-colors" 
         />
       </div>

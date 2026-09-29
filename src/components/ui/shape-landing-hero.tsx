@@ -189,7 +189,7 @@ function HeroGeometric({
     badge = "Full Stack Developer",
     title1 = "Hi, I'm Karan",
     title2 = "I Build Real-Time Distributed Systems & AI-Powered Web Apps",
-    description = "Second-Year B.Tech Student at NIT Jalandhar • Full Stack Developer specializing in Next.js, Node.js, FastAPI, MongoDB, Redis, and modern web applications.",
+    description = "Full Stack Developer at XCEED, NIT Jalandhar, shipping an AI attendance platform for 1,000+ students. Second-year B.Tech, building with Next.js, Node.js, FastAPI, Python and Redis.",
 }: {
     badge?: string;
     title1?: string;
@@ -330,24 +330,24 @@ function HeroGeometric({
                     </div>
 
                     <div>
-                        <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-white/40 mb-6 leading-relaxed font-light tracking-wide max-w-2xl mx-auto px-4 transition-colors">
+                        <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-white/65 mb-6 leading-relaxed font-light tracking-wide max-w-2xl mx-auto px-4 transition-colors">
                             {description}
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 mb-10 text-slate-500 dark:text-white/50 text-xs sm:text-sm tracking-wide font-light transition-colors">
-                        <div className="flex items-center gap-1.5">
-                            <span className="text-slate-800 dark:text-white/80 font-medium">500+</span> LeetCode Problems Solved
-                        </div>
-                        <div className="hidden sm:block w-1 h-1 rounded-full bg-slate-300 dark:bg-white/20" />
-                        <div className="flex items-center gap-1.5">
-                            Full Stack Developer
-                        </div>
-                        <div className="hidden sm:block w-1 h-1 rounded-full bg-slate-300 dark:bg-white/20" />
-                        <div className="flex items-center gap-1.5">
-                            DevOps
-                        </div>
-                    </div>
+                    <ul className="flex flex-wrap items-center justify-center gap-x-3.5 gap-y-2 mb-10 text-slate-600 dark:text-white/60 text-xs sm:text-sm tracking-wide font-light transition-colors" aria-label="Highlights">
+                        <li className="flex items-center gap-1.5">
+                            <span className="text-slate-900 dark:text-white/90 font-medium">145</span> PRs at XCEED
+                        </li>
+                        <li className="hidden sm:block w-1 h-1 rounded-full bg-slate-300 dark:bg-white/20" aria-hidden />
+                        <li className="flex items-center gap-1.5">
+                            <span className="text-slate-900 dark:text-white/90 font-medium">1,000+</span> students served
+                        </li>
+                        <li className="hidden sm:block w-1 h-1 rounded-full bg-slate-300 dark:bg-white/20" aria-hidden />
+                        <li className="flex items-center gap-1.5">
+                            LeetCode Knight <span className="text-slate-900 dark:text-white/90 font-medium">· top 5.7%</span>
+                        </li>
+                    </ul>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full px-4 sm:px-0">
                         <a
@@ -359,10 +359,10 @@ function HeroGeometric({
                             Download Resume
                         </a>
                         <a
-                            href="#projects"
+                            href="#experience"
                             className="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-full bg-transparent border border-slate-300 dark:border-white/10 text-slate-800 dark:text-white font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-all group hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 dark:focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                         >
-                            View Projects
+                            View Experience
                         </a>
                     </div>
                 </div>

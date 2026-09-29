@@ -104,7 +104,7 @@ export default function GitHubActivity({ darkMode: initialDarkMode }: { darkMode
   }
 
   return (
-    <section className="relative py-16 sm:py-24 md:py-32 bg-gray-50 dark:bg-transparent transition-colors duration-300">
+    <section className="relative py-16 md:py-20 bg-gray-50 dark:bg-transparent transition-colors duration-300">
       <div ref={sectionRef} className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Section heading */}
         <div ref={headingRef} className="text-center mb-8 sm:mb-12">

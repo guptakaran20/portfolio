@@ -3,7 +3,7 @@ import { ContactAnimations, ContactFormClient } from "./ContactClient";
 
 export default function Contact() {
   return (
-    <section className="relative w-full py-16 sm:py-24 md:py-32 bg-gray-50 dark:bg-transparent z-30 overflow-hidden transition-colors duration-300" id="contact">
+    <section className="relative w-full py-16 md:py-20 bg-gray-50 dark:bg-transparent z-30 overflow-hidden transition-colors duration-300" id="contact">
       <ContactAnimations />
       {/* Decorative Elements */}
       <div className="contact-particle absolute top-20 left-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -13,12 +13,12 @@ export default function Contact() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 md:gap-16">
           
-          <div id="contact-left-col" className="flex flex-col justify-center">
+          <div id="contact-left-col" className="flex flex-col justify-start md:pt-4">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-6 transition-colors" style={{ willChange: "transform, opacity" }}>
               Let&apos;s build something great together.
             </h2>
             <p className="text-slate-600 dark:text-gray-400 mb-6 sm:mb-10 text-sm sm:text-base md:text-lg transition-colors" style={{ willChange: "transform, opacity" }}>
-              Have a project in mind or just want to chat? Drop me a message and I&apos;ll get back to you as soon as possible.
+              Hiring for an internship, building something interesting, or just want to talk systems? Send a message and I&apos;ll reply soon.
             </p>
             
             <div className="space-y-6" style={{ willChange: "transform, opacity" }}>
@@ -51,7 +51,7 @@ export default function Contact() {
 
 function ContactLink({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) {
   return (
-    <a href={href} className="contact-link group flex items-center gap-4 text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+    <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noopener noreferrer" : undefined} className="contact-link group flex items-center gap-4 text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white transition-colors">
       <div className="link-icon w-12 h-12 rounded-full bg-slate-200 dark:bg-white/5 border border-slate-300 dark:border-white/10 flex items-center justify-center group-hover:border-slate-400 dark:group-hover:border-white/30 transition-colors will-change-transform text-slate-700 dark:text-white">
         {icon}
       </div>
