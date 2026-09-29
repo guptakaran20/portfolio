@@ -1,7 +1,9 @@
 import {
   Code2, Zap, Atom, Server, Hexagon,
-  Database, Layout, Terminal, Box, Network } from "lucide-react";
-import { TechStackAnimations, TechBadge, OrbitalSystem } from "./TechStackClient";
+  Database, Layout, Box, Network, Brain, Cpu, Sparkles,
+  Smartphone, BellRing, Cloud, Workflow, Gauge, Activity, Layers, Radio } from "lucide-react";
+import { TechStackAnimations, TechBadge } from "./TechStackClient";
+import { StackOrbit } from "./StackOrbit";
 import { cn } from "@/lib/utils";
 
 // Custom Icon Components for missing lucide-react icons
@@ -58,22 +60,6 @@ const FileCodeIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const LeetcodeIcon = ({ className }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M16.102 17.93l-2.697 2.607c-.466.467-1.111.662-1.823.662s-1.357-.195-1.824-.662l-4.332-4.363c-.467-.467-.702-1.15-.702-1.863s.235-1.357.702-1.824l4.332-4.363c.467-.467 1.112-.662 1.824-.662s1.356.195 1.823.662l2.697 2.606c.514.515 1.335.515 1.849 0 .514-.513.514-1.334 0-1.848l-2.697-2.606" />
-    <path d="M11.67 12.901V1.757" />
-  </svg>
-);
-
 const VercelIcon = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -97,6 +83,7 @@ const techData = [
       { name: "TypeScript", icon: <FileCodeIcon className="w-4 h-4 text-blue-400" /> },
       { name: "Python", icon: <Box className="w-4 h-4 text-blue-500" /> },
       { name: "C/C++", icon: <Code2 className="w-4 h-4 text-blue-600" /> },
+      { name: "SQL", icon: <Database className="w-4 h-4 text-sky-500" /> },
     ]
   },
   {
@@ -105,6 +92,7 @@ const techData = [
       { name: "React", icon: <Atom className="w-4 h-4 text-cyan-500 dark:text-cyan-400" /> },
       { name: "Next.js", icon: <Zap className="w-4 h-4 text-slate-900 dark:text-white" /> },
       { name: "Tailwind CSS", icon: <Layout className="w-4 h-4 text-cyan-500 dark:text-cyan-300" /> },
+      { name: "TanStack Query", icon: <Layers className="w-4 h-4 text-rose-400" /> },
       { name: "HTML/CSS", icon: <FileCodeIcon className="w-4 h-4 text-orange-500 dark:text-orange-400" /> },
     ]
   },
@@ -117,45 +105,72 @@ const techData = [
       { name: "gRPC", icon: <Network className="w-4 h-4 text-emerald-400" /> },
       { name: "REST API", icon: <Zap className="w-4 h-4 text-purple-400" /> },
       { name: "WebSockets", icon: <Network className="w-4 h-4 text-cyan-400" /> },
+      { name: "Socket.IO", icon: <Radio className="w-4 h-4 text-slate-500 dark:text-slate-300" /> },
     ]
   },
   {
     category: "Databases & Cache",
     items: [
       { name: "PostgreSQL", icon: <Database className="w-4 h-4 text-blue-500" /> },
-      { name: "SQLAlchemy", icon: <Database className="w-4 h-4 text-red-400" /> },
       { name: "MongoDB", icon: <Database className="w-4 h-4 text-green-400" /> },
       { name: "Redis", icon: <Database className="w-4 h-4 text-red-600" /> },
       { name: "MySQL", icon: <Database className="w-4 h-4 text-red-500" /> },
+      { name: "Prisma", icon: <Database className="w-4 h-4 text-indigo-400" /> },
+      { name: "SQLAlchemy", icon: <Database className="w-4 h-4 text-red-400" /> },
     ]
   },
   {
-    category: "Version Control",
+    category: "AI & ML",
     items: [
-      { name: "Git/GitHub", icon: <GithubIcon className="w-4 h-4 text-slate-900 dark:text-white" /> },
+      { name: "FAISS", icon: <Brain className="w-4 h-4 text-violet-400" /> },
+      { name: "ONNX Runtime", icon: <Cpu className="w-4 h-4 text-slate-500 dark:text-slate-300" /> },
+      { name: "Gemini API", icon: <Sparkles className="w-4 h-4 text-blue-400" /> },
     ]
   },
   {
-    category: "DevOps & Tools",
+    category: "Mobile",
+    items: [
+      { name: "Capacitor", icon: <Smartphone className="w-4 h-4 text-sky-400" /> },
+      { name: "Firebase Cloud Messaging", icon: <BellRing className="w-4 h-4 text-amber-400" /> },
+      { name: "Android & iOS", icon: <Smartphone className="w-4 h-4 text-emerald-400" /> },
+    ]
+  },
+  {
+    category: "DevOps & Cloud",
     items: [
       { name: "Docker", icon: <Box className="w-4 h-4 text-blue-500" /> },
-      { name: "VS Code", icon: <Terminal className="w-4 h-4 text-blue-400" /> },
-      { name: "Vercel", icon: <VercelIcon className="w-4 h-4 text-emerald-400" /> },
-      { name: "Leetcode", icon: <LeetcodeIcon className="w-4 h-4 text-emerald-400" /> },
+      { name: "AWS EC2", icon: <Cloud className="w-4 h-4 text-orange-400" /> },
+      { name: "Nginx", icon: <Server className="w-4 h-4 text-green-500" /> },
+      { name: "GitHub Actions", icon: <Workflow className="w-4 h-4 text-slate-500 dark:text-slate-300" /> },
+      { name: "PM2", icon: <Activity className="w-4 h-4 text-cyan-400" /> },
+      { name: "Prometheus & Grafana", icon: <Gauge className="w-4 h-4 text-orange-500" /> },
+      { name: "Git/GitHub", icon: <GithubIcon className="w-4 h-4 text-slate-900 dark:text-white" /> },
+      { name: "Vercel", icon: <VercelIcon className="w-4 h-4 text-slate-900 dark:text-white" /> },
     ]
   }
 ];
 
+// One icon per layer for the orbit on the right.
+const layerMeta: Record<string, { short: string; icon: React.ReactNode }> = {
+  "Programming Languages": { short: "Languages", icon: <Code2 className="w-5 h-5 text-yellow-500" /> },
+  Frontend: { short: "Frontend", icon: <Layout className="w-5 h-5 text-cyan-500" /> },
+  Backend: { short: "Backend", icon: <Server className="w-5 h-5 text-green-500" /> },
+  "Databases & Cache": { short: "Databases", icon: <Database className="w-5 h-5 text-blue-500" /> },
+  "AI & ML": { short: "AI & ML", icon: <Brain className="w-5 h-5 text-violet-500" /> },
+  Mobile: { short: "Mobile", icon: <Smartphone className="w-5 h-5 text-sky-500" /> },
+  "DevOps & Cloud": { short: "DevOps & Cloud", icon: <Cloud className="w-5 h-5 text-orange-500" /> },
+};
+
 export function TechStack() {
   return (
-    <section id="skills" className="relative w-full min-h-screen py-16 sm:py-20 md:py-24 lg:py-32 bg-gray-50 dark:bg-transparent flex flex-col justify-start transition-colors duration-300">
+    <section id="skills" className="relative w-full py-16 md:py-20 bg-gray-50 dark:bg-transparent flex flex-col justify-start transition-colors duration-300">
       <TechStackAnimations />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent dark:from-[#030303] via-transparent dark:via-blue-950/5 to-transparent dark:to-[#030303] pointer-events-none transition-colors" />
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-500/10 dark:bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none transition-colors" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 dark:bg-purple-500/5 rounded-full blur-[120px] pointer-events-none transition-colors" />
 
       <div className="container mx-auto px-4 sm:px-6 md:px-8 relative z-10">
-        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-start gap-8 sm:gap-10 lg:gap-20">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-start gap-8 sm:gap-10 lg:gap-14">
 
           <div id="tech-left-column" className="flex-1 w-full space-y-6 sm:space-y-8 lg:space-y-10" style={{ willChange: "transform" }}>
             <div>
@@ -163,14 +178,15 @@ export function TechStack() {
                 Technical Arsenal
               </h2>
               <p className="text-slate-600 dark:text-gray-400 text-sm sm:text-base lg:text-lg max-w-xl transition-colors">
-                A curated selection of tools and technologies I use to build Real-Time Systems & Web Apps.
+                The tools I use to build real-time systems, AI features and web and mobile apps.
               </p>
             </div>
 
             <div id="tech-grid" className="space-y-5 sm:space-y-6 lg:space-y-8">
               {techData.map((category, idx) => (
-                <div key={category.category} className="space-y-4">
-                  <h3 className={`category-header-${idx} text-xs uppercase tracking-[0.2em] text-slate-400 dark:text-white/40 font-semibold opacity-0 transition-colors`} style={{ willChange: "opacity" }}>
+                <div key={category.category} data-layer={idx} data-active={idx === 0 ? "true" : "false"} className="group/layer space-y-4">
+                  <h3 className={`category-header-${idx} flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-white/60 group-data-[active=true]/layer:text-cyan-700 dark:group-data-[active=true]/layer:text-cyan-400 font-semibold opacity-0 transition-colors`} style={{ willChange: "opacity" }}>
+                    <span className="font-mono text-[10px] tracking-normal opacity-70">{String(idx + 1).padStart(2, "0")}</span>
                     {category.category}
                   </h3>
 
@@ -189,11 +205,24 @@ export function TechStack() {
             </div>
           </div>
 
-          <div className="hidden lg:flex lg:w-[40%] sticky top-32 py-64 items-center justify-center">
-            <OrbitalSystem size={320} />
+          {/* The column stretches to the list's height; only the orbit itself is sticky, centred in the
+              viewport, so it stays put while every category scrolls past and releases at the last one. */}
+          <div className="hidden lg:block lg:w-[46%] self-stretch">
+            <div
+              className="sticky flex items-center justify-center"
+              style={{ ["--orbit" as string]: "min(580px, calc(100vh - 9rem))", top: "calc((100vh - var(--orbit)) / 2)" } as React.CSSProperties}
+            >
+            <StackOrbit
+              layers={techData.map((c) => ({
+                category: c.category,
+                short: layerMeta[c.category]?.short ?? c.category,
+                icon: layerMeta[c.category]?.icon,
+                tools: c.items.map((t) => t.name),
+              }))}
+            />
+            </div>
           </div>
 
-          <div className="lg:hidden w-full h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent my-8" />
         </div>
       </div>
     </section>
