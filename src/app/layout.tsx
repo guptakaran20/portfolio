@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./cursor.css";
 import SmoothScroll from "@/components/ui/SmoothScroll";
 import ScrollProgress from "@/components/ui/ScrollProgress";
-import CustomCursor from "@/components/ui/CustomCursor";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import Script from "next/script";
 
@@ -20,10 +20,23 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://guptakaran0720.vercel.app"),
 
-  title: "Karan Gupta | Full Stack Developer at NIT Jalandhar",
+  title: "Karan Gupta | Full Stack Developer at XCEED, NIT Jalandhar",
 
   description:
-    "Karan Gupta is a second-year B.Tech student at NIT Jalandhar and a Full Stack Developer building modern web applications, real-time systems, and AI-powered projects.",
+    "Karan Gupta is a Full Stack Developer at XCEED, NIT Jalandhar, building an AI attendance platform for 1,000+ students and its Android & iOS app. Next.js, Node.js, FastAPI, Python, Redis and distributed systems.",
+
+  keywords: [
+    "Karan Gupta",
+    "Full Stack Developer",
+    "Software Engineer",
+    "NIT Jalandhar",
+    "XCEED",
+    "Next.js",
+    "Node.js",
+    "FastAPI",
+    "Distributed Systems",
+    "Portfolio",
+  ],
 
   applicationName: "Karan Gupta",
 
@@ -42,9 +55,9 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "Karan Gupta | Full Stack Developer at NIT Jalandhar",
+    title: "Karan Gupta | Full Stack Developer at XCEED, NIT Jalandhar",
     description:
-      "Portfolio of Karan Gupta, a Full Stack Developer and B.Tech student at NIT Jalandhar.",
+      "145 PRs shipped to an AI attendance platform for 1,000+ students, plus real-time systems like EventFlow and CodeArena.",
     url: "/",
     siteName: "Karan Gupta",
     type: "website",
@@ -53,9 +66,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Karan Gupta | Full Stack Developer at NIT Jalandhar",
+    title: "Karan Gupta | Full Stack Developer at XCEED, NIT Jalandhar",
     description:
-      "Portfolio of Karan Gupta, a Full Stack Developer and B.Tech student at NIT Jalandhar.",
+      "145 PRs shipped to an AI attendance platform for 1,000+ students, plus real-time systems like EventFlow and CodeArena.",
   },
 };
 const jsonLd = {
@@ -75,10 +88,29 @@ const jsonLd = {
       url: "https://guptakaran0720.vercel.app/",
       jobTitle: "Full Stack Developer",
       description:
-        "Second-year B.Tech student at NIT Jalandhar and Full Stack Developer.",
+        "Full Stack Developer at XCEED, NIT Jalandhar, and second-year B.Tech student in Instrumentation and Control Engineering.",
+      worksFor: {
+        "@type": "Organization",
+        name: "XCEED, NIT Jalandhar",
+      },
+      alumniOf: {
+        "@type": "CollegeOrUniversity",
+        name: "Dr. B. R. Ambedkar National Institute of Technology, Jalandhar",
+      },
+      knowsAbout: [
+        "Full Stack Development",
+        "Distributed Systems",
+        "Next.js",
+        "Node.js",
+        "FastAPI",
+        "Redis",
+        "Face Recognition",
+        "Capacitor",
+      ],
       sameAs: [
         "https://github.com/guptakaran20",
         "https://www.linkedin.com/in/guptakaran0720/",
+        "https://leetcode.com/u/guptakaran0720/",
       ],
     },
   ],
@@ -127,7 +159,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ScrollProgress />
-          <CustomCursor />
           <SmoothScroll>
             {children}
           </SmoothScroll>

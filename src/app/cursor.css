@@ -1,0 +1,27 @@
+/*
+ * Custom cursor, rendered by the OS like a normal pointer (no JS, no lag,
+ * and screenshot tools hide it). Hotspot is the arrow tip at (5, 4).
+ * Later declarations win when the browser supports them; unsupported ones are ignored.
+ */
+@media (hover: hover) and (pointer: fine) {
+  html {
+    cursor: url("/cursors/arrow.svg") 5 4, auto;
+    cursor: -webkit-image-set(url("/cursors/arrow.png") 1x, url("/cursors/arrow@2x.png") 2x) 5 4, auto;
+    cursor: image-set(url("/cursors/arrow.png") 1x, url("/cursors/arrow@2x.png") 2x) 5 4, auto;
+  }
+  a,
+  button:not(:disabled),
+  [role="button"],
+  label[for],
+  select,
+  summary {
+    cursor: url("/cursors/pointer.svg") 5 4, pointer;
+    cursor: -webkit-image-set(url("/cursors/pointer.png") 1x, url("/cursors/pointer@2x.png") 2x) 5 4, pointer;
+    cursor: image-set(url("/cursors/pointer.png") 1x, url("/cursors/pointer@2x.png") 2x) 5 4, pointer;
+  }
+  input:not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  [contenteditable="true"] {
+    cursor: text;
+  }
+}
