@@ -1,7 +1,7 @@
 import {
   Code2, Zap, Atom, Server, Hexagon,
   Database, Layout, Box, Network, Brain, Cpu, Sparkles,
-  Smartphone, BellRing, Cloud, Workflow, Gauge, Activity, Layers, Radio } from "lucide-react";
+  Smartphone, BellRing, Cloud, Workflow, Gauge, ScanFace } from "lucide-react";
 import { TechStackAnimations, TechBadge } from "./TechStackClient";
 import { StackOrbit } from "./StackOrbit";
 import { cn } from "@/lib/utils";
@@ -92,7 +92,6 @@ const techData = [
       { name: "React", icon: <Atom className="w-4 h-4 text-cyan-500 dark:text-cyan-400" /> },
       { name: "Next.js", icon: <Zap className="w-4 h-4 text-slate-900 dark:text-white" /> },
       { name: "Tailwind CSS", icon: <Layout className="w-4 h-4 text-cyan-500 dark:text-cyan-300" /> },
-      { name: "TanStack Query", icon: <Layers className="w-4 h-4 text-rose-400" /> },
       { name: "HTML/CSS", icon: <FileCodeIcon className="w-4 h-4 text-orange-500 dark:text-orange-400" /> },
     ]
   },
@@ -105,7 +104,6 @@ const techData = [
       { name: "gRPC", icon: <Network className="w-4 h-4 text-emerald-400" /> },
       { name: "REST API", icon: <Zap className="w-4 h-4 text-purple-400" /> },
       { name: "WebSockets", icon: <Network className="w-4 h-4 text-cyan-400" /> },
-      { name: "Socket.IO", icon: <Radio className="w-4 h-4 text-slate-500 dark:text-slate-300" /> },
     ]
   },
   {
@@ -115,16 +113,18 @@ const techData = [
       { name: "MongoDB", icon: <Database className="w-4 h-4 text-green-400" /> },
       { name: "Redis", icon: <Database className="w-4 h-4 text-red-600" /> },
       { name: "MySQL", icon: <Database className="w-4 h-4 text-red-500" /> },
-      { name: "Prisma", icon: <Database className="w-4 h-4 text-indigo-400" /> },
       { name: "SQLAlchemy", icon: <Database className="w-4 h-4 text-red-400" /> },
     ]
   },
   {
     category: "AI & ML",
     items: [
+      { name: "Face Recognition Models", icon: <ScanFace className="w-4 h-4 text-emerald-400" /> },
       { name: "FAISS", icon: <Brain className="w-4 h-4 text-violet-400" /> },
       { name: "ONNX Runtime", icon: <Cpu className="w-4 h-4 text-slate-500 dark:text-slate-300" /> },
       { name: "Gemini API", icon: <Sparkles className="w-4 h-4 text-blue-400" /> },
+      { name: "Claude API", icon: <Sparkles className="w-4 h-4 text-orange-400" /> },
+      { name: "LLM Pipelines", icon: <Workflow className="w-4 h-4 text-violet-400" /> },
     ]
   },
   {
@@ -142,8 +142,7 @@ const techData = [
       { name: "AWS EC2", icon: <Cloud className="w-4 h-4 text-orange-400" /> },
       { name: "Nginx", icon: <Server className="w-4 h-4 text-green-500" /> },
       { name: "GitHub Actions", icon: <Workflow className="w-4 h-4 text-slate-500 dark:text-slate-300" /> },
-      { name: "PM2", icon: <Activity className="w-4 h-4 text-cyan-400" /> },
-      { name: "Prometheus & Grafana", icon: <Gauge className="w-4 h-4 text-orange-500" /> },
+      { name: "Prometheus", icon: <Gauge className="w-4 h-4 text-orange-500" /> },
       { name: "Git/GitHub", icon: <GithubIcon className="w-4 h-4 text-slate-900 dark:text-white" /> },
       { name: "Vercel", icon: <VercelIcon className="w-4 h-4 text-slate-900 dark:text-white" /> },
     ]
@@ -178,7 +177,7 @@ export function TechStack() {
                 Technical Arsenal
               </h2>
               <p className="text-slate-600 dark:text-gray-400 text-sm sm:text-base lg:text-lg max-w-xl transition-colors">
-                The tools I use to build real-time systems, AI features and web and mobile apps.
+                The tools behind face recognition in production, LLM features, real-time backends and mobile apps.
               </p>
             </div>
 

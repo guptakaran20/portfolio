@@ -4,27 +4,26 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { gsap, useGSAP, ScrollTrigger } from '@/lib/gsap';
 
 const commands: Record<string, string> = {
-  hi: 'Hey 👋 Karan here — Full Stack Developer at XCEED and B.Tech ICE student at NIT Jalandhar. Type "help" to explore.',
+  hi: 'Hey 👋 Karan here — Full Stack Developer & App Lead at XCEED and B.Tech ICE student at NIT Jalandhar. Type "help" to explore.',
   hello: 'Hello! I\'m Karan Gupta — I build real-time systems and AI-powered web and mobile apps. Try "experience" or "projects".',
   hey: 'Hey there! 🚀 Welcome to my dev terminal. Type "help" to see what I can do.',
-  whoami: 'Karan Gupta — Full Stack Developer at XCEED, NIT Jalandhar. 145 PRs, 560+ commits, 1,000+ students served.',
+  whoami: 'Karan Gupta — Full Stack Developer & App Lead at XCEED, NIT Jalandhar. 233 PRs, 740+ commits, 1,000+ students served.',
   about: 'I build full-stack apps and distributed backends with Node.js, FastAPI, Next.js, Python and Redis. I enjoy system design, real-time data and keeping production fast and reliable.',
-  experience: `Full Stack Developer @ XCEED, NIT Jalandhar (Jun 2026 – Present)
-• ILEED: AI attendance platform for 1,000+ students across 30+ cameras — FAISS face recognition on live RTSP streams, ERP embedding automation, one-click deploys with auto-rollback.
-• XCEED Learning App: Android & iOS on Capacitor — biometric sign-in, push notifications, delta OTA updates (21.6 MB → 0.41 MB).
-• 145 PRs authored, 135 merged, 560+ commits.`,
-  opensource: `• GSSoC'26 — merged advanced-level PR hardening auth validation in a MERN leave-management system
-• Aarogya Club, NITJ — 9 merged PRs building a real-time quiz platform (WebSockets, QR tokens, anti-cheat)`,
-  achievements: `• LeetCode Knight — 1870 rating, top 5.7% globally, 613 problems solved (88 Hard)
-• 1,400+ GitHub contributions in the past year
+  experience: `Full Stack Developer & App Lead @ XCEED, NIT Jalandhar (Jun 2026 – Present)
+• ILEED: AI attendance platform for 1,000+ students across 30+ cameras — FAISS + RetinaFace/AdaFace/MiniFASNetV2 (ONNX) on live RTSP streams, active learning, AI Studio with Claude and Gemini, one-click deploys with auto-rollback.
+• XCEED Learning App: Android & iOS on Capacitor, live on Google Play — biometric sign-in, push notifications, SOS live location, delta OTA updates (21.6 MB → 0.41 MB).
+• 233 PRs authored, 219 merged, 740+ commits.`,
+  opensource: `• GSSoC'26 — merged advanced-level PR hardening auth validation in a MERN leave-management system`,
+  achievements: `• LeetCode Knight — 1870 rating, top 5.7% globally, 639 problems solved (88+ Hard)
+• 1,890+ GitHub contributions in the past year, 111-day streak
 • GSSoC'26 contributor`,
   skills: 'TypeScript, JavaScript, Python, C++, SQL, React, Next.js, Node.js, Express, FastAPI, gRPC, WebSockets, PostgreSQL, MongoDB, Redis, FAISS, Capacitor, Docker, AWS, GitHub Actions',
-  techstack: `Frontend: React, Next.js, Tailwind CSS, TanStack Query
-Backend: Node.js, Express, FastAPI (Python), gRPC, Socket.IO
-Data: PostgreSQL, MongoDB, Redis Streams, Prisma, SQLAlchemy
-AI & ML: FAISS, ONNX Runtime, Gemini API
-Mobile: Capacitor, Firebase Cloud Messaging
-DevOps: Docker, AWS EC2, Nginx, GitHub Actions, PM2, Prometheus, Grafana`,
+  techstack: `Frontend: React, Next.js, Tailwind CSS
+Backend: Node.js, Express, FastAPI (Python), gRPC, WebSockets
+Data: PostgreSQL, MongoDB, MySQL, Redis Streams, SQLAlchemy
+AI & ML: Face Recognition Models, FAISS, ONNX Runtime, Gemini API, Claude API, LLM Pipelines
+Mobile: Capacitor (Android, iOS), Firebase Cloud Messaging, OTA Updates
+DevOps: Docker, AWS EC2, Nginx, GitHub Actions, Prometheus`,
   projects: 'EventFlow (workflow engine) • CodeArena (coding battles) • ImportlyAI (AI CSV import) • SponsorGrid (SaaS) • Arovia Vibes (eCommerce) • StrangerBlogs (blogging). Try "eventflow" or "codearena".',
   eventflow: 'Distributed workflow orchestration engine — DAG pipelines on Redis Streams workers with retries, a dead-letter queue and stuck-job recovery. Python, FastAPI, PostgreSQL, gRPC, Next.js, Docker.',
   project_eventflow: 'Distributed workflow orchestration engine — DAG pipelines on Redis Streams workers with retries, a dead-letter queue and stuck-job recovery. Python, FastAPI, PostgreSQL, gRPC, Next.js, Docker.',
@@ -40,7 +39,7 @@ DevOps: Docker, AWS EC2, Nginx, GitHub Actions, PM2, Prometheus, Grafana`,
   project_strangerblogs: 'Blog platform with an Appwrite backend — React, Tailwind, Appwrite.',
   currently_learning: 'Kubernetes • Microservices • System design at scale • AI agents and LLM integrations',
   tools: 'VS Code, Git, Docker, Postman, GitHub Actions, Vercel',
-  leetcode: 'LeetCode Knight — 1870 rating (top 5.7%), 613 problems solved. https://leetcode.com/u/guptakaran0720/',
+  leetcode: 'LeetCode Knight — 1870 rating (top 5.7%), 639 problems solved. https://leetcode.com/u/guptakaran0720/',
   github: 'github.com/guptakaran20',
   resume: 'Use the "Download Resume" button at the top, or open /resume.pdf',
   contact: 'Email: guptakaran0720@gmail.com',

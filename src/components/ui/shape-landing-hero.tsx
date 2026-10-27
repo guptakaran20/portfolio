@@ -186,10 +186,10 @@ function LightStreaks() {
 }
 
 function HeroGeometric({
-    badge = "Full Stack Developer",
+    badge = "Full Stack Developer & App Lead",
     title1 = "Hi, I'm Karan",
-    title2 = "I Build Real-Time Distributed Systems & AI-Powered Web Apps",
-    description = "Full Stack Developer at XCEED, NIT Jalandhar, shipping an AI attendance platform for 1,000+ students. Second-year B.Tech, building with Next.js, Node.js, FastAPI, Python and Redis.",
+    title2 = "I Build AI Systems, Real-Time Backends & Mobile Apps",
+    description = "Full Stack Developer & App Lead at XCEED, NIT Jalandhar. I build its face-recognition attendance platform and lead the Android & iOS app. Second-year B.Tech, working in Node.js, Python, FastAPI and Next.js.",
 }: {
     badge?: string;
     title1?: string;
@@ -337,7 +337,7 @@ function HeroGeometric({
 
                     <ul className="flex flex-wrap items-center justify-center gap-x-3.5 gap-y-2 mb-10 text-slate-600 dark:text-white/60 text-xs sm:text-sm tracking-wide font-light transition-colors" aria-label="Highlights">
                         <li className="flex items-center gap-1.5">
-                            <span className="text-slate-900 dark:text-white/90 font-medium">145</span> PRs at XCEED
+                            <span className="text-slate-900 dark:text-white/90 font-medium">233</span> PRs at XCEED
                         </li>
                         <li className="hidden sm:block w-1 h-1 rounded-full bg-slate-300 dark:bg-white/20" aria-hidden />
                         <li className="flex items-center gap-1.5">

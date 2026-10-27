@@ -20,10 +20,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://guptakaran0720.vercel.app"),
 
-  title: "Karan Gupta | Full Stack Developer at XCEED, NIT Jalandhar",
+  title: "Karan Gupta | Full Stack Developer & App Lead at XCEED, NIT Jalandhar",
 
   description:
-    "Karan Gupta is a Full Stack Developer at XCEED, NIT Jalandhar, building an AI attendance platform for 1,000+ students and its Android & iOS app. Next.js, Node.js, FastAPI, Python, Redis and distributed systems.",
+    "Karan Gupta is a Full Stack Developer and App Lead at XCEED, NIT Jalandhar, building face-recognition attendance for 1,000+ students across 30+ cameras and leading its Android & iOS app. Node.js, Python, FastAPI, Next.js, FAISS and LLM features.",
 
   keywords: [
     "Karan Gupta",
@@ -55,9 +55,9 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "Karan Gupta | Full Stack Developer at XCEED, NIT Jalandhar",
+    title: "Karan Gupta | Full Stack Developer & App Lead at XCEED, NIT Jalandhar",
     description:
-      "145 PRs shipped to an AI attendance platform for 1,000+ students, plus real-time systems like EventFlow and CodeArena.",
+      "233 PRs shipped to an AI attendance platform for 1,000+ students, plus real-time systems like EventFlow and CodeArena.",
     url: "/",
     siteName: "Karan Gupta",
     type: "website",
@@ -66,9 +66,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Karan Gupta | Full Stack Developer at XCEED, NIT Jalandhar",
+    title: "Karan Gupta | Full Stack Developer & App Lead at XCEED, NIT Jalandhar",
     description:
-      "145 PRs shipped to an AI attendance platform for 1,000+ students, plus real-time systems like EventFlow and CodeArena.",
+      "233 PRs shipped to an AI attendance platform for 1,000+ students, plus real-time systems like EventFlow and CodeArena.",
   },
 };
 const jsonLd = {
@@ -86,9 +86,9 @@ const jsonLd = {
       "@id": "https://guptakaran0720.vercel.app/#person",
       name: "Karan Gupta",
       url: "https://guptakaran0720.vercel.app/",
-      jobTitle: "Full Stack Developer",
+      jobTitle: "Full Stack Developer & App Lead",
       description:
-        "Full Stack Developer at XCEED, NIT Jalandhar, and second-year B.Tech student in Instrumentation and Control Engineering.",
+        "Full Stack Developer and App Lead at XCEED, NIT Jalandhar, and second-year B.Tech student in Instrumentation and Control Engineering.",
       worksFor: {
         "@type": "Organization",
         name: "XCEED, NIT Jalandhar",

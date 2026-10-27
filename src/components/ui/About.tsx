@@ -14,10 +14,10 @@ const About = () => {
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900 dark:text-white">About Me</h2>
               <div className="w-12 h-1 bg-cyan-500 rounded-full mb-6" />
               <p className="text-slate-600 dark:text-white/70 text-base md:text-lg leading-relaxed mb-6 transition-colors">
-                I&apos;m a second-year B.Tech student in Instrumentation and Control Engineering at NIT Jalandhar and a Full Stack Developer at XCEED, where I work on the backend, ML pipeline and mobile app behind an AI attendance platform used by 1,000+ students.
+                I study Instrumentation and Control Engineering at NIT Jalandhar. At XCEED I work across the whole attendance platform: the face-recognition pipeline in Python, the Node.js services around it, the AI tools that turn lectures into notes and quizzes, and the mobile app I lead.
               </p>
               <p className="text-slate-600 dark:text-white/70 text-base md:text-lg leading-relaxed transition-colors">
-                I enjoy the problems between systems and product: real-time data, distributed workers, and keeping production fast and reliable. Outside XCEED I build projects like EventFlow and CodeArena, solve contest problems on LeetCode, and contribute to open source.
+                What I enjoy most is the debugging that comes after launch: tracing a wrong attendance mark back to how faces were clustered, or a crash back to a single thread. Outside XCEED I build distributed systems for fun, solve contest problems, and contribute to open source.
               </p>
             </div>
           </div>

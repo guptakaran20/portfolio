@@ -15,7 +15,7 @@ const projects = [
   },
   {
     title: "CodeArena",
-    description: "Real-time 1v1 coding battles with Redis matchmaking, tournaments and live leaderboards synced over Socket.IO. Sandboxed multi-language execution with Piston, JWT and Google OAuth, deployed on AWS EC2 behind Nginx with Prometheus and Grafana monitoring.",
+    description: "Real-time 1v1 coding battles with Redis matchmaking, tournaments and live leaderboards synced over Socket.IO. Sandboxed multi-language execution with Piston, JWT and Google OAuth, deployed on AWS EC2 behind Nginx with Prometheus metrics.",
     tech: ["TypeScript", "Next.js", "Node.js", "Express", "MongoDB", "Redis", "Socket.IO", "Docker", "Nginx", "AWS EC2"],
     demoLink: "https://codearenabattle.vercel.app/",
     githubLink: "https://github.com/guptakaran20/CodeBattle",

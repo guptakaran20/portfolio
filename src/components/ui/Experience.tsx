@@ -1,14 +1,14 @@
 import React from "react";
-import { ArrowUpRight, Camera, Smartphone, GitMerge, GitPullRequest, Trophy, Flame } from "lucide-react";
+import { ArrowUpRight, Camera, Smartphone, GitMerge, Trophy, Flame } from "lucide-react";
 import { ExperienceAnimations } from "./ExperienceClient";
 import { TiltCard } from "./TiltCard";
 import { RecognitionPreview } from "./previews/RecognitionPreview";
 import { OtaDeltaPreview } from "./previews/OtaDeltaPreview";
 
 const stats = [
-  { value: "145", label: "Pull requests authored" },
-  { value: "135", label: "Merged into main" },
-  { value: "560+", label: "Commits shipped" },
+  { value: "233", label: "Pull requests authored" },
+  { value: "219", label: "Merged into main" },
+  { value: "740+", label: "Commits shipped" },
   { value: "1,000+", label: "Students served" },
 ];
 
@@ -18,35 +18,38 @@ const workstreams = [
     preview: RecognitionPreview,
     title: "ILEED",
     subtitle: "Intelligent Learning Engagement and Entity Detection",
-    meta: "140 PRs · 131 merged · Jun – Sep 2026",
+    meta: "219 PRs · 205 merged · Jun – Oct 2026",
     points: [
-      "Real-time student identification from live RTSP streams and video uploads, on a FAISS vector index with RetinaFace (ONNX) detection.",
-      "Automated ERP face-embedding generation, nightly embedding rebuilds, and active learning from students' backup photos.",
-      "Moved RTSP recording to the Node.js backend: scheduled recordings, FFmpeg audio extraction, and live-preview auto-retry.",
+      "Integrated a FAISS vector index with the Node.js backend for live RTSP identification, running RetinaFace detection, AdaFace IR-50 embeddings and MiniFASNetV2 anti-spoofing on ONNX Runtime.",
+      "Per-frame voting after DBSCAN clustering, recovering 29 students across 9 periods who were marked absent when neighbouring faces merged.",
+      "Active learning that keeps only clear face crops (sharpness, head pose, detector score, runner-up margin), with automated ERP embeddings and nightly FAISS rebuilds.",
+      "Split the Node.js server into an IPC-routed pool of quiz and learning workers that replaces frozen processes on its own.",
+      "AI Studio: notes and quizzes from lecture transcripts and PDF/PPTX slides with Claude and Gemini, reserving each call's worst-case cost so credit limits hold.",
       "One-click deploys with health checks and automatic rollback, a GPU dashboard with MIG/VRAM telemetry, and uptime alerting.",
     ],
     impact: [
       { metric: "2.0s → 915ms", label: "ERP list load" },
-      { metric: "11.3%", label: "timeout error rate resolved" },
-      { metric: "91% heap", label: "stream memory leak fixed" },
+      { metric: "29 students", label: "recovered from cluster merges" },
+      { metric: "0 of 60", label: "requests dropped when a worker is killed" },
     ],
-    tech: ["Node.js", "Express", "React", "Python", "MongoDB", "FAISS", "ONNX", "FFmpeg", "PM2"],
+    tech: ["Node.js", "Express", "React", "Python", "MongoDB", "FAISS", "ONNX Runtime", "FFmpeg", "Claude API", "Gemini API"],
   },
   {
     icon: Smartphone,
     preview: OtaDeltaPreview,
     title: "XCEED Learning App",
-    subtitle: "Android & iOS app for the AMS platform",
-    meta: "291 commits · 5 PRs · Aug – Sep 2026",
+    subtitle: "Android & iOS app for the AMS platform, live on Google Play",
+    meta: "420 commits · 14 PRs · Aug – Oct 2026",
     points: [
       "Built the app from the first commit on Capacitor: PIN and biometric sign-in, deep links, and multi-account switching.",
       "Delta over-the-air updates published through GitHub Actions, shipping only the files a release changed.",
       "Automated web → app code sync with custom merge drivers, keeping mobile-only code behind override seams.",
-      "Push notifications with Firebase Cloud Messaging and offline-first caching with TanStack Query.",
+      "An SOS alert that notifies every admin and shares the sender's live location every 30s, even with the app closed.",
+      "Push notifications with Firebase Cloud Messaging, offline-first caching, and an iOS build with Universal Links, now in App Store review.",
     ],
     impact: [
       { metric: "21.6 → 0.41 MB", label: "per small OTA release" },
-      { metric: "75", label: "automated web → app syncs" },
+      { metric: "100+", label: "automated web → app syncs" },
       { metric: "Android + iOS", label: "from one codebase" },
     ],
     tech: ["Capacitor", "React", "Vite", "Firebase Cloud Messaging", "TanStack Query", "GitHub Actions"],
@@ -62,24 +65,17 @@ const highlights = [
     href: "https://github.com/Abhishek-Verma0/Employee-Leave-Management-System/pull/65",
   },
   {
-    icon: GitPullRequest,
-    eyebrow: "Aarogya Club, NIT Jalandhar",
-    title: "9 merged PRs",
-    body: "Real-time orientation quiz: WebSockets, rotating QR tokens, anti-cheat, and rate limiting.",
-    href: "https://github.com/AarogyaClubNITJ/aarogya/pulls?q=is%3Apr+author%3Aguptakaran20",
-  },
-  {
     icon: Trophy,
     eyebrow: "LeetCode Knight",
     title: "1870 rating · top 5.7%",
-    body: "613 problems solved, including 88 Hard; best contest rank 2,171.",
+    body: "639 problems solved, including 88+ Hard; best contest rank 2,171.",
     href: "https://leetcode.com/u/guptakaran0720/",
   },
   {
     icon: Flame,
     eyebrow: "GitHub",
-    title: "1,400+ contributions",
-    body: "In the past year, across organisation, open-source and personal repositories.",
+    title: "1,890+ contributions",
+    body: "In the past year, with a 111-day streak, across organisation, open-source and personal repositories.",
     href: "https://github.com/guptakaran20",
   },
 ];
@@ -108,7 +104,7 @@ export default function Experience() {
             Experience
           </h2>
           <p className="mt-4 text-slate-600 dark:text-gray-400 text-base md:text-lg max-w-2xl">
-            Building and running XCEED&apos;s AI attendance platform, 30+ live cameras, and its Android &amp; iOS app at NIT Jalandhar.
+            Building XCEED&apos;s AI attendance platform at NIT Jalandhar: face recognition on 30+ live cameras, the Node.js and Python services behind it, AI Studio, and the Android &amp; iOS app I lead.
           </p>
         </div>
 
@@ -131,7 +127,7 @@ export default function Experience() {
         <article>
           <header className="exp-reveal flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-3 mb-5 md:mb-6">
             <div>
-              <h3 className="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">Full Stack Developer</h3>
+              <h3 className="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">Full Stack Developer &amp; App Lead</h3>
               <a
                 href="https://xceed.nitj.ac.in/ams-manual"
                 target="_blank"
@@ -206,7 +202,7 @@ export default function Experience() {
           <h3 className="exp-reveal text-xl md:text-2xl font-semibold text-slate-900 dark:text-white mb-5 sm:mb-6">
             Open Source &amp; Achievements
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {highlights.map((h) => {
               const Icon = h.icon;
               return (
