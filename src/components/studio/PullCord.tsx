@@ -527,7 +527,11 @@ export function PullCord() {
     };
   }, []);
 
-  const dark = resolvedTheme === "dark";
+  // the theme is only known in the browser, so the switch state is set after hydration
+  // (rendering it would make the server and client HTML disagree)
+  useEffect(() => {
+    hitRef.current?.setAttribute("aria-checked", String(resolvedTheme === "dark"));
+  }, [resolvedTheme]);
 
   return (
     <>
@@ -537,7 +541,7 @@ export function PullCord() {
           ref={hitRef}
           className="cord-hit"
           role="switch"
-          aria-checked={dark}
+          aria-checked="false"
           aria-label="Dark mode (pull the cord)"
         />
       </div>
