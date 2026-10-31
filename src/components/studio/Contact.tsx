@@ -88,9 +88,18 @@ export function Contact() {
             <div>
               <h4 className="mono">The rooms</h4>
               <ul className="footer-rooms">
-                {rooms.map((r) => (
+                {rooms.map((r, i) => (
                   <li key={r.id}>
-                    <a href="#work">{r.title}</a>
+                    <a
+                      href={`#${r.id}`}
+                      onClick={(e) => {
+                        // walk back up to the doors and through this one, same as the header's room links
+                        e.preventDefault();
+                        window.dispatchEvent(new CustomEvent("studio:door", { detail: i }));
+                      }}
+                    >
+                      {r.title}
+                    </a>
                   </li>
                 ))}
               </ul>
