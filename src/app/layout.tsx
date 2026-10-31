@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Onest, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import "./cursor.css";
+import "./studio.css";
 import SmoothScroll from "@/components/ui/SmoothScroll";
-import ScrollProgress from "@/components/ui/ScrollProgress";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import Script from "next/script";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const display = Onest({
+  variable: "--font-display",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const mono = JetBrains_Mono({
+  variable: "--font-mono-face",
   subsets: ["latin"],
 });
 
@@ -124,7 +124,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      className={`${display.variable} ${mono.variable} antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -154,11 +154,10 @@ export default function RootLayout({
         />
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
-          <ScrollProgress />
           <SmoothScroll>
             {children}
           </SmoothScroll>

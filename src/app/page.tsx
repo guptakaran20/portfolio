@@ -1,48 +1,30 @@
-import dynamic from "next/dynamic";
-import { HeroGeometric } from "@/components/ui/shape-landing-hero";
-
-// Dynamically import components below the fold to reduce initial bundle size
-const TechStack = dynamic(() => import("@/components/ui/TechStack").then(m => m.TechStack), { ssr: true });
-const FeaturedProjects = dynamic(() => import("@/components/ui/FeaturedProjects").then(m => m.FeaturedProjects), { ssr: true });
-const Experience = dynamic(() => import("@/components/ui/Experience"), { ssr: true });
-const About = dynamic(() => import("@/components/ui/About"), { ssr: true });
-const Contact = dynamic(() => import("@/components/ui/Contact"), { ssr: true });
-const Footer = dynamic(() => import("@/components/ui/Footer").then(m => m.Footer), { ssr: true });
-const BottomNavBar = dynamic(() => import("@/components/ui/bottom-nav-bar").then(m => m.BottomNavBar), { ssr: true });
-
-import { TerminalClient, GithubActivityClient } from "@/components/ui/DynamicComponents";
-import ScrollRefresh from "@/components/ui/ScrollRefresh";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { Loader } from "@/components/studio/Loader";
+import { Header } from "@/components/studio/Header";
+import { PullCord } from "@/components/studio/PullCord";
+import { Hero } from "@/components/studio/Hero";
+import { Rooms } from "@/components/studio/Rooms";
+import { Story } from "@/components/studio/Story";
+import { Board } from "@/components/studio/Board";
+import { Toolbox } from "@/components/studio/Toolbox";
+import { Contact } from "@/components/studio/Contact";
+import { BackToTop, Reveals } from "@/components/studio/Chrome";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-gray-50 dark:bg-[#030303] text-slate-900 dark:text-white selection:bg-cyan-500/30 selection:text-cyan-900 dark:selection:text-cyan-200 transition-colors duration-300">
-      <ScrollRefresh />
-      <ThemeToggle />
-      
-      {/* Above the fold */}
-      <div id="home">
-        <HeroGeometric />
-      </div>
-      
-      <Experience />
-
-      <div id="projects" className="w-full">
-        <FeaturedProjects />
-      </div>
-
-      <div id="skills">
-        <TechStack />
-      </div>
-
-
-      <TerminalClient />
-      <About />
-      <GithubActivityClient darkMode={true} />
-      <Contact />
-      <Footer />
-
-      <BottomNavBar stickyBottom={true} />
-    </main>
+    <>
+      <Loader />
+      <Header />
+      <PullCord />
+      <main>
+        <Hero />
+        <Rooms />
+        <Story />
+        <Board />
+        <Toolbox />
+        <Contact />
+      </main>
+      <BackToTop />
+      <Reveals />
+    </>
   );
 }
