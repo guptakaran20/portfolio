@@ -69,9 +69,14 @@ export function FlipCalendar({ words }: { words: string[] }) {
     };
     window.addEventListener("resize", onResize);
 
+    // only turn pages while the calendar is on screen; off screen it would animate for nobody
+    let onScreen = true;
+    const io = new IntersectionObserver(([e]) => (onScreen = e.isIntersecting));
+    io.observe(cal);
+
     const flip = () => {
       if (disposed) return;
-      if (document.hidden) {
+      if (document.hidden || !onScreen) {
         timer = window.setTimeout(flip, 600);
         return;
       }
@@ -123,6 +128,7 @@ export function FlipCalendar({ words }: { words: string[] }) {
 
     return () => {
       disposed = true;
+      io.disconnect();
       window.clearTimeout(timer);
       window.clearTimeout(fitT);
       window.removeEventListener("resize", onResize);

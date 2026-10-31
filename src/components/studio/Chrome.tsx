@@ -13,15 +13,24 @@ export function BackToTop() {
   const lenis = useLenis();
 
   useEffect(() => {
-    const onScroll = () => {
+    // at most once a frame, however many scroll events a fling fires
+    let raf = 0;
+    const update = () => {
+      raf = 0;
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const p = max > 0 ? window.scrollY / max : 0;
       setShown(window.scrollY > window.innerHeight * 0.6);
-      ringRef.current?.setAttribute("stroke-dashoffset", String(C * (1 - p)));
+      ringRef.current?.setAttribute("stroke-dashoffset", (C * (1 - p)).toFixed(1));
     };
-    onScroll();
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   return (

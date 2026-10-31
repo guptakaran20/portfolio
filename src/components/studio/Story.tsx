@@ -84,6 +84,10 @@ export function Story() {
     );
     items.current.forEach((el) => el && io.observe(el));
 
+    // write the transforms straight onto the two elements that move, so a scroll frame
+    // touches nothing else (a custom property on the section would restyle all of it)
+    const dial = sectionRef.current?.querySelector<SVGElement>(".dial");
+    const fill = sectionRef.current?.querySelector<HTMLElement>(".story-fill");
     let raf = 0;
     const onScroll = () => {
       cancelAnimationFrame(raf);
@@ -91,15 +95,17 @@ export function Story() {
         const el = sectionRef.current;
         if (!el) return;
         const r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > window.innerHeight) return; // off screen: nothing to move
         const prog = Math.min(1, Math.max(0, (window.innerHeight / 2 - r.top) / r.height));
-        el.style.setProperty("--rot", `${-prog * 540}deg`);
-        el.style.setProperty("--fill", String(prog));
+        if (dial) dial.style.transform = `translateY(-50%) rotate(${(-prog * 540).toFixed(2)}deg)`;
+        if (fill) fill.style.transform = `scaleY(${prog.toFixed(4)})`;
       });
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       io.disconnect();
+      cancelAnimationFrame(raf);
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
@@ -143,6 +149,7 @@ export function Story() {
         </div>
         <div className="story-right">
           <div className="story-rail" aria-hidden="true">
+            <span className="story-fill" />
             <span className="story-dot" />
           </div>
           <ol>
