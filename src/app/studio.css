@@ -151,6 +151,8 @@ body {
 }
 .btn-arrow svg { transition: transform 0.45s var(--ease-out); }
 .btn:hover .btn-arrow svg { transform: translateX(3px) rotate(-45deg); }
+/* the download arrow drops instead of turning */
+.btn-download:hover .btn-arrow svg { transform: translateY(2px); }
 
 .pill {
   display: inline-flex;

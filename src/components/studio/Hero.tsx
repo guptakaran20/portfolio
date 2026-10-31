@@ -31,10 +31,12 @@ export function Hero() {
             <FlipCalendar words={flipWords} />
           </div>
           <div className="hero-actions rise" style={{ "--d": 4 } as React.CSSProperties}>
-            <a href="#contact" className="btn btn-dark">
-              Start a conversation
+            <a href={profile.resume} download="Karan-Gupta-Resume.pdf" className="btn btn-dark btn-download">
+              Download resume
               <span className="btn-arrow">
-                <Arrow />
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M8 2.5v9M4 8l4 4 4-4M3 14h10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </span>
             </a>
             <a href="#work" className="btn btn-ghost">
